@@ -7,53 +7,53 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		AD754F792DEA67840043CB97 /* PBXContainerItemProxy */ = {
+		AD754FE32DEA6EFE0043CB97 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AD754F5A2DEA67820043CB97 /* Project object */;
+			containerPortal = AD754FC42DEA6EFC0043CB97 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AD754F612DEA67820043CB97;
+			remoteGlobalIDString = AD754FCB2DEA6EFC0043CB97;
 			remoteInfo = "hackatona-project";
 		};
-		AD754F832DEA67840043CB97 /* PBXContainerItemProxy */ = {
+		AD754FED2DEA6EFE0043CB97 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AD754F5A2DEA67820043CB97 /* Project object */;
+			containerPortal = AD754FC42DEA6EFC0043CB97 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AD754F612DEA67820043CB97;
+			remoteGlobalIDString = AD754FCB2DEA6EFC0043CB97;
 			remoteInfo = "hackatona-project";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AD754F622DEA67820043CB97 /* hackatona-project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hackatona-project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD754F782DEA67840043CB97 /* hackatona-projectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "hackatona-projectTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD754F822DEA67840043CB97 /* hackatona-projectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "hackatona-projectUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD754FCC2DEA6EFC0043CB97 /* hackatona-project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hackatona-project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD754FE22DEA6EFE0043CB97 /* hackatona-projectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "hackatona-projectTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD754FEC2DEA6EFE0043CB97 /* hackatona-projectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "hackatona-projectUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AD754F8A2DEA67840043CB97 /* Exceptions for "hackatona-project" folder in "hackatona-project" target */ = {
+		AD754FF42DEA6EFE0043CB97 /* Exceptions for "hackatona-project" folder in "hackatona-project" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = AD754F612DEA67820043CB97 /* hackatona-project */;
+			target = AD754FCB2DEA6EFC0043CB97 /* hackatona-project */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AD754F642DEA67820043CB97 /* hackatona-project */ = {
+		AD754FCE2DEA6EFC0043CB97 /* hackatona-project */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				AD754F8A2DEA67840043CB97 /* Exceptions for "hackatona-project" folder in "hackatona-project" target */,
+				AD754FF42DEA6EFE0043CB97 /* Exceptions for "hackatona-project" folder in "hackatona-project" target */,
 			);
 			path = "hackatona-project";
 			sourceTree = "<group>";
 		};
-		AD754F7B2DEA67840043CB97 /* hackatona-projectTests */ = {
+		AD754FE52DEA6EFE0043CB97 /* hackatona-projectTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "hackatona-projectTests";
 			sourceTree = "<group>";
 		};
-		AD754F852DEA67840043CB97 /* hackatona-projectUITests */ = {
+		AD754FEF2DEA6EFE0043CB97 /* hackatona-projectUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "hackatona-projectUITests";
 			sourceTree = "<group>";
@@ -61,21 +61,21 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		AD754F5F2DEA67820043CB97 /* Frameworks */ = {
+		AD754FC92DEA6EFC0043CB97 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD754F752DEA67840043CB97 /* Frameworks */ = {
+		AD754FDF2DEA6EFE0043CB97 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD754F7F2DEA67840043CB97 /* Frameworks */ = {
+		AD754FE92DEA6EFE0043CB97 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -85,22 +85,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AD754F592DEA67820043CB97 = {
+		AD754FC32DEA6EFC0043CB97 = {
 			isa = PBXGroup;
 			children = (
-				AD754F642DEA67820043CB97 /* hackatona-project */,
-				AD754F7B2DEA67840043CB97 /* hackatona-projectTests */,
-				AD754F852DEA67840043CB97 /* hackatona-projectUITests */,
-				AD754F632DEA67820043CB97 /* Products */,
+				AD754FCE2DEA6EFC0043CB97 /* hackatona-project */,
+				AD754FE52DEA6EFE0043CB97 /* hackatona-projectTests */,
+				AD754FEF2DEA6EFE0043CB97 /* hackatona-projectUITests */,
+				AD754FCD2DEA6EFC0043CB97 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		AD754F632DEA67820043CB97 /* Products */ = {
+		AD754FCD2DEA6EFC0043CB97 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AD754F622DEA67820043CB97 /* hackatona-project.app */,
-				AD754F782DEA67840043CB97 /* hackatona-projectTests.xctest */,
-				AD754F822DEA67840043CB97 /* hackatona-projectUITests.xctest */,
+				AD754FCC2DEA6EFC0043CB97 /* hackatona-project.app */,
+				AD754FE22DEA6EFE0043CB97 /* hackatona-projectTests.xctest */,
+				AD754FEC2DEA6EFE0043CB97 /* hackatona-projectUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,134 +108,134 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AD754F612DEA67820043CB97 /* hackatona-project */ = {
+		AD754FCB2DEA6EFC0043CB97 /* hackatona-project */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AD754F8B2DEA67840043CB97 /* Build configuration list for PBXNativeTarget "hackatona-project" */;
+			buildConfigurationList = AD754FF52DEA6EFE0043CB97 /* Build configuration list for PBXNativeTarget "hackatona-project" */;
 			buildPhases = (
-				AD754F5E2DEA67820043CB97 /* Sources */,
-				AD754F5F2DEA67820043CB97 /* Frameworks */,
-				AD754F602DEA67820043CB97 /* Resources */,
+				AD754FC82DEA6EFC0043CB97 /* Sources */,
+				AD754FC92DEA6EFC0043CB97 /* Frameworks */,
+				AD754FCA2DEA6EFC0043CB97 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				AD754F642DEA67820043CB97 /* hackatona-project */,
+				AD754FCE2DEA6EFC0043CB97 /* hackatona-project */,
 			);
 			name = "hackatona-project";
 			packageProductDependencies = (
 			);
 			productName = "hackatona-project";
-			productReference = AD754F622DEA67820043CB97 /* hackatona-project.app */;
+			productReference = AD754FCC2DEA6EFC0043CB97 /* hackatona-project.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AD754F772DEA67840043CB97 /* hackatona-projectTests */ = {
+		AD754FE12DEA6EFE0043CB97 /* hackatona-projectTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AD754F902DEA67840043CB97 /* Build configuration list for PBXNativeTarget "hackatona-projectTests" */;
+			buildConfigurationList = AD754FFA2DEA6EFE0043CB97 /* Build configuration list for PBXNativeTarget "hackatona-projectTests" */;
 			buildPhases = (
-				AD754F742DEA67840043CB97 /* Sources */,
-				AD754F752DEA67840043CB97 /* Frameworks */,
-				AD754F762DEA67840043CB97 /* Resources */,
+				AD754FDE2DEA6EFE0043CB97 /* Sources */,
+				AD754FDF2DEA6EFE0043CB97 /* Frameworks */,
+				AD754FE02DEA6EFE0043CB97 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AD754F7A2DEA67840043CB97 /* PBXTargetDependency */,
+				AD754FE42DEA6EFE0043CB97 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				AD754F7B2DEA67840043CB97 /* hackatona-projectTests */,
+				AD754FE52DEA6EFE0043CB97 /* hackatona-projectTests */,
 			);
 			name = "hackatona-projectTests";
 			packageProductDependencies = (
 			);
 			productName = "hackatona-projectTests";
-			productReference = AD754F782DEA67840043CB97 /* hackatona-projectTests.xctest */;
+			productReference = AD754FE22DEA6EFE0043CB97 /* hackatona-projectTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AD754F812DEA67840043CB97 /* hackatona-projectUITests */ = {
+		AD754FEB2DEA6EFE0043CB97 /* hackatona-projectUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AD754F932DEA67840043CB97 /* Build configuration list for PBXNativeTarget "hackatona-projectUITests" */;
+			buildConfigurationList = AD754FFD2DEA6EFE0043CB97 /* Build configuration list for PBXNativeTarget "hackatona-projectUITests" */;
 			buildPhases = (
-				AD754F7E2DEA67840043CB97 /* Sources */,
-				AD754F7F2DEA67840043CB97 /* Frameworks */,
-				AD754F802DEA67840043CB97 /* Resources */,
+				AD754FE82DEA6EFE0043CB97 /* Sources */,
+				AD754FE92DEA6EFE0043CB97 /* Frameworks */,
+				AD754FEA2DEA6EFE0043CB97 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AD754F842DEA67840043CB97 /* PBXTargetDependency */,
+				AD754FEE2DEA6EFE0043CB97 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				AD754F852DEA67840043CB97 /* hackatona-projectUITests */,
+				AD754FEF2DEA6EFE0043CB97 /* hackatona-projectUITests */,
 			);
 			name = "hackatona-projectUITests";
 			packageProductDependencies = (
 			);
 			productName = "hackatona-projectUITests";
-			productReference = AD754F822DEA67840043CB97 /* hackatona-projectUITests.xctest */;
+			productReference = AD754FEC2DEA6EFE0043CB97 /* hackatona-projectUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		AD754F5A2DEA67820043CB97 /* Project object */ = {
+		AD754FC42DEA6EFC0043CB97 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					AD754F612DEA67820043CB97 = {
+					AD754FCB2DEA6EFC0043CB97 = {
 						CreatedOnToolsVersion = 16.2;
 					};
-					AD754F772DEA67840043CB97 = {
+					AD754FE12DEA6EFE0043CB97 = {
 						CreatedOnToolsVersion = 16.2;
-						TestTargetID = AD754F612DEA67820043CB97;
+						TestTargetID = AD754FCB2DEA6EFC0043CB97;
 					};
-					AD754F812DEA67840043CB97 = {
+					AD754FEB2DEA6EFE0043CB97 = {
 						CreatedOnToolsVersion = 16.2;
-						TestTargetID = AD754F612DEA67820043CB97;
+						TestTargetID = AD754FCB2DEA6EFC0043CB97;
 					};
 				};
 			};
-			buildConfigurationList = AD754F5D2DEA67820043CB97 /* Build configuration list for PBXProject "hackatona-project" */;
+			buildConfigurationList = AD754FC72DEA6EFC0043CB97 /* Build configuration list for PBXProject "hackatona-project" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = AD754F592DEA67820043CB97;
+			mainGroup = AD754FC32DEA6EFC0043CB97;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = AD754F632DEA67820043CB97 /* Products */;
+			productRefGroup = AD754FCD2DEA6EFC0043CB97 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AD754F612DEA67820043CB97 /* hackatona-project */,
-				AD754F772DEA67840043CB97 /* hackatona-projectTests */,
-				AD754F812DEA67840043CB97 /* hackatona-projectUITests */,
+				AD754FCB2DEA6EFC0043CB97 /* hackatona-project */,
+				AD754FE12DEA6EFE0043CB97 /* hackatona-projectTests */,
+				AD754FEB2DEA6EFE0043CB97 /* hackatona-projectUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		AD754F602DEA67820043CB97 /* Resources */ = {
+		AD754FCA2DEA6EFC0043CB97 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD754F762DEA67840043CB97 /* Resources */ = {
+		AD754FE02DEA6EFE0043CB97 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD754F802DEA67840043CB97 /* Resources */ = {
+		AD754FEA2DEA6EFE0043CB97 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -245,21 +245,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		AD754F5E2DEA67820043CB97 /* Sources */ = {
+		AD754FC82DEA6EFC0043CB97 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD754F742DEA67840043CB97 /* Sources */ = {
+		AD754FDE2DEA6EFE0043CB97 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD754F7E2DEA67840043CB97 /* Sources */ = {
+		AD754FE82DEA6EFE0043CB97 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -269,20 +269,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AD754F7A2DEA67840043CB97 /* PBXTargetDependency */ = {
+		AD754FE42DEA6EFE0043CB97 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AD754F612DEA67820043CB97 /* hackatona-project */;
-			targetProxy = AD754F792DEA67840043CB97 /* PBXContainerItemProxy */;
+			target = AD754FCB2DEA6EFC0043CB97 /* hackatona-project */;
+			targetProxy = AD754FE32DEA6EFE0043CB97 /* PBXContainerItemProxy */;
 		};
-		AD754F842DEA67840043CB97 /* PBXTargetDependency */ = {
+		AD754FEE2DEA6EFE0043CB97 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AD754F612DEA67820043CB97 /* hackatona-project */;
-			targetProxy = AD754F832DEA67840043CB97 /* PBXContainerItemProxy */;
+			target = AD754FCB2DEA6EFC0043CB97 /* hackatona-project */;
+			targetProxy = AD754FED2DEA6EFE0043CB97 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		AD754F8C2DEA67840043CB97 /* Debug */ = {
+		AD754FF62DEA6EFE0043CB97 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -294,7 +294,6 @@
 				INFOPLIST_FILE = "hackatona-project/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -310,7 +309,7 @@
 			};
 			name = Debug;
 		};
-		AD754F8D2DEA67840043CB97 /* Release */ = {
+		AD754FF72DEA6EFE0043CB97 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -322,7 +321,6 @@
 				INFOPLIST_FILE = "hackatona-project/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -338,7 +336,7 @@
 			};
 			name = Release;
 		};
-		AD754F8E2DEA67840043CB97 /* Debug */ = {
+		AD754FF82DEA6EFE0043CB97 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -401,7 +399,7 @@
 			};
 			name = Debug;
 		};
-		AD754F8F2DEA67840043CB97 /* Release */ = {
+		AD754FF92DEA6EFE0043CB97 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -457,7 +455,7 @@
 			};
 			name = Release;
 		};
-		AD754F912DEA67840043CB97 /* Debug */ = {
+		AD754FFB2DEA6EFE0043CB97 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -476,7 +474,7 @@
 			};
 			name = Debug;
 		};
-		AD754F922DEA67840043CB97 /* Release */ = {
+		AD754FFC2DEA6EFE0043CB97 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -495,7 +493,7 @@
 			};
 			name = Release;
 		};
-		AD754F942DEA67840043CB97 /* Debug */ = {
+		AD754FFE2DEA6EFE0043CB97 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -512,7 +510,7 @@
 			};
 			name = Debug;
 		};
-		AD754F952DEA67840043CB97 /* Release */ = {
+		AD754FFF2DEA6EFE0043CB97 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -532,43 +530,43 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AD754F5D2DEA67820043CB97 /* Build configuration list for PBXProject "hackatona-project" */ = {
+		AD754FC72DEA6EFC0043CB97 /* Build configuration list for PBXProject "hackatona-project" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AD754F8E2DEA67840043CB97 /* Debug */,
-				AD754F8F2DEA67840043CB97 /* Release */,
+				AD754FF82DEA6EFE0043CB97 /* Debug */,
+				AD754FF92DEA6EFE0043CB97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AD754F8B2DEA67840043CB97 /* Build configuration list for PBXNativeTarget "hackatona-project" */ = {
+		AD754FF52DEA6EFE0043CB97 /* Build configuration list for PBXNativeTarget "hackatona-project" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AD754F8C2DEA67840043CB97 /* Debug */,
-				AD754F8D2DEA67840043CB97 /* Release */,
+				AD754FF62DEA6EFE0043CB97 /* Debug */,
+				AD754FF72DEA6EFE0043CB97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AD754F902DEA67840043CB97 /* Build configuration list for PBXNativeTarget "hackatona-projectTests" */ = {
+		AD754FFA2DEA6EFE0043CB97 /* Build configuration list for PBXNativeTarget "hackatona-projectTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AD754F912DEA67840043CB97 /* Debug */,
-				AD754F922DEA67840043CB97 /* Release */,
+				AD754FFB2DEA6EFE0043CB97 /* Debug */,
+				AD754FFC2DEA6EFE0043CB97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AD754F932DEA67840043CB97 /* Build configuration list for PBXNativeTarget "hackatona-projectUITests" */ = {
+		AD754FFD2DEA6EFE0043CB97 /* Build configuration list for PBXNativeTarget "hackatona-projectUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AD754F942DEA67840043CB97 /* Debug */,
-				AD754F952DEA67840043CB97 /* Release */,
+				AD754FFE2DEA6EFE0043CB97 /* Debug */,
+				AD754FFF2DEA6EFE0043CB97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = AD754F5A2DEA67820043CB97 /* Project object */;
+	rootObject = AD754FC42DEA6EFC0043CB97 /* Project object */;
 }
