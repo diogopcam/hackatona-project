@@ -455,6 +455,8 @@ class CreateFeedbackVC: UIViewController {
     }
 
     private func stopRecording() {
+        print("🛑 Parando gravação...")
+        
         audioRecorder?.stop()
         isRecording = false
         
@@ -463,9 +465,21 @@ class CreateFeedbackVC: UIViewController {
         
         // Salvar referência do arquivo gravado
         if let audioRecorder = audioRecorder,
-           let fileName = audioRecorder.url.lastPathComponent.components(separatedBy: ".").first {
-            currentAudioFileName = "\(fileName).m4a"
-            AudioFileManager.shared.saveRecordedAudio(fileName: currentAudioFileName!)
+           let fileName = audioRecorder.url.lastPathComponent {
+            print("💾 Salvando arquivo: \(fileName)")
+            print("📁 URL completa: \(audioRecorder.url)")
+            
+            currentAudioFileName = fileName
+            AudioFileManager.shared.saveRecordedAudio(fileName: fileName)
+            
+            // Verificar se o arquivo foi realmente criado
+            if FileManager.default.fileExists(atPath: audioRecorder.url.path) {
+                print("✅ Arquivo criado com sucesso!")
+            } else {
+                print("❌ Erro: Arquivo não foi criado!")
+            }
+        } else {
+            print("❌ Erro: audioRecorder é nil")
         }
         
         audioRecorder = nil

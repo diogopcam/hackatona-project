@@ -40,12 +40,16 @@ class ProfileViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .mainGreen
         setup()
         
-        // Obter arquivos de áudio disponíveis
+        // Obter o arquivo de áudio mais recente gravado pelo usuário
+        let mostRecentAudio = AudioFileManager.shared.getMostRecentRecordedAudio()
+        
+        // Obter outros arquivos de áudio disponíveis
         let availableAudioFiles = AudioFileManager.shared.getSampleAudioFiles()
         
         // Atribua os arrays às propriedades da classe usando arquivos reais
+        // O primeiro feedback sempre usará o áudio mais recente do usuário
         self.receivedFeedbacks = [
-            Feedback(stars: 5, description: "Mandou muito bem na liderança do grupo!", senderID: "234", receiverID: "123", midia: availableAudioFiles.count > 0 ? availableAudioFiles[0] : nil),
+            Feedback(stars: 5, description: "Mandou muito bem na liderança do grupo!", senderID: "234", receiverID: "123", midia: mostRecentAudio ?? (availableAudioFiles.count > 0 ? availableAudioFiles[0] : nil)),
             Feedback(stars: 4, description: "Boa comunicação, continuaria trabalhando com você.", senderID: "345", receiverID: "123", midia: availableAudioFiles.count > 1 ? availableAudioFiles[1] : nil),
             Feedback(stars: 3, description: "Cumpriu as tarefas, mas poderia ter participado mais nas discussões.", senderID: "456", receiverID: "123", midia: availableAudioFiles.count > 2 ? availableAudioFiles[2] : nil)
         ]
@@ -55,6 +59,57 @@ class ProfileViewController: UIViewController {
             Feedback(stars: 2, description: "Faltou engajamento no projeto, vamos tentar melhorar!", senderID: "123", receiverID: "654", midia: availableAudioFiles.count > 4 ? availableAudioFiles[4] : nil),
             Feedback(stars: 4, description: "Criatividade foi um destaque, boas sugestões!", senderID: "123", receiverID: "321", midia: availableAudioFiles.count > 5 ? availableAudioFiles[5] : AudioFileManager.shared.getRandomAudioFile())
         ]
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Atualizar feedbacks com o áudio mais recente quando a tela aparecer
+        updateFeedbacksWithLatestAudio()
+    }
+    
+    private func updateFeedbacksWithLatestAudio() {
+        // Obter o arquivo de áudio mais recente gravado pelo usuário
+        let mostRecentAudio = AudioFileManager.shared.getMostRecentRecordedAudio()
+        
+        // Se há um novo áudio, atualizar o primeiro feedback
+        if let latestAudio = mostRecentAudio, 
+           !receivedFeedbacks.isEmpty {
+            
+            var updatedFeedbacks = receivedFeedbacks
+            updatedFeedbacks[0] = Feedback(
+                stars: updatedFeedbacks[0].stars,
+                description: "Mandou muito bem na liderança do grupo! (Áudio atualizado)",
+                senderID: updatedFeedbacks[0].senderID,
+                receiverID: updatedFeedbacks[0].receiverID,
+                midia: latestAudio
+            )
+            
+            self.receivedFeedbacks = updatedFeedbacks
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Debug: Listar todos os arquivos de áudio disponíveis
+        debugAudioFiles()
+    }
+    
+    private func debugAudioFiles() {
+        print("🔍 === DEBUG AUDIO FILES ===")
+        
+        let allFiles = AudioFileManager.shared.listAllAudioFiles()
+        print("📁 Arquivos .m4a encontrados: \(allFiles)")
+        
+        let recordedFiles = AudioFileManager.shared.getRecordedAudios()
+        print("📋 Arquivos registrados: \(recordedFiles)")
+        
+        let mostRecent = AudioFileManager.shared.getMostRecentRecordedAudio()
+        print("🎵 Áudio mais recente: \(mostRecent ?? "nil")")
+        
+        print("🎯 Primeiro feedback usa áudio: \(receivedFeedbacks.first?.midia ?? "nil")")
+        print("=========================")
     }
 }
 

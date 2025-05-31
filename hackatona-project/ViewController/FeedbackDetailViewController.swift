@@ -194,22 +194,40 @@ class FeedbackDetailViewController: UIViewController {
     }
     
     private func playAudio(fileName: String) {
+        print("🎵 Tentando reproduzir áudio: \(fileName)")
+        
         // Verificar se o arquivo existe usando o AudioFileManager
         guard let audioURL = AudioFileManager.shared.getAudioFileURL(fileName: fileName) else {
+            print("❌ Arquivo de áudio não encontrado: \(fileName)")
             showAlert(message: "Arquivo de áudio não encontrado: \(fileName)")
             return
         }
         
+        print("✅ Arquivo encontrado em: \(audioURL.path)")
+        
         do {
+            // Configurar a sessão de áudio para reprodução
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+            try audioSession.setActive(true)
+            
             audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
             audioPlayer?.delegate = self
             audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
             
-            isPlaying = true
-            updateAudioButton()
+            let success = audioPlayer?.play() ?? false
+            print("🔊 Reprodução iniciada: \(success)")
+            
+            if success {
+                isPlaying = true
+                updateAudioButton()
+            } else {
+                print("❌ Falha ao iniciar reprodução")
+                showAlert(message: "Falha ao iniciar reprodução do áudio")
+            }
             
         } catch {
+            print("❌ Erro ao reproduzir áudio: \(error)")
             showAlert(message: "Erro ao reproduzir áudio: \(error.localizedDescription)")
         }
     }

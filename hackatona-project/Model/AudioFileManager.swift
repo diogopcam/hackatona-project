@@ -14,6 +14,10 @@ class AudioFileManager {
         if !savedAudios.contains(fileName) {
             savedAudios.append(fileName)
             userDefaults.set(savedAudios, forKey: recordedAudiosKey)
+            print("💾 Áudio salvo: \(fileName)")
+            print("📋 Total de áudios salvos: \(savedAudios.count)")
+        } else {
+            print("⚠️ Áudio já existe na lista: \(fileName)")
         }
     }
     
@@ -76,10 +80,27 @@ class AudioFileManager {
         let documentsPath = getDocumentsDirectory()
         let filePath = documentsPath.appendingPathComponent(fileName)
         
+        print("🔍 Verificando arquivo: \(fileName)")
+        print("📁 Caminho completo: \(filePath.path)")
+        
         if FileManager.default.fileExists(atPath: filePath.path) {
+            print("✅ Arquivo existe!")
+            
+            // Verificar tamanho do arquivo
+            do {
+                let attributes = try FileManager.default.attributesOfItem(atPath: filePath.path)
+                if let fileSize = attributes[.size] as? Int64 {
+                    print("📊 Tamanho do arquivo: \(fileSize) bytes")
+                }
+            } catch {
+                print("⚠️ Erro ao obter atributos do arquivo: \(error)")
+            }
+            
             return filePath
+        } else {
+            print("❌ Arquivo não existe!")
+            return nil
         }
-        return nil
     }
     
     // MARK: - Get documents directory
@@ -104,5 +125,54 @@ class AudioFileManager {
             print("Erro ao listar arquivos: \(error)")
             return []
         }
+    }
+    
+    // MARK: - Get most recent recorded audio
+    func getMostRecentRecordedAudio() -> String? {
+        let recordedFiles = getRecordedAudios()
+        
+        print("🔍 Buscando áudio mais recente...")
+        print("📋 Arquivos gravados disponíveis: \(recordedFiles)")
+        
+        // Se não temos arquivos gravados, retorna nil
+        if recordedFiles.isEmpty {
+            print("❌ Nenhum arquivo de áudio gravado encontrado")
+            return nil
+        }
+        
+        // Retorna o último arquivo gravado (mais recente)
+        let mostRecent = recordedFiles.last
+        print("✅ Áudio mais recente: \(mostRecent ?? "nil")")
+        return mostRecent
+    }
+    
+    // MARK: - Get all recorded audios sorted by date
+    func getRecordedAudiosSortedByDate() -> [String] {
+        let documentsPath = getDocumentsDirectory()
+        let recordedFiles = getRecordedAudios()
+        
+        // Filtrar apenas arquivos que realmente existem e ordenar por data de modificação
+        let existingFiles = recordedFiles.compactMap { fileName -> (String, Date)? in
+            let filePath = documentsPath.appendingPathComponent(fileName)
+            
+            guard FileManager.default.fileExists(atPath: filePath.path) else {
+                return nil
+            }
+            
+            do {
+                let attributes = try FileManager.default.attributesOfItem(atPath: filePath.path)
+                if let modificationDate = attributes[.modificationDate] as? Date {
+                    return (fileName, modificationDate)
+                }
+            } catch {
+                print("Erro ao obter atributos do arquivo: \(error)")
+            }
+            
+            return nil
+        }
+        
+        // Ordenar por data de modificação (mais recente primeiro)
+        let sortedFiles = existingFiles.sorted { $0.1 > $1.1 }
+        return sortedFiles.map { $0.0 }
     }
 }
