@@ -15,4 +15,8 @@ struct Employee: Identifiable, Codable {
     let cargo: String
     let image: String
     let qrCode: String
+    
+    var firstLetter: String {
+        return String(name.prefix(1)).uppercased()
+    }
 }

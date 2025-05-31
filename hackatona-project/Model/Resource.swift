@@ -11,4 +11,8 @@ struct Resource: Identifiable, Codable {
     let name: String
     let averageRating: Double
     let photo: String
+    
+    var firstLetter: String {
+        return String(name.prefix(1)).uppercased()
+    }
 }
