@@ -5,14 +5,6 @@
 //  Created by Diogo Camargo on 31/05/25.
 //
 
-
-//
-//  TabBarController.swift
-//  purrchase
-//
-//  Created by Diogo Camargo on 13/05/25.
-//
-
 import UIKit
 
 class TabBarController: UITabBarController {
@@ -23,7 +15,6 @@ class TabBarController: UITabBarController {
     }
     
     private func setupTabs() {
-        // Feedback Tab
         let feedbackVC = FeedbackViewController()
         let feedbackNav = UINavigationController()
         feedbackNav.tabBarItem = UITabBarItem(
@@ -32,7 +23,6 @@ class TabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "text.bubble.fill")
         )
         
-        // Store Tab
         let storeVC = StoreViewController()
         let storeNav = UINavigationController()
         storeNav.tabBarItem = UITabBarItem(
@@ -41,7 +31,6 @@ class TabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "bag.fill")
         )
         
-        // Camera Tab
         let cameraVC = CameraViewController()
         let cameraNav = UINavigationController()
         cameraNav.tabBarItem = UITabBarItem(
@@ -50,7 +39,6 @@ class TabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "camera.fill")
         )
         
-        // Ranking Tab
         let rankingVC = RankingViewController()
         let rankingNav = UINavigationController(rootViewController: rankingVC)
         rankingNav.tabBarItem = UITabBarItem(
@@ -59,7 +47,6 @@ class TabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "chart.bar.fill")
         )
         
-        // Profile Tab
         let profileVC = ProfileViewController()
         let profileNav = UINavigationController(rootViewController: profileVC)
         profileNav.tabBarItem = UITabBarItem(
