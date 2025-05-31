@@ -6,8 +6,14 @@
 //
 
 import UIKit
+import UIKit
+import AVFoundation
 
-class TabBarController: UITabBarController, UITabBarControllerDelegate {
+class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptureMetadataOutputObjectsDelegate {
+    
+    private var captureSession: AVCaptureSession?
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabs()
@@ -72,21 +78,80 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func openCamera() {
-        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-            showAlert(title: "Error", message: "Camera not available")
+        // Configura a sessão de captura
+        captureSession = AVCaptureSession()
+
+        // Obtem a câmera traseira
+        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else {
+            showAlert(title: "Erro", message: "Câmera não disponível")
             return
         }
-        
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .camera
-        imagePicker.delegate = self // Certifique-se de que TabBarController implementa os protocolos necessários
-        present(imagePicker, animated: true)
+
+        guard let videoInput = try? AVCaptureDeviceInput(device: videoCaptureDevice),
+              (captureSession?.canAddInput(videoInput) ?? false) else {
+            showAlert(title: "Erro", message: "Não foi possível acessar a câmera")
+            return
+        }
+
+        captureSession?.addInput(videoInput)
+
+        // Configura a saída para ler QR Codes
+        let metadataOutput = AVCaptureMetadataOutput()
+        if captureSession?.canAddOutput(metadataOutput) ?? false {
+            captureSession?.addOutput(metadataOutput)
+            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            metadataOutput.metadataObjectTypes = [.qr]
+        } else {
+            showAlert(title: "Erro", message: "Não foi possível adicionar saída de metadados")
+            return
+        }
+
+        // Adiciona a visualização da câmera na tela
+        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
+        videoPreviewLayer?.videoGravity = .resizeAspectFill
+        videoPreviewLayer?.frame = view.layer.bounds
+        if let preview = videoPreviewLayer {
+            view.layer.addSublayer(preview)
+        }
+
+        // Inicia a captura
+        captureSession?.startRunning()
     }
     
-    private func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+    func metadataOutput(_ output: AVCaptureMetadataOutput,
+                        didOutput metadataObjects: [AVMetadataObject],
+                        from connection: AVCaptureConnection) {
+        guard let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
+              metadataObject.type == .qr,
+              let qrCode = metadataObject.stringValue else {
+            return
+        }
+
+        print("📷 QR Code detectado: \(qrCode)")
+
+        captureSession?.stopRunning()
+
+        if let url = URL(string: qrCode), UIApplication.shared.canOpenURL(url) {
+            let alert = UIAlertController(title: "QR Code detectado",
+                                          message: qrCode,
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Abrir Link", style: .default, handler: { _ in
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                self.captureSession!.startRunning()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: { _ in
+                self.captureSession!.startRunning()
+            }))
+            present(alert, animated: true)
+        } else {
+            let alert = UIAlertController(title: "QR Code detectado",
+                                          message: qrCode,
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                self.captureSession!.startRunning()
+            }))
+            present(alert, animated: true)
+        }
     }
     
     private func setupTabBarAppearance() {
