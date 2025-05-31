@@ -109,7 +109,6 @@ class FeedbackViewController: UIViewController {
         
         employees = [
             Employee(
-                id: "e1",
                 email: "ana.silva@empresa.com",
                 password: "••••••",
                 name: "Ana Silva",
@@ -118,7 +117,6 @@ class FeedbackViewController: UIViewController {
                 qrCode: "qrcode_ana.png"
             ),
             Employee(
-                id: "e2",
                 email: "bruno.lima@empresa.com",
                 password: "••••••",
                 name: "Bruno Lima",
@@ -127,7 +125,6 @@ class FeedbackViewController: UIViewController {
                 qrCode: "qrcode_bruno.png"
             ),
             Employee(
-                id: "e3",
                 email: "carla.rodrigues@empresa.com",
                 password: "••••••",
                 name: "Carla Rodrigues",
@@ -139,21 +136,18 @@ class FeedbackViewController: UIViewController {
         
         resources = [
             Resource(
-                id: "r1",
                 type: "Livro",
                 name: "Design Patterns Essenciais",
                 averageRating: 4.7,
                 photo: "design_patterns_cover.jpg"
             ),
             Resource(
-                id: "r2",
                 type: "Artigo",
                 name: "Guia do Combine",
                 averageRating: 4.3,
                 photo: "combine_article.png"
             ),
             Resource(
-                id: "r3",
                 type: "Vídeo",
                 name: "Ray Wenderlich - SwiftUI",
                 averageRating: 4.9,
@@ -163,7 +157,6 @@ class FeedbackViewController: UIViewController {
         
         activities = [
             Activity(
-                id: "a1",
                 name: "Treinamento SwiftUI",
                 type: "Workshop",
                 averageRating: 4.5,
@@ -171,7 +164,6 @@ class FeedbackViewController: UIViewController {
                 image: ""
             ),
             Activity(
-                id: "a2",
                 name: "Palestra NestJS",
                 type: "Palestra",
                 averageRating: 4.8,
@@ -179,7 +171,6 @@ class FeedbackViewController: UIViewController {
                 image: ""
             ),
             Activity(
-                id: "a3",
                 name: "Oficina de UX/UI",
                 type: "Oficina",
                 averageRating: 4.2,
@@ -343,6 +334,22 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        tableView.sectionIndexColor = .mainGreen
+        tableView.sectionIndexBackgroundColor = .backgroundPrimary
+        
+        switch segmentedControl.segmentedControl.selectedSegmentIndex {
+        case 0:
+            return sectionsEmployees
+        case 1:
+            return sectionsResources
+        case 2:
+            return sectionsActivities
+        default:
+            return nil
+        }
+    }
+    
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -360,7 +367,7 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
             if let employee = sectionedEmployees[letter]?[indexPath.row] {
                 cell.configure(
                     name: employee.name,
-                    role: employee.cargo,
+                    role: employee.cargo
                     )
             }
             
@@ -370,7 +377,7 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
                 let _ = "\(resource.type) • \(String(format: "%.1f", resource.averageRating))"
                 cell.configure(
                     name: resource.name,
-                    role: resource.type,
+                    role: resource.type
                     )
             }
             
@@ -384,7 +391,7 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
                 let _ = "\(activity.type) • \(String(format: "%.1f", activity.averageRating)) • \(dateString)"
                 cell.configure(
                     name: activity.name,
-                    role: activity.type,
+                    role: activity.type
                     )
             }
         default:
@@ -425,21 +432,6 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
         heightForHeaderInSection section: Int
     ) -> CGFloat {
         return 40
-    }
-    
-    func sectionIndexTitles(
-        for tableView: UITableView
-    ) -> [String]? {
-        switch segmentedControl.segmentedControl.selectedSegmentIndex {
-        case 0:
-            return sectionsEmployees
-        case 1:
-            return sectionsResources
-        case 2:
-            return sectionsActivities
-        default:
-            return nil
-        }
     }
     
     func tableView(

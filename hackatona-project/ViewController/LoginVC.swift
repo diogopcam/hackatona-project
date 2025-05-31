@@ -1,3 +1,4 @@
+
 import UIKit
 
 class LoginVC: UIViewController {
@@ -9,7 +10,7 @@ class LoginVC: UIViewController {
         return scrollView
     }()
     
-    private let contentView: UIView = { 
+    private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -19,7 +20,7 @@ class LoginVC: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = UIColor(hex: "#25663C")
+        imageView.backgroundColor = .mainGreen
         imageView.layer.cornerRadius = 50
         return imageView
     }()
@@ -28,7 +29,7 @@ class LoginVC: UIViewController {
         let label = UILabel()
         label.text = "Bem-vindo!"
         label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.textColor = UIColor(hex: "#25663C")
+        label.textColor = .mainGreen
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -80,7 +81,7 @@ class LoginVC: UIViewController {
         button.setTitle("Entrar", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(hex: "#25663C")
+        button.backgroundColor = .mainGreen
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -90,7 +91,7 @@ class LoginVC: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Esqueceu a senha?", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.setTitleColor(UIColor(hex: "#25663C"), for: .normal)
+        button.setTitleColor(.mainGreen, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -99,11 +100,11 @@ class LoginVC: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Cadastre-se", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(UIColor(hex: "#25663C"), for: .normal)
+        button.setTitleColor(.mainGreen, for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 8
         button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor(hex: "#25663C").cgColor
+        button.layer.borderColor = UIColor.mainGreen.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -227,34 +228,5 @@ class LoginVC: UIViewController {
     @objc private func registerButtonTapped() {
         // Implement register logic here
         print("Register tapped")
-    }
-    
-    // MARK: - Helper Methods
-    private func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
-}
-
-// MARK: - UIColor Extension
-extension UIColor {
-    convenience init(hex: String) {
-        let hexString = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        let scanner = Scanner(string: hexString.hasPrefix("#") ? String(hexString.dropFirst()) : hexString)
-        
-        var color: UInt64 = 0
-        scanner.scanHexInt64(&color)
-        
-        let mask = 0x000000FF
-        let r = Int(color >> 16) & mask
-        let g = Int(color >> 8) & mask
-        let b = Int(color) & mask
-        
-        let red   = CGFloat(r) / 255.0
-        let green = CGFloat(g) / 255.0
-        let blue  = CGFloat(b) / 255.0
-        
-        self.init(red: red, green: green, blue: blue, alpha: 1)
     }
 }
