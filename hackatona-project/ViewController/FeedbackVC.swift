@@ -109,7 +109,7 @@ class FeedbackViewController: UIViewController {
     
     private func configureSearchController() {
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Buscar (nome, tipo, cargo etc.)"
+        searchController.searchBar.placeholder = "Search (name, type, role etc.)"
         searchController.searchBar.autocapitalizationType = .none
         
         navigationItem.searchController = searchController
@@ -371,22 +371,6 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
             return sectionedActivities[letter]?.count ?? 0
         default:
             return 0
-        }
-    }
-    
-    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        tableView.sectionIndexColor = .mainGreen
-        tableView.sectionIndexBackgroundColor = .backgroundPrimary
-        
-        switch segmentedControl.segmentedControl.selectedSegmentIndex {
-        case 0:
-            return sectionsEmployees
-        case 1:
-            return sectionsResources
-        case 2:
-            return sectionsActivities
-        default:
-            return nil
         }
     }
     

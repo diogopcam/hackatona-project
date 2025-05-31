@@ -55,6 +55,13 @@ class RankingCell: UITableViewCell {
         nameLabel.text = name
         positionLabel.text = "#\(position)"
         
+        // Set special background for Felipe Elsner
+        if name == "Felipe Elsner" {
+            containerView.backgroundColor = .mainGreen.withAlphaComponent(0.3)
+        } else {
+            containerView.backgroundColor = .backgroundSecondary
+        }
+        
         profileImageView.subviews.forEach { $0.removeFromSuperview() }
         
         if let imageURLString = imageURL, let url = URL(string: imageURLString) {

@@ -20,7 +20,7 @@ struct User: Identifiable, Encodable, Decodable {
         self.id = id
         self.email = email
         self.password = password
-        self.name = name
+        self.fullName = fullName
         self.balance = balance
         self.averageStars = averageStars
         self.position = position
