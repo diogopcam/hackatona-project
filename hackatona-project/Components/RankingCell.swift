@@ -6,7 +6,7 @@ class RankingCell: UITableViewCell {
     // MARK: - UI Components
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(white: 0.1, alpha: 0.8)
+        view.backgroundColor = .backgroundSecondary
         view.layer.cornerRadius = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -59,15 +59,34 @@ class RankingCell: UITableViewCell {
     }
     
     // MARK: - Configuration
-    func configure(name: String, points: Int, position: Int) {
+    func configure(name: String, points: Int, position: Int, imageURL: String? = nil) {
         nameLabel.text = name
         pointsLabel.text = "\(points) pts"
-        positionLabel.text = "\(position)"
+        positionLabel.text = "#\(position)"
         
-        if name == "You" {
-            containerView.backgroundColor = .mainGreen.withAlphaComponent(0.3)
+        if let imageURLString = imageURL, let url = URL(string: imageURLString) {
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image
+                }
+            }.resume()
         } else {
-            containerView.backgroundColor = .backgroundSecondary
+            // If no image URL, display first letter of name
+            let firstLetter = String(name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 20, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = profileImageView.bounds
+            profileImageView.image = nil
+            profileImageView.addSubview(label)
         }
     }
 }

@@ -5,12 +5,16 @@
 //  Created by Diogo Camargo on 31/05/25.
 //
 import UIKit
+import Combine
 
 class RankingViewController: UIViewController, NativeSegmentedDelegate {
+    // MARK: - View Model
+    private let employeeViewModel = EmployeeViewModel()
+    
     func didChangeSelection(to index: Int) {
         switch index {
         case 0:
-            currentRankings = employeeRankings
+            fetchEmployeeRanking()
         case 1:
             currentRankings = localRankings
         case 2:
@@ -24,6 +28,14 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
     }
     
     // MARK: - UI Components
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .mainGreen
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     private lazy var segmentedControl: SegmentedControl = {
         var segmentedControl: SegmentedControl = SegmentedControl()
         segmentedControl.selectionDelegate = self
@@ -54,57 +66,114 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
     }()
     
     // MARK: - Properties
-    private var employeeRankings: [(name: String, points: Int, position: Int)] = [
-        ("Bryan Wolf", 43, 1),
-        ("Meghan Jes", 40, 2),
-        ("Alex Turner", 38, 3),
-        ("Marsha Fisher", 36, 4),
-        ("Juanita Cormier", 35, 5),
-        ("You", 34, 6),
-        ("Tamara Schmidt", 33, 7),
-        ("Ricardo Veum", 32, 8),
-        ("Gary Sanford", 31, 9),
-        ("Becky Bartell", 30, 10)
+    private var employeeRankings: [(name: String, points: Int, position: Int, imageURL: String?)] = []
+    
+    private var localRankings: [(name: String, points: Int, position: Int, imageURL: String?)] = [
+        ("Central Park", 92, 1, nil),
+        ("Times Square", 88, 2, nil),
+        ("Brooklyn Bridge", 85, 3, nil),
+        ("Battery Park", 82, 4, nil),
+        ("Hudson Yards", 80, 5, nil),
+        ("Bryant Park", 78, 6, nil),
+        ("High Line", 75, 7, nil),
+        ("Madison Square", 73, 8, nil),
+        ("Union Square", 70, 9, nil),
+        ("Washington Square", 68, 10, nil)
     ]
     
-    private var localRankings: [(name: String, points: Int, position: Int)] = [
-        ("Central Park", 92, 1),
-        ("Times Square", 88, 2),
-        ("Brooklyn Bridge", 85, 3),
-        ("Battery Park", 82, 4),
-        ("Hudson Yards", 80, 5),
-        ("Bryant Park", 78, 6),
-        ("High Line", 75, 7),
-        ("Madison Square", 73, 8),
-        ("Union Square", 70, 9),
-        ("Washington Square", 68, 10)
+    private var eventRankings: [(name: String, points: Int, position: Int, imageURL: String?)] = [
+        ("Summer Festival", 156, 1, nil),
+        ("Tech Conference", 145, 2, nil),
+        ("Food Fair", 142, 3, nil),
+        ("Music Concert", 138, 4, nil),
+        ("Art Exhibition", 135, 5, nil),
+        ("Sports Tournament", 132, 6, nil),
+        ("Comedy Night", 128, 7, nil),
+        ("Film Festival", 125, 8, nil),
+        ("Book Fair", 122, 9, nil),
+        ("Dance Show", 120, 10, nil)
     ]
     
-    private var eventRankings: [(name: String, points: Int, position: Int)] = [
-        ("Summer Festival", 156, 1),
-        ("Tech Conference", 145, 2),
-        ("Food Fair", 142, 3),
-        ("Music Concert", 138, 4),
-        ("Art Exhibition", 135, 5),
-        ("Sports Tournament", 132, 6),
-        ("Comedy Night", 128, 7),
-        ("Film Festival", 125, 8),
-        ("Book Fair", 122, 9),
-        ("Dance Show", 120, 10)
-    ]
-    
-    private var currentRankings: [(name: String, points: Int, position: Int)] = []
+    private var currentRankings: [(name: String, points: Int, position: Int, imageURL: String?)] = []
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Ranking"
         navigationController?.navigationBar.prefersLargeTitles = true
-        currentRankings = employeeRankings // Set default rankings
+        setupObservers()
+        fetchEmployeeRanking()
         setup()
-        configurePodium()
         view.backgroundColor = .backgroundPrimary
     }
+    
+    private func setupObservers() {
+        // Employee observers
+        employeeViewModel.$employees
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] employees in
+                self?.updateEmployeeRankings(employees)
+            }
+            .store(in: &cancellables)
+            
+        employeeViewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.updateLoadingState(isLoading)
+            }
+            .store(in: &cancellables)
+            
+        employeeViewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                if let errorMessage = error {
+                    self?.showError(message: errorMessage)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func updateLoadingState(_ isLoading: Bool) {
+        if isLoading {
+            loadingIndicator.startAnimating()
+        } else {
+            loadingIndicator.stopAnimating()
+        }
+    }
+    
+    private func showError(message: String) {
+        let alert = UIAlertController(
+            title: "Error",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+    
+    private func fetchEmployeeRanking() {
+        employeeViewModel.fetchEmployeeRanking()
+    }
+    
+    private func updateEmployeeRankings(_ employees: [Employee]) {
+        employeeRankings = employees.enumerated().map { index, employee in
+            (
+                name: employee.name,
+                points: Int(employee.average * 10),
+                position: index + 1,
+                imageURL: employee.midia
+            )
+        }
+        
+        if segmentedControl.segmentedControl.selectedSegmentIndex == 0 {
+            currentRankings = employeeRankings
+            configurePodium()
+            tableView.reloadData()
+        }
+    }
+    
+    // MARK: - Private properties
+    private var cancellables = Set<AnyCancellable>()
     
     private func createPodiumPlayerView() -> UIView {
         let view = UIView()
@@ -181,41 +250,69 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
     private func configurePodium() {
         // Configure First Place
         if let firstPlace = currentRankings.first {
-            configurePosition(view: firstPlaceView, name: firstPlace.name, points: firstPlace.points, tag: 1)
+            configurePosition(view: firstPlaceView, name: firstPlace.name, points: firstPlace.points, tag: 1, imageURL: firstPlace.imageURL)
             (firstPlaceView.viewWithTag(100) as? UIImageView)?.isHidden = false
         }
         
         // Configure Second Place
         if currentRankings.count > 1 {
             let secondPlace = currentRankings[1]
-            configurePosition(view: secondPlaceView, name: secondPlace.name, points: secondPlace.points, tag: 2)
+            configurePosition(view: secondPlaceView, name: secondPlace.name, points: secondPlace.points, tag: 2, imageURL: secondPlace.imageURL)
         }
         
         // Configure Third Place
         if currentRankings.count > 2 {
             let thirdPlace = currentRankings[2]
-            configurePosition(view: thirdPlaceView, name: thirdPlace.name, points: thirdPlace.points, tag: 3)
+            configurePosition(view: thirdPlaceView, name: thirdPlace.name, points: thirdPlace.points, tag: 3, imageURL: thirdPlace.imageURL)
         }
     }
     
-    private func configurePosition(view: UIView, name: String, points: Int, tag: Int) {
+    private func configurePosition(view: UIView, name: String, points: Int, tag: Int, imageURL: String? = nil) {
         view.tag = tag
         let nameLabel = view.subviews.first { $0 is UILabel && $0.tag != 200 } as? UILabel
         let pointsLabel = view.subviews.last { $0 is UILabel } as? UILabel
         let crownImage = view.subviews.first { $0 is UIImageView && $0.tag == 100 } as? UIImageView
         let positionLabel = view.subviews.first { $0 is UILabel && $0.tag == 200 } as? UILabel
+        let imageView = view.subviews.first { $0 is UIImageView && $0.tag != 100 } as? UIImageView
         
         nameLabel?.text = name
         pointsLabel?.text = "\(points) pts"
         crownImage?.isHidden = tag != 1
         
-        // Configura o label de posição apenas para 2º e 3º lugares
+        // Configure position label for 2nd and 3rd places
         if tag > 1 {
             positionLabel?.isHidden = false
             positionLabel?.text = "\(tag)"
             crownImage?.isHidden = true
         } else {
             positionLabel?.isHidden = true
+        }
+        
+        // Load and display image if available
+        if let imageURLString = imageURL,
+           let url = URL(string: imageURLString),
+           let imageView = imageView {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                guard let data = data,
+                      let image = UIImage(data: data) else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    imageView.image = image
+                }
+            }.resume()
+        } else if let imageView = imageView {
+            // Display first letter if no image
+            let firstLetter = String(name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 24, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = imageView.bounds
+            imageView.image = nil
+            imageView.addSubview(label)
         }
     }
     
@@ -234,6 +331,7 @@ extension RankingViewController: ViewCodeProtocol {
         podiumView.addSubview(firstPlaceView)
         podiumView.addSubview(thirdPlaceView)
         view.addSubview(tableView)
+        view.addSubview(loadingIndicator)
     }
     
     func setupConstraints() {
@@ -265,7 +363,10 @@ extension RankingViewController: ViewCodeProtocol {
             tableView.topAnchor.constraint(equalTo: podiumView.bottomAnchor, constant: 16),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 }
@@ -282,7 +383,12 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let ranking = currentRankings[indexPath.row + 3]
-        cell.configure(name: ranking.name, points: ranking.points, position: ranking.position)
+        cell.configure(
+            name: ranking.name,
+            points: ranking.points,
+            position: ranking.position,
+            imageURL: ranking.imageURL
+        )
         return cell
     }
     

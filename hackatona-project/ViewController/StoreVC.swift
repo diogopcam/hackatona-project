@@ -1,6 +1,4 @@
 //
-//
-//
 //  StoreViewController.swift
 //  hackatona-project
 //
@@ -220,7 +218,7 @@ class BenefitCell: UITableViewCell {
     private let valueLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 18)
-        label.textColor = .primitiveWhite
+        label.textColor = .mainGreen
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -294,5 +292,27 @@ class BenefitCell: UITableViewCell {
         valueLabel.text = "\(benefit.value) pts"
         categoryLabel.text = category
         iconImageView.image = UIImage(systemName: icon)
+    }
+}
+
+// MARK: - UIColor Extension
+extension UIColor {
+    convenience init(hex: String) {
+        let hexString = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        let scanner = Scanner(string: hexString.hasPrefix("#") ? String(hexString.dropFirst()) : hexString)
+        
+        var color: UInt64 = 0
+        scanner.scanHexInt64(&color)
+        
+        let mask = 0x000000FF
+        let r = Int(color >> 16) & mask
+        let g = Int(color >> 8) & mask
+        let b = Int(color) & mask
+        
+        let red   = CGFloat(r) / 255.0
+        let green = CGFloat(g) / 255.0
+        let blue  = CGFloat(b) / 255.0
+        
+        self.init(red: red, green: green, blue: blue, alpha: 1)
     }
 }

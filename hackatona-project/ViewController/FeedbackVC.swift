@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class FeedbackViewController: UIViewController {
     private var activities: [Activity] = []
@@ -47,6 +48,20 @@ class FeedbackViewController: UIViewController {
         return table
     }()
     
+    private let employeeViewModel = EmployeeViewModel()
+    private let resourceViewModel = ResourceViewModel()
+    private let activityViewModel = ActivityViewModel()
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .mainGreen
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,7 +77,7 @@ class FeedbackViewController: UIViewController {
         
         configureSearchController()
 
-        setupMockData()
+        setupObservers()
         
         filteredActivities = activities
         organizeSectionsForActivities()
@@ -82,14 +97,11 @@ class FeedbackViewController: UIViewController {
 
         switch segmentedControl.segmentedControl.selectedSegmentIndex {
         case 0:
-            filteredEmployees = employees
-            organizeSectionsForEmployees()
+            employeeViewModel.fetchEmployees()
         case 1:
-            filteredResources = resources
-            organizeSectionsForResources()
+            resourceViewModel.fetchResources()
         case 2:
-            filteredActivities = activities
-            organizeSectionsForActivities()
+            activityViewModel.fetchActivities()
         default:
             break
         }
@@ -105,91 +117,104 @@ class FeedbackViewController: UIViewController {
         definesPresentationContext = true
     }
     
-    private func setupMockData() {
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd"
-        
-        employees = [
-            Employee(
-                id: "e1",
-                email: "ana.silva@empresa.com",
-                password: "••••••",
-                name: "Ana Silva",
-                cargo: "Desenvolvedora iOS",
-                image: "ana_profile.jpg",
-                qrCode: "qrcode_ana.png"
-            ),
-            Employee(
-                id: "e2",
-                email: "bruno.lima@empresa.com",
-                password: "••••••",
-                name: "Bruno Lima",
-                cargo: "Analista de Dados",
-                image: "bruno_profile.jpg",
-                qrCode: "qrcode_bruno.png"
-            ),
-            Employee(
-                id: "e3",
-                email: "carla.rodrigues@empresa.com",
-                password: "••••••",
-                name: "Carla Rodrigues",
-                cargo: "Product Manager",
-                image: "carla_profile.jpg",
-                qrCode: "qrcode_carla.png"
-            )
-        ]
-        
-        resources = [
-            Resource(
-                id: "r1",
-                type: "Livro",
-                name: "Design Patterns Essenciais",
-                averageRating: 4.7,
-                photo: "design_patterns_cover.jpg"
-            ),
-            Resource(
-                id: "r2",
-                type: "Artigo",
-                name: "Guia do Combine",
-                averageRating: 4.3,
-                photo: "combine_article.png"
-            ),
-            Resource(
-                id: "r3",
-                type: "Vídeo",
-                name: "Ray Wenderlich - SwiftUI",
-                averageRating: 4.9,
-                photo: "rw_swiftui.png"
-            )
-        ]
-        
-        activities = [
-            Activity(
-                id: "a1",
-                name: "Treinamento SwiftUI",
-                type: "Workshop",
-                averageRating: 4.5,
-                date: df.date(from: "2025-06-05")!,
-                image: ""
-            ),
-            Activity(
-                id: "a2",
-                name: "Palestra NestJS",
-                type: "Palestra",
-                averageRating: 4.8,
-                date: df.date(from: "2025-06-10")!,
-                image: ""
-            ),
-            Activity(
-                id: "a3",
-                name: "Oficina de UX/UI",
-                type: "Oficina",
-                averageRating: 4.2,
-                date: df.date(from: "2025-06-12")!,
-                image: ""
-                
-            )
-        ]
+    private func setupObservers() {
+        // Employee observers
+        employeeViewModel.$employees
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newEmployees in
+                self?.employees = newEmployees
+                self?.filteredEmployees = newEmployees
+                self?.organizeSectionsForEmployees()
+            }
+            .store(in: &cancellables)
+            
+        employeeViewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.updateLoadingState(isLoading)
+            }
+            .store(in: &cancellables)
+            
+        employeeViewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                if let errorMessage = error {
+                    self?.showError(message: errorMessage)
+                }
+            }
+            .store(in: &cancellables)
+            
+        // Resource observers
+        resourceViewModel.$resources
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newResources in
+                self?.resources = newResources
+                self?.filteredResources = newResources
+                self?.organizeSectionsForResources()
+            }
+            .store(in: &cancellables)
+            
+        resourceViewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.updateLoadingState(isLoading)
+            }
+            .store(in: &cancellables)
+            
+        resourceViewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                if let errorMessage = error {
+                    self?.showError(message: errorMessage)
+                }
+            }
+            .store(in: &cancellables)
+            
+        // Activity observers
+        activityViewModel.$activities
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newActivities in
+                self?.activities = newActivities
+                self?.filteredActivities = newActivities
+                self?.organizeSectionsForActivities()
+            }
+            .store(in: &cancellables)
+            
+        activityViewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.updateLoadingState(isLoading)
+            }
+            .store(in: &cancellables)
+            
+        activityViewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                if let errorMessage = error {
+                    self?.showError(message: errorMessage)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func updateLoadingState(_ isLoading: Bool) {
+        if isLoading {
+            loadingIndicator.startAnimating()
+            tableView.alpha = 0.5
+        } else {
+            loadingIndicator.stopAnimating()
+            tableView.alpha = 1.0
+        }
+    }
+    
+    private func showError(message: String) {
+        let alert = UIAlertController(
+            title: "Erro",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     private func organizeSectionsForActivities() {
@@ -276,6 +301,7 @@ extension FeedbackViewController: ViewCodeProtocol {
         
         view.addSubview(segmentedControl)
         view.addSubview(tableView)
+        view.addSubview(loadingIndicator)
     }
     
     func setupConstraints() {
@@ -306,7 +332,10 @@ extension FeedbackViewController: ViewCodeProtocol {
             ),
             tableView.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor
-            )
+            ),
+            
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 }
@@ -345,6 +374,22 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        tableView.sectionIndexColor = .mainGreen
+        tableView.sectionIndexBackgroundColor = .backgroundPrimary
+        
+        switch segmentedControl.segmentedControl.selectedSegmentIndex {
+        case 0:
+            return sectionsEmployees
+        case 1:
+            return sectionsResources
+        case 2:
+            return sectionsActivities
+        default:
+            return nil
+        }
+    }
+    
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -362,33 +407,32 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
             if let employee = sectionedEmployees[letter]?[indexPath.row] {
                 cell.configure(
                     name: employee.name,
-                    role: employee.cargo
-                    )
+                    role: employee.position,
+                    imageURL: employee.midia
+                )
             }
             
         case 1:
             let letter = sectionsResources[indexPath.section]
             if let resource = sectionedResources[letter]?[indexPath.row] {
-                let _ = "\(resource.type) • \(String(format: "%.1f", resource.averageRating))"
                 cell.configure(
                     name: resource.name,
                     role: resource.type
-                    )
+                )
             }
             
         case 2:
             let letter = sectionsActivities[indexPath.section]
             if let activity = sectionedActivities[letter]?[indexPath.row] {
-                let df = DateFormatter()
-                df.dateStyle = .short
-                df.timeStyle = .none
-                let dateString = df.string(from: activity.date)
-                let _ = "\(activity.type) • \(String(format: "%.1f", activity.averageRating)) • \(dateString)"
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .short
+                let dateString = dateFormatter.string(from: activity.createdAt)
                 cell.configure(
                     name: activity.name,
-                    role: activity.type
-                    )
+                    role: "\(activity.type) • \(dateString)"
+                )
             }
+            
         default:
             break
         }
@@ -459,21 +503,6 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
         return 40
     }
     
-    func sectionIndexTitles(
-        for tableView: UITableView
-    ) -> [String]? {
-        switch segmentedControl.segmentedControl.selectedSegmentIndex {
-        case 0:
-            return sectionsEmployees
-        case 1:
-            return sectionsResources
-        case 2:
-            return sectionsActivities
-        default:
-            return nil
-        }
-    }
-    
     func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
@@ -486,14 +515,14 @@ extension FeedbackViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         switch segmentedControl.segmentedControl.selectedSegmentIndex {
         case 0:
-            filteredActivities = activities
-            organizeSectionsForActivities()
+            filteredEmployees = employees
+            organizeSectionsForEmployees()
         case 1:
             filteredResources = resources
             organizeSectionsForResources()
         case 2:
-            filteredEmployees = employees
-            organizeSectionsForEmployees()
+            filteredActivities = activities
+            organizeSectionsForActivities()
         default:
             break
         }
@@ -529,7 +558,7 @@ extension FeedbackViewController: UISearchResultsUpdating {
                 employee.name.lowercased().contains(text) ||
                 employee.cargo.lowercased().contains(text)
             }
-            organizeSectionsForActivities()
+            organizeSectionsForEmployees()
             
         case 1:
             filteredResources = resources.filter { resource in
@@ -543,7 +572,7 @@ extension FeedbackViewController: UISearchResultsUpdating {
                 activity.name.lowercased().contains(text) ||
                 activity.type.lowercased().contains(text)
             }
-            organizeSectionsForEmployees()
+            organizeSectionsForActivities()
             
         default:
             break
@@ -555,14 +584,11 @@ extension FeedbackViewController: NativeSegmentedDelegate {
     func didChangeSelection(to index: Int) {
         switch index {
         case 0:
-            filteredEmployees = employees
-            organizeSectionsForEmployees()
+            employeeViewModel.fetchEmployees()
         case 1:
-            filteredResources = resources
-            organizeSectionsForResources()
+            resourceViewModel.fetchResources()
         case 2:
-            filteredActivities = activities
-            organizeSectionsForActivities()
+            activityViewModel.fetchActivities()
         default:
             break
         }
