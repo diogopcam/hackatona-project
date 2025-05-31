@@ -30,7 +30,7 @@ class StoreViewController: UIViewController {
 
     private let pointsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Seus pontos: 1,670"
+        label.text = "Your points: 1,670"
         label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .white
         label.textAlignment = .center
@@ -39,14 +39,14 @@ class StoreViewController: UIViewController {
     }()
     
     private let benefits: [Benefit] = [
-        Benefit(name: "Desconto 10% - Restaurante Verde", description: "Ganhe 10% de desconto em qualquer pedido", value: 500),
-        Benefit(name: "Vale Transporte", description: "R$ 20 em créditos para transporte público", value: 800),
-        Benefit(name: "Desconto 15% - Loja Sustentável", description: "15% off em produtos eco-friendly", value: 650),
-        Benefit(name: "Café Grátis", description: "Uma bebida grátis em cafeterias parceiras", value: 300),
-        Benefit(name: "Desconto 20% - Produtos Orgânicos", description: "20% de desconto em alimentos orgânicos", value: 1000),
-        Benefit(name: "Plantio de Árvore", description: "Contribua para o plantio de uma árvore", value: 400),
-        Benefit(name: "Kit Sustentável", description: "Kit com produtos reutilizáveis", value: 750),
-        Benefit(name: "Desconto 25% - Bicicletas", description: "25% off na compra ou aluguel de bikes", value: 1200)
+        Benefit(name: "10% Discount - Green Restaurant", description: "Get 10% off any order", value: 500),
+        Benefit(name: "Transport Credit", description: "$20 in public transport credits", value: 800),
+        Benefit(name: "15% Discount - Sustainable Store", description: "15% off eco-friendly products", value: 650),
+        Benefit(name: "Free Coffee", description: "One free drink at partner cafes", value: 300),
+        Benefit(name: "20% Discount - Organic Products", description: "20% off organic food", value: 1000),
+        Benefit(name: "Plant a Tree", description: "Contribute to planting a tree", value: 400),
+        Benefit(name: "Sustainable Kit", description: "Kit with reusable products", value: 750),
+        Benefit(name: "25% Discount - Bicycles", description: "25% off bike purchase or rental", value: 1200)
     ]
     
     override func viewDidLoad() {
@@ -55,29 +55,29 @@ class StoreViewController: UIViewController {
     }
     
     private func getCategoryForBenefit(_ benefit: Benefit) -> String {
-        if benefit.name.lowercased().contains("restaurante") || benefit.name.lowercased().contains("café") || benefit.name.lowercased().contains("orgânico") {
-            return "Alimentação"
-        } else if benefit.name.lowercased().contains("transporte") || benefit.name.lowercased().contains("bicicleta") {
-            return "Transporte"
-        } else if benefit.name.lowercased().contains("sustentável") || benefit.name.lowercased().contains("kit") {
-            return "Sustentabilidade"
-        } else if benefit.name.lowercased().contains("árvore") || benefit.name.lowercased().contains("plantio") {
-            return "Meio Ambiente"
+        if benefit.name.lowercased().contains("restaurant") || benefit.name.lowercased().contains("coffee") || benefit.name.lowercased().contains("organic") {
+            return "Food"
+        } else if benefit.name.lowercased().contains("transport") || benefit.name.lowercased().contains("bicycle") {
+            return "Transport"
+        } else if benefit.name.lowercased().contains("sustainable") || benefit.name.lowercased().contains("kit") {
+            return "Sustainability"
+        } else if benefit.name.lowercased().contains("tree") || benefit.name.lowercased().contains("plant") {
+            return "Environment"
         } else {
-            return "Geral"
+            return "General"
         }
     }
     
     private func getIconForBenefit(_ benefit: Benefit) -> String {
         let category = getCategoryForBenefit(benefit)
         switch category {
-        case "Alimentação":
-            return benefit.name.lowercased().contains("café") ? "cup.and.saucer" : benefit.name.lowercased().contains("orgânico") ? "carrot" : "fork.knife"
-        case "Transporte":
-            return benefit.name.lowercased().contains("bicicleta") ? "bicycle" : "bus"
-        case "Sustentabilidade":
+        case "Food":
+            return benefit.name.lowercased().contains("coffee") ? "cup.and.saucer" : benefit.name.lowercased().contains("organic") ? "carrot" : "fork.knife"
+        case "Transport":
+            return benefit.name.lowercased().contains("bicycle") ? "bicycle" : "bus"
+        case "Sustainability":
             return benefit.name.lowercased().contains("kit") ? "bag" : "leaf"
-        case "Meio Ambiente":
+        case "Environment":
             return "tree"
         default:
             return "gift"
@@ -87,7 +87,7 @@ class StoreViewController: UIViewController {
 
 extension StoreViewController: ViewCodeProtocol {
     func addSubViews() {
-        title = "Loja"
+        title = "Store"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .backgroundPrimary
         
@@ -98,11 +98,6 @@ extension StoreViewController: ViewCodeProtocol {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-//            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            headerView.heightAnchor.constraint(equalToConstant: 120),
-//
             pointsLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             pointsLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             
@@ -147,13 +142,13 @@ extension StoreViewController: UITableViewDelegate {
     
     private func showPurchaseAlert(for benefit: Benefit) {
         let alert = UIAlertController(
-            title: "Confirmar Compra",
-            message: "Deseja trocar \(benefit.value) pontos por '\(benefit.name)'?",
+            title: "Confirm Purchase",
+            message: "Do you want to exchange for '\(benefit.name)'?",
             preferredStyle: .alert
         )
         
-        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Confirmar", style: .default) { _ in
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default) { _ in
             self.showSuccessAlert(for: benefit)
         })
         
@@ -162,8 +157,8 @@ extension StoreViewController: UITableViewDelegate {
     
     private func showSuccessAlert(for benefit: Benefit) {
         let alert = UIAlertController(
-            title: "Compra Realizada!",
-            message: "Você trocou \(benefit.value) pontos por '\(benefit.name)'. Verifique seu email para mais detalhes.",
+            title: "Purchase Complete!",
+            message: "You exchanged for '\(benefit.name)'. Check your email for details.",
             preferredStyle: .alert
         )
         
@@ -215,23 +210,10 @@ class BenefitCell: UITableViewCell {
         return label
     }()
     
-    private let valueLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
-        label.textColor = .mainGreen
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     private let categoryLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .labelPrimary
-        label.backgroundColor = .mainGreen
-        label.textAlignment = .center
-        label.layer.cornerRadius = 8
-        label.clipsToBounds = true
+        label.textColor = .mainGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -253,7 +235,6 @@ class BenefitCell: UITableViewCell {
         containerView.addSubview(iconImageView)
         containerView.addSubview(nameLabel)
         containerView.addSubview(descriptionLabel)
-        containerView.addSubview(valueLabel)
         containerView.addSubview(categoryLabel)
         
         NSLayoutConstraint.activate([
@@ -267,29 +248,23 @@ class BenefitCell: UITableViewCell {
             iconImageView.widthAnchor.constraint(equalToConstant: 50),
             iconImageView.heightAnchor.constraint(equalToConstant: 50),
             
-            nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
+            nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
             nameLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: valueLabel.leadingAnchor, constant: -8),
+            nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             
             descriptionLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
             descriptionLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 16),
-            descriptionLabel.trailingAnchor.constraint(equalTo: valueLabel.leadingAnchor, constant: -8),
+            descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             
-            categoryLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12),
+            categoryLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 8),
             categoryLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 16),
-            categoryLabel.widthAnchor.constraint(equalToConstant: 100),
-            categoryLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            valueLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            valueLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            valueLabel.widthAnchor.constraint(equalToConstant: 80)
+            categoryLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16)
         ])
     }
     
     func configure(with benefit: Benefit, category: String, icon: String) {
         nameLabel.text = benefit.name
         descriptionLabel.text = benefit.description
-        valueLabel.text = "\(benefit.value) pts"
         categoryLabel.text = category
         iconImageView.image = UIImage(systemName: icon)
     }

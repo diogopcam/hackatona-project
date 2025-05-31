@@ -10,15 +10,17 @@ import Combine
 class RankingViewController: UIViewController, NativeSegmentedDelegate {
     // MARK: - View Model
     private let employeeViewModel = EmployeeViewModel()
+    private let resourceViewModel = ResourceViewModel()
+    private let activityViewModel = ActivityViewModel()
     
     func didChangeSelection(to index: Int) {
         switch index {
         case 0:
             fetchEmployeeRanking()
         case 1:
-            currentRankings = localRankings
+            fetchResourceRanking()
         case 2:
-            currentRankings = eventRankings
+            fetchActivityRanking()
         default:
             currentRankings = employeeRankings
         }
@@ -66,35 +68,10 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
     }()
     
     // MARK: - Properties
-    private var employeeRankings: [(name: String, points: Int, position: Int, imageURL: String?)] = []
-    
-    private var localRankings: [(name: String, points: Int, position: Int, imageURL: String?)] = [
-        ("Central Park", 92, 1, nil),
-        ("Times Square", 88, 2, nil),
-        ("Brooklyn Bridge", 85, 3, nil),
-        ("Battery Park", 82, 4, nil),
-        ("Hudson Yards", 80, 5, nil),
-        ("Bryant Park", 78, 6, nil),
-        ("High Line", 75, 7, nil),
-        ("Madison Square", 73, 8, nil),
-        ("Union Square", 70, 9, nil),
-        ("Washington Square", 68, 10, nil)
-    ]
-    
-    private var eventRankings: [(name: String, points: Int, position: Int, imageURL: String?)] = [
-        ("Summer Festival", 156, 1, nil),
-        ("Tech Conference", 145, 2, nil),
-        ("Food Fair", 142, 3, nil),
-        ("Music Concert", 138, 4, nil),
-        ("Art Exhibition", 135, 5, nil),
-        ("Sports Tournament", 132, 6, nil),
-        ("Comedy Night", 128, 7, nil),
-        ("Film Festival", 125, 8, nil),
-        ("Book Fair", 122, 9, nil),
-        ("Dance Show", 120, 10, nil)
-    ]
-    
-    private var currentRankings: [(name: String, points: Int, position: Int, imageURL: String?)] = []
+    private var employeeRankings: [(name: String, position: Int, imageURL: String?)] = []
+    private var resourceRankings: [(name: String, position: Int, imageURL: String?)] = []
+    private var activityRankings: [(name: String, position: Int, imageURL: String?)] = []
+    private var currentRankings: [(name: String, position: Int, imageURL: String?)] = []
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -116,6 +93,23 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
             }
             .store(in: &cancellables)
             
+        // Resource observers
+        resourceViewModel.$resources
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] resources in
+                self?.updateResourceRankings(resources)
+            }
+            .store(in: &cancellables)
+            
+        // Activity observers
+        activityViewModel.$activities
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] activities in
+                self?.updateActivityRankings(activities)
+            }
+            .store(in: &cancellables)
+            
+        // Loading state observers
         employeeViewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
@@ -123,7 +117,40 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
             }
             .store(in: &cancellables)
             
+        resourceViewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.updateLoadingState(isLoading)
+            }
+            .store(in: &cancellables)
+            
+        activityViewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.updateLoadingState(isLoading)
+            }
+            .store(in: &cancellables)
+            
+        // Error observers
         employeeViewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                if let errorMessage = error {
+                    self?.showError(message: errorMessage)
+                }
+            }
+            .store(in: &cancellables)
+            
+        resourceViewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                if let errorMessage = error {
+                    self?.showError(message: errorMessage)
+                }
+            }
+            .store(in: &cancellables)
+            
+        activityViewModel.$error
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
                 if let errorMessage = error {
@@ -155,11 +182,18 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
         employeeViewModel.fetchEmployeeRanking()
     }
     
+    private func fetchResourceRanking() {
+        resourceViewModel.fetchResources()
+    }
+    
+    private func fetchActivityRanking() {
+        activityViewModel.fetchActivities()
+    }
+    
     private func updateEmployeeRankings(_ employees: [Employee]) {
         employeeRankings = employees.enumerated().map { index, employee in
             (
                 name: employee.name,
-                points: Int(employee.average * 10),
                 position: index + 1,
                 imageURL: employee.midia
             )
@@ -167,6 +201,38 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
         
         if segmentedControl.segmentedControl.selectedSegmentIndex == 0 {
             currentRankings = employeeRankings
+            configurePodium()
+            tableView.reloadData()
+        }
+    }
+    
+    private func updateResourceRankings(_ resources: [Resource]) {
+        resourceRankings = resources.enumerated().map { index, resource in
+            (
+                name: resource.name,
+                position: index + 1,
+                imageURL: resource.photo
+            )
+        }
+        
+        if segmentedControl.segmentedControl.selectedSegmentIndex == 1 {
+            currentRankings = resourceRankings
+            configurePodium()
+            tableView.reloadData()
+        }
+    }
+    
+    private func updateActivityRankings(_ activities: [Activity]) {
+        activityRankings = activities.enumerated().map { index, activity in
+            (
+                name: activity.name,
+                position: index + 1,
+                imageURL: nil
+            )
+        }
+        
+        if segmentedControl.segmentedControl.selectedSegmentIndex == 2 {
+            currentRankings = activityRankings
             configurePodium()
             tableView.reloadData()
         }
@@ -191,20 +257,14 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
         positionLabel.textColor = .labelPrimary
         positionLabel.textAlignment = .center
         positionLabel.translatesAutoresizingMaskIntoConstraints = false
-        positionLabel.tag = 200 // Tag para identificar o label de posição
-        positionLabel.isHidden = true // Inicialmente escondido, só mostraremos para 2º e 3º
+        positionLabel.tag = 200
+        positionLabel.isHidden = true
         
         let nameLabel = UILabel()
         nameLabel.font = .systemFont(ofSize: 14, weight: .medium)
         nameLabel.textColor = .labelPrimary
         nameLabel.textAlignment = .center
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        let pointsLabel = UILabel()
-        pointsLabel.font = .systemFont(ofSize: 14, weight: .bold)
-        pointsLabel.textColor = .mainGreen
-        pointsLabel.textAlignment = .center
-        pointsLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let crownImage = UIImageView()
         crownImage.image = UIImage(systemName: "crown.fill")
@@ -216,7 +276,6 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
         view.addSubview(imageView)
         view.addSubview(positionLabel)
         view.addSubview(nameLabel)
-        view.addSubview(pointsLabel)
         view.addSubview(crownImage)
         
         NSLayoutConstraint.activate([
@@ -237,49 +296,40 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4),
             nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
-            
-            pointsLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
-            pointsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pointsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            nameLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        view.tag = 0 // Will be set later for identification
+        view.tag = 0
         return view
     }
     
     private func configurePodium() {
-        // Configure First Place
         if let firstPlace = currentRankings.first {
-            configurePosition(view: firstPlaceView, name: firstPlace.name, points: firstPlace.points, tag: 1, imageURL: firstPlace.imageURL)
+            configurePosition(view: firstPlaceView, name: firstPlace.name, tag: 1, imageURL: firstPlace.imageURL)
             (firstPlaceView.viewWithTag(100) as? UIImageView)?.isHidden = false
         }
         
-        // Configure Second Place
         if currentRankings.count > 1 {
             let secondPlace = currentRankings[1]
-            configurePosition(view: secondPlaceView, name: secondPlace.name, points: secondPlace.points, tag: 2, imageURL: secondPlace.imageURL)
+            configurePosition(view: secondPlaceView, name: secondPlace.name, tag: 2, imageURL: secondPlace.imageURL)
         }
         
-        // Configure Third Place
         if currentRankings.count > 2 {
             let thirdPlace = currentRankings[2]
-            configurePosition(view: thirdPlaceView, name: thirdPlace.name, points: thirdPlace.points, tag: 3, imageURL: thirdPlace.imageURL)
+            configurePosition(view: thirdPlaceView, name: thirdPlace.name, tag: 3, imageURL: thirdPlace.imageURL)
         }
     }
     
-    private func configurePosition(view: UIView, name: String, points: Int, tag: Int, imageURL: String? = nil) {
+    private func configurePosition(view: UIView, name: String, tag: Int, imageURL: String? = nil) {
         view.tag = tag
         let nameLabel = view.subviews.first { $0 is UILabel && $0.tag != 200 } as? UILabel
-        let pointsLabel = view.subviews.last { $0 is UILabel } as? UILabel
         let crownImage = view.subviews.first { $0 is UIImageView && $0.tag == 100 } as? UIImageView
         let positionLabel = view.subviews.first { $0 is UILabel && $0.tag == 200 } as? UILabel
         let imageView = view.subviews.first { $0 is UIImageView && $0.tag != 100 } as? UIImageView
         
         nameLabel?.text = name
-        pointsLabel?.text = "\(points) pts"
         crownImage?.isHidden = tag != 1
         
-        // Configure position label for 2nd and 3rd places
         if tag > 1 {
             positionLabel?.isHidden = false
             positionLabel?.text = "\(tag)"
@@ -288,10 +338,21 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
             positionLabel?.isHidden = true
         }
         
-        // Load and display image if available
+        imageView?.subviews.forEach { $0.removeFromSuperview() }
+        
         if let imageURLString = imageURL,
            let url = URL(string: imageURLString),
            let imageView = imageView {
+            let firstLetter = String(name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 24, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = imageView.bounds
+            imageView.image = nil
+            imageView.addSubview(label)
+            
             URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data,
                       let image = UIImage(data: data) else {
@@ -299,11 +360,11 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
                 }
                 
                 DispatchQueue.main.async {
+                    imageView.subviews.forEach { $0.removeFromSuperview() }
                     imageView.image = image
                 }
             }.resume()
         } else if let imageView = imageView {
-            // Display first letter if no image
             let firstLetter = String(name.prefix(1)).uppercased()
             let label = UILabel()
             label.text = firstLetter
@@ -345,17 +406,14 @@ extension RankingViewController: ViewCodeProtocol {
             podiumView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             podiumView.heightAnchor.constraint(equalToConstant: 180),
             
-            // First Place (Center)
             firstPlaceView.centerXAnchor.constraint(equalTo: podiumView.centerXAnchor),
             firstPlaceView.bottomAnchor.constraint(equalTo: podiumView.bottomAnchor, constant: -48),
             firstPlaceView.widthAnchor.constraint(equalToConstant: 100),
             
-            // Second Place (Left)
             secondPlaceView.rightAnchor.constraint(equalTo: firstPlaceView.leftAnchor, constant: -16),
             secondPlaceView.bottomAnchor.constraint(equalTo: podiumView.bottomAnchor, constant: -32),
             secondPlaceView.widthAnchor.constraint(equalToConstant: 100),
             
-            // Third Place (Right)
             thirdPlaceView.leftAnchor.constraint(equalTo: firstPlaceView.rightAnchor, constant: 16),
             thirdPlaceView.bottomAnchor.constraint(equalTo: podiumView.bottomAnchor, constant: -32),
             thirdPlaceView.widthAnchor.constraint(equalToConstant: 100),
@@ -385,7 +443,6 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
         let ranking = currentRankings[indexPath.row + 3]
         cell.configure(
             name: ranking.name,
-            points: ranking.points,
             position: ranking.position,
             imageURL: ranking.imageURL
         )
