@@ -7,21 +7,23 @@
 
 import Foundation
 
-struct User: Codable {
-    var id: UUID
-    var email: String
-    var password: String
-    var name: String
-    var balance: Int
-    var totalBalance: Int
+struct User: Identifiable, Encodable, Decodable {
+    var id = UUID()
+    let email: String
+    let password: String
+    let fullName: String
+    let balance: Double
+    let averageStars: Double
+    let position: String
     
-    init(id: UUID = UUID(), email: String, password: String, name: String, balance: Int, totalBalance: Int) {
+    init(id: UUID = UUID(), email: String, password: String, fullName: String, balance: Double, averageStars: Double, position: String) {
         self.id = id
         self.email = email
         self.password = password
         self.name = name
         self.balance = balance
-        self.totalBalance = totalBalance
+        self.averageStars = averageStars
+        self.position = position
     }
 }
 

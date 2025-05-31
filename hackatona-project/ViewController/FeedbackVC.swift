@@ -504,6 +504,27 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
         return 40
     }
     
+    func sectionIndexTitles(
+        for tableView: UITableView
+    ) -> [String]? {
+        switch segmentedControl.segmentedControl.selectedSegmentIndex {
+        case 0:
+            tableView.sectionIndexColor = .mainGreen
+            tableView.sectionIndexBackgroundColor = .backgroundPrimary
+            return sectionsEmployees
+        case 1:
+            tableView.sectionIndexColor = .mainGreen
+            tableView.sectionIndexBackgroundColor = .backgroundPrimary
+            return sectionsResources
+        case 2:
+            tableView.sectionIndexColor = .mainGreen
+            tableView.sectionIndexBackgroundColor = .backgroundPrimary
+            return sectionsActivities
+        default:
+            return nil
+        }
+    }
+
     func tableView(
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath

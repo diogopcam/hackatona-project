@@ -21,9 +21,10 @@ class SegmentedControl: UIView {
         ])
         control.selectedSegmentIndex = 0
 
+
         control.backgroundColor =
             UIColor(named: "background-secondary") ?? .systemGray6
-        control.selectedSegmentTintColor = .segmentedControlSelected
+        control.selectedSegmentTintColor = .mainGreen
 
         let normalAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor(named: "label-primary") ?? .black,

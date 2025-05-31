@@ -1,232 +1,193 @@
 
+//
+//  LoginViewController.swift
+//  Incentiv8
+//
+//  Created by João Pedro Teixeira de Caralho on 13/05/25.
+//
 import UIKit
 
-class LoginVC: UIViewController {
+class LoginViewController: UIViewController {
     
-    // MARK: - UI Components
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
-    private let contentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let logoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+    // MARK: Icon image
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "profileImage"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .mainGreen
-        imageView.layer.cornerRadius = 50
+        imageView.contentMode = .scaleAspectFill
+        
         return imageView
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Bem-vindo!"
-        label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.textColor = .mainGreen
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    
+    // MARK: Title
+    lazy var titleLabel = Components.getLabel(content: "Welcome", font: .systemFont(ofSize: 48, weight: .bold))
+    
+    // MARK: Email
+    lazy var emailTextField = NamedTextField(title: "Email", placeholder: "abc@abc.com")
+    
+    
+    // MARK: Password
+    lazy var passwordTextField = NamedTextField(title: "Password", placeholder: "********", isPassword: true)
+    
+    
+    // MARK: Fields stack
+    lazy var fieldsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField])
+        stackView.axis = .vertical
+        stackView.spacing = 24
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
-    private let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Faça login para continuar"
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .gray
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
     
-    private let emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "E-mail"
-        textField.borderStyle = .none
-        textField.keyboardType = .emailAddress
-        textField.autocapitalizationType = .none
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 8
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.lightGray.cgColor
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
-        textField.leftViewMode = .always
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
+    //MARK: Forgot password button
+    lazy var forgotPasswordButton = Components.getButton(content: "Forgot password?", action: #selector(forgotPasswordTapped), font: .systemFont(ofSize: 17), textColor: .mainGreen, backgroundColor: .clear)
     
-    private let passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Senha"
-        textField.borderStyle = .none
-        textField.isSecureTextEntry = true
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 8
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.lightGray.cgColor
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: textField.frame.height))
-        textField.leftViewMode = .always
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
     
-    private let loginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Entrar", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .mainGreen
-        button.layer.cornerRadius = 8
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    // MARK: Login button
+    lazy var loginButton = Components.getButton(content: "Login", action: #selector(loginTapped), font: .systemFont(ofSize: 20), textColor: .white, backgroundColor: .mainGreen, size: 42)
     
-    private let forgotPasswordButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Esqueceu a senha?", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.setTitleColor(.mainGreen, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     
-    private let registerButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Cadastre-se", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.mainGreen, for: .normal)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 8
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.mainGreen.cgColor
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    // MARK: - Lifecycle
+    // MARK: Scene
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        setupConstraints()
-        setupActions()
-    }
-    
-    // MARK: - Setup Methods
-    private func setupUI() {
-        view.backgroundColor = .white
         
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
+        view.backgroundColor = .systemBackground
         
-        contentView.addSubview(logoImageView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(subtitleLabel)
-        contentView.addSubview(emailTextField)
-        contentView.addSubview(passwordTextField)
-        contentView.addSubview(forgotPasswordButton)
-        contentView.addSubview(loginButton)
-        contentView.addSubview(registerButton)
+        title = "Login"
         
-        // Hide navigation bar
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            // ScrollView constraints
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            // ContentView constraints
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            
-            // Logo constraints - movendo mais para cima
-            logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -320),
-            logoImageView.widthAnchor.constraint(equalToConstant: 100),
-            logoImageView.heightAnchor.constraint(equalToConstant: 100),
-            
-            // Title constraints
-            titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 30),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            
-            // Subtitle constraints
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            
-            // Email TextField constraints
-            emailTextField.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 40),
-            emailTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            emailTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            emailTextField.heightAnchor.constraint(equalToConstant: 50),
-            
-            // Password TextField constraints
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 16),
-            passwordTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 50),
-            
-            // Forgot Password Button constraints - alinhado à direita
-            forgotPasswordButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16),
-            forgotPasswordButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            
-            // Login Button constraints - mais espaçamento para baixo
-            loginButton.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 130),
-            loginButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            loginButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            loginButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            // Register Button constraints - mais espaçamento para baixo
-            registerButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 20),
-            registerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            registerButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            registerButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            // ContentView height constraint para centralizar
-            contentView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            registerButton.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -40)
+        let tapDismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapDismissKeyboard)
+        
+        setup()
+        
+        let mockUsers = AllUsers(users: [
+            User(email: "email@email.com", password: "1234", fullName: "Felipe Elsner", balance: 2000, averageStars: 4.7, position: "Gerente de Projeto"),
+            User(email: "email2@email.com", password: "1234", fullName: "Alex Fraga", balance: 1300, averageStars: 4.5, position: "Gerente de Projeto")
         ])
+        UserDefaults.standard.set(try? JSONEncoder().encode(mockUsers), forKey: "all_users")
+
+        registerForKeyboardNotifications(referenceView: passwordTextField)
+    }
+
+    deinit {
+        unregisterForKeyboardNotifications()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
     
-    private func setupActions() {
-        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
-        registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
-    }
     
-    // MARK: - Actions
-    @objc private func loginButtonTapped() {
-        guard let email = emailTextField.text, !email.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else {
-            showAlert(title: "Erro", message: "Por favor, preencha todos os campos.")
-            return
+    // MARK: Create account label + button
+    lazy var createAccountLabel = Components.getLabel(content: "Don't have an account?")
+    
+    lazy var createAccountButton = Components.getButton(content: "Register", action: #selector(createAccountTapped), textColor: .mainGreen, backgroundColor: .clear)
+    
+    lazy var createAccountStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [createAccountLabel, createAccountButton])
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    
+    // MARK: Error messages
+    lazy var emailErrorLabel = Components.getLabel(content: "Incorrect email", font: .systemFont(ofSize: 13), textColor: .systemRed, alignment: .left, hiden: true)
+    lazy var passwordErrorLabel = Components.getLabel(content: "Wrong password", font: .systemFont(ofSize: 13), textColor: .systemRed, alignment: .left, hiden: true)
+    
+    
+    // MARK: Button functions
+    @objc func loginTapped() {
+        if let user = Persistence.getUsers() {
+            hideErrors()
+            if let matchedUser = user.users.first(where: { $0.email == emailTextField.getText() && $0.password == passwordTextField.getText() }) {
+                Persistence.updateLoggedUser(with: matchedUser)
+                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(TabBarController())
+            } else {
+                showError(for: passwordErrorLabel)
+            }
+        } else {
+            showError(for: emailErrorLabel)
         }
-        
-        // Implement login logic here
-        print("Login attempt with email: \(email)")
     }
     
-    @objc private func forgotPasswordButtonTapped() {
-        // Implement forgot password logic here
+    @objc func createAccountTapped() {
+        print("Create Account")
+//        navigationController?.pushViewController(CreateAccountViewController(), animated: true)
+    }
+    
+    @objc func forgotPasswordTapped() {
         print("Forgot password tapped")
     }
     
-    @objc private func registerButtonTapped() {
-        // Implement register logic here
-        print("Register tapped")
+    // MARK: General functions
+    func showError(for label: UILabel) {
+        label.isHidden = false
+    }
+    
+    func hideErrors() {
+        emailErrorLabel.isHidden = true
+        passwordErrorLabel.isHidden = true
     }
 }
+
+// MARK: View Code Protocol
+extension LoginViewController: ViewCodeProtocol {
+    func addSubViews() {
+        view.addSubview(iconImageView)
+        view.addSubview(titleLabel)
+        view.addSubview(fieldsStackView)
+        view.addSubview(emailErrorLabel)
+        view.addSubview(passwordErrorLabel)
+        view.addSubview(forgotPasswordButton)
+        view.addSubview(loginButton)
+        view.addSubview(createAccountStackView)
+    }
+    
+    func setupConstraints() {
+        
+        NSLayoutConstraint.activate([
+            
+            // Icon
+            iconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            iconImageView.heightAnchor.constraint(equalToConstant: 154),
+            iconImageView.widthAnchor.constraint(equalToConstant: 154),
+            iconImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 68),
+            
+            // Title
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 33),
+            
+            // Fields stack
+            fieldsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            fieldsStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            fieldsStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 83),
+            
+            //Error messages
+            emailErrorLabel.leadingAnchor.constraint(equalTo: fieldsStackView.leadingAnchor),
+            emailErrorLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 4),
+            passwordErrorLabel.leadingAnchor.constraint(equalTo: fieldsStackView.leadingAnchor),
+            passwordErrorLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 4),
+            
+            // Forgot password button
+            forgotPasswordButton.trailingAnchor.constraint(equalTo: fieldsStackView.trailingAnchor),
+            forgotPasswordButton.topAnchor.constraint(equalTo: fieldsStackView.bottomAnchor),
+            
+            // Login button
+            loginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            loginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            loginButton.topAnchor.constraint(equalTo: fieldsStackView.bottomAnchor, constant: 71),
+            
+            // Create account
+            createAccountStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            createAccountStackView.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 32),
+        ])
+    }
+    
+    
+}
+
+
