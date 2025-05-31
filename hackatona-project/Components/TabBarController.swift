@@ -313,7 +313,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             
             device.unlockForConfiguration()
         } catch {
-            print("Erro ao configurar foco: \(error.localizedDescription)")
+            print("Error configuring focus: \(error.localizedDescription)")
         }
     }
     
@@ -326,7 +326,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             return
         }
 
-        print("📷 QR Code detectado: \(qrCode)")
+        print("📷 QR Code detected: \(qrCode)")
         captureSession?.stopRunning()
 
         // Verifica se é uma URL do nosso app
@@ -351,17 +351,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
                 self.selectedIndex = 4 // índice da tab de perfil
             } else if UIApplication.shared.canOpenURL(url) {
                 // Se for uma URL externa válida
-                let alert = UIAlertController(title: "QR Code detectado",
+                let alert = UIAlertController(title: "QR Code detected",
                                               message: qrCode,
                                               preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Abrir Link", style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: "Open Link", style: .default, handler: { _ in
                     UIApplication.shared.open(url)
                 }))
-                alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                 present(alert, animated: true)
             }
         } else {
-            let alert = UIAlertController(title: "QR Code detectado",
+            let alert = UIAlertController(title: "QR Code detected",
                                           message: qrCode,
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))

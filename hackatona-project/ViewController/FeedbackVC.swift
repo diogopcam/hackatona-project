@@ -417,7 +417,8 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
             if let resource = sectionedResources[letter]?[indexPath.row] {
                 cell.configure(
                     name: resource.name,
-                    role: resource.type
+                    role: resource.type,
+                    imageURL: resource.photo
                 )
             }
             

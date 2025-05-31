@@ -38,14 +38,6 @@ class RankingCell: UITableViewCell {
         return label
     }()
     
-    private lazy var pointsLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = .mainGreen
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -59,12 +51,23 @@ class RankingCell: UITableViewCell {
     }
     
     // MARK: - Configuration
-    func configure(name: String, points: Int, position: Int, imageURL: String? = nil) {
+    func configure(name: String, position: Int, imageURL: String? = nil) {
         nameLabel.text = name
-        pointsLabel.text = "\(points) pts"
         positionLabel.text = "#\(position)"
         
+        profileImageView.subviews.forEach { $0.removeFromSuperview() }
+        
         if let imageURLString = imageURL, let url = URL(string: imageURLString) {
+            let firstLetter = String(name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 20, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = profileImageView.bounds
+            profileImageView.image = nil
+            profileImageView.addSubview(label)
+            
             URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                 guard let self = self,
                       let data = data,
@@ -73,11 +76,11 @@ class RankingCell: UITableViewCell {
                 }
                 
                 DispatchQueue.main.async {
+                    self.profileImageView.subviews.forEach { $0.removeFromSuperview() }
                     self.profileImageView.image = image
                 }
             }.resume()
         } else {
-            // If no image URL, display first letter of name
             let firstLetter = String(name.prefix(1)).uppercased()
             let label = UILabel()
             label.text = firstLetter
@@ -98,7 +101,6 @@ extension RankingCell: ViewCodeProtocol {
         containerView.addSubview(profileImageView)
         containerView.addSubview(positionLabel)
         containerView.addSubview(nameLabel)
-        containerView.addSubview(pointsLabel)
     }
     
     func setupConstraints() {
@@ -118,9 +120,7 @@ extension RankingCell: ViewCodeProtocol {
             
             nameLabel.leadingAnchor.constraint(equalTo: positionLabel.trailingAnchor, constant: 12),
             nameLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            
-            pointsLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            pointsLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
         ])
     }
 } 
