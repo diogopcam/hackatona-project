@@ -16,6 +16,20 @@ class CreateFeedbackVC: UIViewController {
     var isRecording = false
     var currentAudioURL: URL? // Esta é a variável que armazena o URL temporário da gravação
     private var feedbackTextView: UITextView!
+    private let micButton: UIButton = {
+           let button = UIButton(type: .system)
+           let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
+           let micImage = UIImage(systemName: "mic.fill", withConfiguration: config)
+           button.setImage(micImage, for: .normal)
+           button.tintColor = .white
+           button.backgroundColor = .mainGreen
+           button.layer.cornerRadius = 85
+           button.clipsToBounds = true
+           button.translatesAutoresizingMaskIntoConstraints = false
+           return button
+       }()
+    
+    
     
     private var isAnonymous = false {
         didSet {
@@ -344,11 +358,13 @@ class CreateFeedbackVC: UIViewController {
         micButton.clipsToBounds = true
         micButton.translatesAutoresizingMaskIntoConstraints = false
         
-        micButton.addTarget(self, action: #selector(didTapMicButton), for: .touchUpInside)
-        
-        
-        itemView.addSubview(label)
-        itemView.addSubview(micButton)
+       
+        // Remove a declaração local do micButton e usa a propriedade da classe
+            micButton.addTarget(self, action: #selector(didTapMicButton), for: .touchUpInside)
+            
+            itemView.addSubview(label)
+            itemView.addSubview(micButton) // Agora usando a propriedade
+            
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 24),
@@ -366,13 +382,45 @@ class CreateFeedbackVC: UIViewController {
     }
     
     @objc private func didTapMicButton() {
-            if isRecording {
-                stopRecording()
-            } else {
-                startRecording()
+        if isRecording {
+            stopRecording()
+            UIView.animate(withDuration: 0.3) {
+                self.micButton.transform = .identity
+                self.micButton.backgroundColor = .mainGreen
             }
-            isRecording.toggle()
+        } else {
+            startRecording()
+            UIView.animate(withDuration: 0.3,
+                           delay: 0,
+                           usingSpringWithDamping: 0.5,
+                           initialSpringVelocity: 0.5,
+                           options: .curveEaseInOut,
+                           animations: {
+                self.micButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                self.micButton.backgroundColor = .systemRed
+            })
         }
+        isRecording.toggle()
+    }
+    
+    private func animateMicButton(scale: CGFloat) {
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       usingSpringWithDamping: 1.0,
+                       initialSpringVelocity: 1.0,
+                       options: .curveEaseInOut,
+                       animations: {
+            
+            self.micButton.transform = CGAffineTransform(scaleX: scale, y: scale)
+            
+            // Mudança de cor opcional para feedback visual adicional
+            if scale > 1.0 {
+                self.micButton.backgroundColor = .systemRed // Vermelho durante gravação
+            } else {
+                self.micButton.backgroundColor = .mainGreen // Verde quando não está gravando
+            }
+        })
+    }
 
         private func startRecording() {
             let audioSession = AVAudioSession.sharedInstance()
