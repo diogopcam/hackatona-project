@@ -178,12 +178,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     }
 }
 
-// Extensão para lidar com os resultados do image picker
 extension TabBarController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         
-        guard let image = info[.originalImage] as? UIImage else {
+        guard let _ = info[.originalImage] as? UIImage else {
             showAlert(title: "Error", message: "Failed to capture image")
             return
         }
