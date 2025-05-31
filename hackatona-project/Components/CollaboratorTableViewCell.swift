@@ -12,18 +12,18 @@ class CollaboratorTableViewCell: UITableViewCell {
 
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 25
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .systemGray5
+        imageView.backgroundColor = .mainGreen
         return imageView
     }()
 
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = .white
+        label.textColor = .mainGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -45,9 +45,50 @@ class CollaboratorTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(name: String, role: String) {
+    func configure(name: String, role: String, imageURL: String? = nil) {
         nameLabel.text = name
         roleLabel.text = role
+        
+        // Clean up any existing subviews
+        avatarImageView.subviews.forEach { $0.removeFromSuperview() }
+        
+        if let imageURLString = imageURL, let url = URL(string: imageURLString) {
+            // Show loading state with first letter while image loads
+            let firstLetter = String(name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 20, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = avatarImageView.bounds
+            avatarImageView.image = nil
+            avatarImageView.addSubview(label)
+            
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    // Clean up letter label when image loads
+                    self.avatarImageView.subviews.forEach { $0.removeFromSuperview() }
+                    self.avatarImageView.image = image
+                }
+            }.resume()
+        } else {
+            // If no image URL, display first letter of name
+            let firstLetter = String(name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 20, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = avatarImageView.bounds
+            avatarImageView.image = nil
+            avatarImageView.addSubview(label)
+        }
     }
 }
 
@@ -77,10 +118,6 @@ extension CollaboratorTableViewCell: ViewCodeProtocol {
             nameLabel.topAnchor.constraint(
                 equalTo: contentView.topAnchor,
                 constant: 20
-            ),
-            nameLabel.trailingAnchor.constraint(
-                equalTo: contentView.trailingAnchor,
-                constant: -16
             ),
 
             roleLabel.leadingAnchor.constraint(

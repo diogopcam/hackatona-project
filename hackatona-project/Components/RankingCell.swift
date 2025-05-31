@@ -6,7 +6,7 @@ class RankingCell: UITableViewCell {
     // MARK: - UI Components
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(white: 0.1, alpha: 0.8)
+        view.backgroundColor = .backgroundSecondary
         view.layer.cornerRadius = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -38,14 +38,6 @@ class RankingCell: UITableViewCell {
         return label
     }()
     
-    private lazy var pointsLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = .mainGreen
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -59,15 +51,45 @@ class RankingCell: UITableViewCell {
     }
     
     // MARK: - Configuration
-    func configure(name: String, points: Int, position: Int) {
+    func configure(name: String, position: Int, imageURL: String? = nil) {
         nameLabel.text = name
-        pointsLabel.text = "\(points) pts"
-        positionLabel.text = "\(position)"
+        positionLabel.text = "#\(position)"
         
-        if name == "You" {
-            containerView.backgroundColor = .mainGreen.withAlphaComponent(0.3)
+        profileImageView.subviews.forEach { $0.removeFromSuperview() }
+        
+        if let imageURLString = imageURL, let url = URL(string: imageURLString) {
+            let firstLetter = String(name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 20, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = profileImageView.bounds
+            profileImageView.image = nil
+            profileImageView.addSubview(label)
+            
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.profileImageView.subviews.forEach { $0.removeFromSuperview() }
+                    self.profileImageView.image = image
+                }
+            }.resume()
         } else {
-            containerView.backgroundColor = .backgroundSecondary
+            let firstLetter = String(name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 20, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = profileImageView.bounds
+            profileImageView.image = nil
+            profileImageView.addSubview(label)
         }
     }
 }
@@ -79,7 +101,6 @@ extension RankingCell: ViewCodeProtocol {
         containerView.addSubview(profileImageView)
         containerView.addSubview(positionLabel)
         containerView.addSubview(nameLabel)
-        containerView.addSubview(pointsLabel)
     }
     
     func setupConstraints() {
@@ -99,9 +120,7 @@ extension RankingCell: ViewCodeProtocol {
             
             nameLabel.leadingAnchor.constraint(equalTo: positionLabel.trailingAnchor, constant: 12),
             nameLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            
-            pointsLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            pointsLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
         ])
     }
 } 

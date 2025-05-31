@@ -17,7 +17,7 @@ class SegmentedControl: UIView {
 
     let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
-            "Employes", "Locals", "Events",
+            "Employees", "Places", "Events",
         ])
         control.selectedSegmentIndex = 0
 

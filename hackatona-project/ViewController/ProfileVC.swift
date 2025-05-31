@@ -116,8 +116,16 @@ extension ProfileViewController: UITableViewDataSource {
 extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-    }
 
+        let feedbacks = indexPath.section == 0 ? receivedFeedbacks : sendedFeedbacks
+
+        guard !feedbacks.isEmpty else { return }
+
+        let feedback = feedbacks[indexPath.row]
+        let detailVC = FeedbackDetailViewController(feedback: feedback)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let cornerRadius: CGFloat = 12
         let totalRows = tableView.numberOfRows(inSection: indexPath.section)
@@ -151,6 +159,8 @@ extension ProfileViewController: UITableViewDelegate {
 
         cell.contentView.layer.masksToBounds = true
     }
+    
+    
 }
 
 // MARK: - Actions
