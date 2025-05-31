@@ -20,6 +20,7 @@ class StoreViewController: UIViewController {
         return tableView
     }()
     
+    
     private let headerView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundPrimary

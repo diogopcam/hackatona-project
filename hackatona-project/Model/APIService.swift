@@ -6,63 +6,105 @@
 //
 
 import UIKit
+import Foundation
 
 enum NetworkError: Error {
     case invalidURL
     case requestFailed(statusCode: Int)
     case decodingError(Error)
     case encodingError(Error)
+    case networkError(Error)
+    
+    var localizedDescription: String {
+        switch self {
+        case .invalidURL:
+            return "URL inválida"
+        case .requestFailed(let statusCode):
+            return "Falha na requisição: Status \(statusCode)"
+        case .decodingError(let error):
+            return "Erro ao decodificar resposta: \(error.localizedDescription)"
+        case .encodingError(let error):
+            return "Erro ao codificar dados: \(error.localizedDescription)"
+        case .networkError(let error):
+            return "Erro de rede: \(error.localizedDescription)"
+        }
+    }
 }
 
 class APIService {
-    static let shared = APIService(baseURL: URL(string: "https://seu-backend.com/api/")!)
+    static let shared = APIService()
     private let baseURL: URL
     
     private let decoder: JSONDecoder = {
         let dec = JSONDecoder()
-        dec.dateDecodingStrategy = .iso8601
+        dec.keyDecodingStrategy = .useDefaultKeys
         return dec
     }()
     
     private let encoder: JSONEncoder = {
         let enc = JSONEncoder()
-        enc.dateEncodingStrategy = .iso8601
+        enc.keyEncodingStrategy = .useDefaultKeys
         return enc
     }()
-
-    private init(baseURL: URL) {
-        self.baseURL = baseURL
+    
+    private init() {
+        guard let url = URL(string: APIEndpoints.baseURL) else {
+            fatalError("Invalid base URL")
+        }
+        self.baseURL = url
     }
-
-    private func request<T: Decodable>(
+    
+    private func request<T: Codable>(
         _ path: String,
         httpMethod: String = "GET",
         body: Data? = nil
     ) async throws -> T {
-        guard let url = URL(string: path, relativeTo: baseURL) else {
+        let urlString = baseURL.absoluteString.trimmingCharacters(in: CharacterSet(charactersIn: "/")) + "/" + path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+        
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL: \(urlString)")
             throw NetworkError.invalidURL
         }
-
+        
+        print("Requesting URL: \(url.absoluteString)")
+        
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
         if let bodyData = body {
             request.httpBody = bodyData
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-        guard let http = response as? HTTPURLResponse, 200..<300 ~= http.statusCode else {
-            let code = (response as? HTTPURLResponse)?.statusCode ?? -1
-            throw NetworkError.requestFailed(statusCode: code)
-        }
-
+        
         do {
-            return try decoder.decode(T.self, from: data)
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            print("Response received: \(String(data: data, encoding: .utf8) ?? "No data")")
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw NetworkError.requestFailed(statusCode: -1)
+            }
+            
+            guard 200...299 ~= httpResponse.statusCode else {
+                print("HTTP Error: \(httpResponse.statusCode)")
+                throw NetworkError.requestFailed(statusCode: httpResponse.statusCode)
+            }
+            
+            do {
+                return try decoder.decode(T.self, from: data)
+            } catch {
+                print("Decoding error: \(error)")
+                throw NetworkError.decodingError(error)
+            }
         } catch {
-            throw NetworkError.decodingError(error)
+            if let networkError = error as? NetworkError {
+                throw networkError
+            }
+            throw NetworkError.networkError(error)
         }
     }
-
+    
     func fetchResources() async throws -> [Resource] {
         try await request("resources")
     }
@@ -95,5 +137,52 @@ class APIService {
     func fetchAllBenefits() async throws -> [Benefit] {
         let path = "benefits"
         return try await request(path, httpMethod: "GET")
+    }
+
+    // MARK: - Employee Endpoints
+    func getAllEmployees() async throws -> [Employee] {
+        let response: APIResponse<Employee> = try await request(APIEndpoints.Employees.getAll)
+        return response.data
+    }
+    
+    func getEmployeeRanking() async throws -> [Employee] {
+        let response: APIResponse<Employee> = try await request(APIEndpoints.Employees.ranking)
+        return response.data
+    }
+    
+    func getEmployeesByPosition(_ position: String) async throws -> [Employee] {
+        let response: APIResponse<Employee> = try await request(APIEndpoints.Employees.byPosition + position)
+        return response.data
+    }
+    
+    func createEmployee(_ employee: Employee) async throws -> Employee {
+        let path = APIEndpoints.Employees.getAll
+        let bodyData = try encoder.encode(employee)
+        let response: APIResponse<Employee> = try await request(path, httpMethod: "POST", body: bodyData)
+        return response.data[0]
+    }
+    
+    // MARK: - Feedback Endpoints
+    func getAllFeedbacks() async throws -> [Feedback] {
+        try await request(APIEndpoints.Feedbacks.getAll)
+    }
+    
+    func getFeedbacksByReceiver(id: String) async throws -> [Feedback] {
+        try await request(APIEndpoints.Feedbacks.byReceiver + id)
+    }
+    
+    // MARK: - Activity Endpoints
+    func getAllActivities() async throws -> [Activity] {
+        try await request(APIEndpoints.Activities.getAll)
+    }
+    
+    func getActivityByID(_ id: String) async throws -> Activity {
+        try await request(APIEndpoints.Activities.byID + id)
+    }
+    
+    func createActivity(_ activity: Activity) async throws -> Activity {
+        let path = APIEndpoints.Activities.getAll
+        let bodyData = try encoder.encode(activity)
+        return try await request(path, httpMethod: "POST", body: bodyData)
     }
 }

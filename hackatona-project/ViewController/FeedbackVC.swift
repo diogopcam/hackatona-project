@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class FeedbackViewController: UIViewController {
     private var activities: [Activity] = []
@@ -47,6 +48,18 @@ class FeedbackViewController: UIViewController {
         return table
     }()
     
+    private let employeeViewModel = EmployeeViewModel()
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .mainGreen
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,7 +73,7 @@ class FeedbackViewController: UIViewController {
         
         configureSearchController()
 
-        setupMockData()
+        setupObservers()
         
         filteredActivities = activities
         organizeSectionsForActivities()
@@ -78,6 +91,10 @@ class FeedbackViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        if segmentedControl.segmentedControl.selectedSegmentIndex == 0 {
+            employeeViewModel.fetchEmployees()
+        }
+        
         switch segmentedControl.segmentedControl.selectedSegmentIndex {
         case 0:
             filteredEmployees = employees
@@ -103,82 +120,47 @@ class FeedbackViewController: UIViewController {
         definesPresentationContext = true
     }
     
-    private func setupMockData() {
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd"
-        
-        employees = [
-            Employee(
-                email: "ana.silva@empresa.com",
-                password: "••••••",
-                name: "Ana Silva",
-                cargo: "Desenvolvedora iOS",
-                image: "ana_profile.jpg",
-                qrCode: "qrcode_ana.png"
-            ),
-            Employee(
-                email: "bruno.lima@empresa.com",
-                password: "••••••",
-                name: "Bruno Lima",
-                cargo: "Analista de Dados",
-                image: "bruno_profile.jpg",
-                qrCode: "qrcode_bruno.png"
-            ),
-            Employee(
-                email: "carla.rodrigues@empresa.com",
-                password: "••••••",
-                name: "Carla Rodrigues",
-                cargo: "Product Manager",
-                image: "carla_profile.jpg",
-                qrCode: "qrcode_carla.png"
-            )
-        ]
-        
-        resources = [
-            Resource(
-                type: "Livro",
-                name: "Design Patterns Essenciais",
-                averageRating: 4.7,
-                photo: "design_patterns_cover.jpg"
-            ),
-            Resource(
-                type: "Artigo",
-                name: "Guia do Combine",
-                averageRating: 4.3,
-                photo: "combine_article.png"
-            ),
-            Resource(
-                type: "Vídeo",
-                name: "Ray Wenderlich - SwiftUI",
-                averageRating: 4.9,
-                photo: "rw_swiftui.png"
-            )
-        ]
-        
-        activities = [
-            Activity(
-                name: "Treinamento SwiftUI",
-                type: "Workshop",
-                averageRating: 4.5,
-                date: df.date(from: "2025-06-05")!,
-                image: ""
-            ),
-            Activity(
-                name: "Palestra NestJS",
-                type: "Palestra",
-                averageRating: 4.8,
-                date: df.date(from: "2025-06-10")!,
-                image: ""
-            ),
-            Activity(
-                name: "Oficina de UX/UI",
-                type: "Oficina",
-                averageRating: 4.2,
-                date: df.date(from: "2025-06-12")!,
-                image: ""
-                
-            )
-        ]
+    private func setupObservers() {
+        employeeViewModel.$employees
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newEmployees in
+                self?.employees = newEmployees
+                self?.filteredEmployees = newEmployees
+                self?.organizeSectionsForEmployees()
+            }
+            .store(in: &cancellables)
+            
+        employeeViewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                if isLoading {
+                    self?.loadingIndicator.startAnimating()
+                    self?.tableView.alpha = 0.5
+                } else {
+                    self?.loadingIndicator.stopAnimating()
+                    self?.tableView.alpha = 1.0
+                }
+            }
+            .store(in: &cancellables)
+            
+        employeeViewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                if let errorMessage = error {
+                    self?.showError(message: errorMessage)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func showError(message: String) {
+        let alert = UIAlertController(
+            title: "Erro",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     private func organizeSectionsForActivities() {
@@ -265,6 +247,7 @@ extension FeedbackViewController: ViewCodeProtocol {
         
         view.addSubview(segmentedControl)
         view.addSubview(tableView)
+        view.addSubview(loadingIndicator)
     }
     
     func setupConstraints() {
@@ -295,7 +278,10 @@ extension FeedbackViewController: ViewCodeProtocol {
             ),
             tableView.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor
-            )
+            ),
+            
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 }
