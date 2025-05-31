@@ -94,10 +94,6 @@ class CreateFeedbackVC: UIViewController {
                                                name: UIResponder.keyboardWillHideNotification, object: nil)
         }
         
-        @objc private func dismissKeyboard() {
-            view.endEditing(true)
-        }
-        
         // MARK: - Keyboard Handling (Opcional mas útil)
         @objc private func keyboardWillShow(notification: NSNotification) {
             guard let userInfo = notification.userInfo,

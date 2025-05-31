@@ -8,7 +8,7 @@
 import Foundation
 
 struct Employee: Identifiable, Codable {
-    let id: String
+    let id: UUID
     let email: String
     let password: String
     let name: String
@@ -18,5 +18,15 @@ struct Employee: Identifiable, Codable {
     
     var firstLetter: String {
         return String(name.prefix(1)).uppercased()
+    }
+    
+    init(id: UUID = UUID(), email: String, password: String, name: String, cargo: String, image: String, qrCode: String) {
+        self.id = id
+        self.email = email
+        self.password = password
+        self.name = name
+        self.cargo = cargo
+        self.image = image
+        self.qrCode = qrCode
     }
 }
