@@ -58,6 +58,8 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Ranking"
+        navigationController?.navigationBar.prefersLargeTitles = true
         setup()
         configurePodium()
         view.backgroundColor = .backgroundPrimary
