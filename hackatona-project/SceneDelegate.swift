@@ -10,30 +10,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let window = UIWindow(windowScene: windowScene)
-
-//        Persistance.clearUsers()
-//        Persistance.saveUser(User(name: "Test User", email: "email", password: "password"))
         
+        window = UIWindow(windowScene: windowScene)
         
-        if let _ = Persistence.getLoggedUser() {
-            let tabBarController = TabBarController()
-            window.rootViewController = tabBarController
+        // Check if user is logged in
+        if let _ = UserDefaults.standard.data(forKey: "logged_user") {
+            // User is logged in, show main app
+            let tabBar = TabBarController()
+            window?.rootViewController = tabBar
         } else {
-            let navigationController = UINavigationController()
-            navigationController.viewControllers = [LoginViewController()]
-            window.rootViewController = navigationController
+            // No user logged in, show login
+            showLogin()
         }
-
-        self.window = window
         
-        window.makeKeyAndVisible()
+        window?.makeKeyAndVisible()
     }
     
     func changeRootViewController(_ vc: UIViewController, animated: Bool = true) {
@@ -51,6 +43,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         // pesquisar coordinator - animacoes
         window.rootViewController = vc
+    }
+
+    func showLogin() {
+        let loginVC = LoginViewController()
+        let nav = UINavigationController(rootViewController: loginVC)
+        window?.rootViewController = nav
+        
+        // Adiciona uma animação de transição
+        if let window = window {
+            UIView.transition(with: window,
+                            duration: 0.3,
+                            options: .transitionCrossDissolve,
+                            animations: nil,
+                            completion: nil)
+        }
     }
 
     // Os outros métodos podem permanecer como estão...

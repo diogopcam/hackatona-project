@@ -147,6 +147,23 @@ class ProfileHeader: UIView {
         roleLabel.text = user.position
         balanceLabel.text = "\(Int(user.balance)) pts"
         starsLabel.text = String(format: "%.1f", user.averageStars)
+        
+        // Load profile image
+        let imageURL = "https://media.licdn.com/dms/image/v2/D4D03AQElhds1rhpbeA/profile-displayphoto-shrink_800_800/B4DZPLJABeHcAc-/0/1734279956759?e=1753920000&v=beta&t=8TZZOOs-qIeJcxWX9o97pbi-IBQy8nU433xNku4tCss"
+        
+        if let url = URL(string: imageURL) {
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image
+                }
+            }.resume()
+        }
     }
 }
 
