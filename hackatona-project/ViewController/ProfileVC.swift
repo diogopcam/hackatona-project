@@ -11,6 +11,25 @@ class ProfileViewController: UIViewController {
     
     private lazy var headerView = ProfileHeader()
     
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            refreshGlobalState()
+        }
+        
+        private func refreshGlobalState() {
+            // Atualiza o header com os valores mais recentes
+            headerView.update()
+            
+            // Se precisar atualizar outros dados baseados no GlobalState:
+//            tableView.reloadData()
+        }
+    
+    func update() {
+        headerView.balanceLabel.text = "Saldo: \(GlobalData.balance)"
+        headerView.totalPointsLabel.text = "Total: \(GlobalData.totalPoints)"
+       // Adicione outras atualizações de UI necessárias
+    }
+
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -35,9 +54,19 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    
+    @objc private func updateHeader() {
+        headerView.update()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        refreshGlobalState()
+        
+        
         navigationController?.navigationBar.tintColor = .mainGreen
+        setupLogoutButton()
         setup()
         
         // Obter o arquivo de áudio mais recente gravado pelo usuário
@@ -110,11 +139,111 @@ class ProfileViewController: UIViewController {
         
         print("🎯 Primeiro feedback usa áudio: \(receivedFeedbacks.first?.midia ?? "nil")")
         print("=========================")
+      
+        self.receivedFeedbacks = [
+            Feedback(
+                stars: 5,
+                description: "Excelente liderança no projeto da Hackatona! Sua dedicação em manter a equipe focada foi fundamental.",
+                senderID: "felipe_id",
+                receiverID: "current_user",
+                midia: nil,
+                senderName: "Eduardo Camana",
+                senderPosition: "QA Analyst",
+                senderPhoto: "https://media.licdn.com/dms/image/v2/D4D03AQHcwDN2s22pAA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1700490727729?e=1753920000&v=beta&t=spO6ekf4ssq4rVJ2NPlgjgVpsuOFEQBUDlm4eaBjv_s"
+            ),
+            Feedback(
+                stars: 4,
+                description: "Ótimo trabalho na implementação das features de UI/UX. O app ficou muito intuitivo!",
+                senderID: "diogo_id",
+                receiverID: "current_user",
+                midia: "feedback_audio.m4a",
+                senderName: "Diogo Camargo",
+                senderPosition: "iOS Developer",
+                senderPhoto: "https://media.licdn.com/dms/image/D4D03AQEn3kHJyUl97A/profile-displayphoto-shrink_800_800/0/1693339774298?e=1709769600&v=beta&t=v9I5RO2Sb3qJYxBPXHEHhZPqBxZAqvZOTVJHmFkBVvY"
+            ),
+            Feedback(
+                stars: 5,
+                description: "Sua contribuição na arquitetura do projeto foi essencial. Clean code e boas práticas sempre!",
+                senderID: "eduardo_id",
+                receiverID: "current_user",
+                midia: nil,
+                senderName: "Eduardo Camana",
+                senderPosition: "Software Engineer",
+                senderPhoto: "https://media.licdn.com/dms/image/v2/D4D03AQHcwDN2s22pAA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1700490727729?e=1753920000&v=beta&t=spO6ekf4ssq4rVJ2NPlgjgVpsuOFEQBUDlm4eaBjv_s"
+            )
+        ]
+        
+        self.sendedFeedbacks = [
+            Feedback(
+                stars: 5,
+                description: "Incrível como você conseguiu organizar toda a estrutura do projeto! Seu conhecimento técnico é inspirador.",
+                senderID: "current_user",
+                receiverID: "felipe_id",
+                midia: "audio_feedback.m4a",
+                receiverName: "Felipe Elsner",
+                receiverPosition: "Tech Lead",
+                receiverPhoto: "https://media.licdn.com/dms/image/D4D03AQGjPnWPzJr6Yw/profile-displayphoto-shrink_800_800/0/1696428504560?e=1709769600&v=beta&t=Yx_0RZNkHUVvdXUrwgJvTI5VVXc6Yl8FQjYKpuPF7Hs"
+            ),
+            Feedback(
+                stars: 5,
+                description: "Excelente trabalho na implementação do QR Code e câmera. Features complexas entregues com qualidade!",
+                senderID: "current_user",
+                receiverID: "diogo_id",
+                midia: nil,
+                receiverName: "Diogo Camargo",
+                receiverPosition: "iOS Developer",
+                receiverPhoto: "https://media.licdn.com/dms/image/D4D03AQEn3kHJyUl97A/profile-displayphoto-shrink_800_800/0/1693339774298?e=1709769600&v=beta&t=v9I5RO2Sb3qJYxBPXHEHhZPqBxZAqvZOTVJHmFkBVvY"
+            ),
+            Feedback(
+                stars: 5,
+                description: "Sua visão de arquitetura e padrões de projeto elevou muito a qualidade do código!",
+                senderID: "current_user",
+                receiverID: "eduardo_id",
+                midia: nil,
+                receiverName: "Eduardo Camana",
+                receiverPosition: "Software Engineer",
+                receiverPhoto: "https://media.licdn.com/dms/image/v2/D4D03AQHcwDN2s22pAA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1700490727729?e=1753920000&v=beta&t=spO6ekf4ssq4rVJ2NPlgjgVpsuOFEQBUDlm4eaBjv_s"
+            )
+        ]
+    }
+
+    private func setupLogoutButton() {
+        let logoutButton = UIBarButtonItem(
+            image: UIImage(systemName: "rectangle.portrait.and.arrow.right"),
+            style: .plain,
+            target: self,
+            action: #selector(logoutTapped)
+            
+        )
+        navigationItem.rightBarButtonItem = logoutButton
+    }
+    
+    
+    @objc private func logoutTapped() {
+        let alert = UIAlertController(
+            title: "Sair",
+            message: "Tem certeza que deseja sair?",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        
+        alert.addAction(UIAlertAction(title: "Sair", style: .destructive) { [weak self] _ in
+            // Remove user data
+            UserDefaults.standard.removeObject(forKey: "logged_user")
+            UserDefaults.standard.synchronize()
+            
+            // Present login screen
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                sceneDelegate.showLogin()
+            }
+        })
+        
+        present(alert, animated: true)
     }
 }
 
 // MARK: - UITableViewDataSource
-
 extension ProfileViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -150,7 +279,6 @@ extension ProfileViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = indexPath.section
-
         let feedbacks = section == 0 ? receivedFeedbacks : sendedFeedbacks
 
         if feedbacks.isEmpty {
@@ -162,14 +290,14 @@ extension ProfileViewController: UITableViewDataSource {
 
         let feedback = feedbacks[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedbackCell", for: indexPath) as! FeedbackTableViewCell
-        let name = "Usuário Exemplo" // TODO: Substituir pelo nome real se disponível
+        
+        // Use the sender/receiver name from the feedback
+        let name = section == 0 ? feedback.senderName ?? "Anônimo" : feedback.receiverName ?? "Anônimo"
         cell.config(feedback, name: name)
         cell.backgroundColor = .clear
         return cell
     }
 }
-
-// MARK: - UITableViewDelegate
 
 extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -221,8 +349,6 @@ extension ProfileViewController: UITableViewDelegate {
     
 }
 
-// MARK: - Actions
-
 extension ProfileViewController {
     @objc func seeAllReceived() {
         let vc = ReceivedFeedbacksVC()
@@ -234,8 +360,6 @@ extension ProfileViewController {
                        navigationController?.pushViewController(vc, animated: true)
     }
 }
-
-// MARK: - ViewCode
 
 extension ProfileViewController: ViewCodeProtocol {
     func addSubViews() {
