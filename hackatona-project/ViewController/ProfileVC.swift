@@ -14,16 +14,17 @@ class ProfileViewController: UIViewController {
     
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "person.fill")!)
-        imageView.tintColor = .white
+        imageView.tintColor = .black
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.backgroundColor = .black
         return imageView
     }()
     
     lazy var starImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "star.fill")!)
-        imageView.tintColor = .white
+        imageView.tintColor = .black
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -33,7 +34,7 @@ class ProfileViewController: UIViewController {
     lazy var starsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = .black
         label.font = .systemFont(ofSize: 13)
         label.textAlignment = .center
         label.text = "4.7"
@@ -62,25 +63,22 @@ class ProfileViewController: UIViewController {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 22)
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.text = "Usuario"
+        label.text = "Full Name"
         return label
     }()
     
     lazy var roleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = .gray
         label.font = .systemFont(ofSize: 13)
         label.textAlignment = .left
         label.numberOfLines = 0
-        
-        let email = "Cargo"
-        label.text = maskEmail(email)
-        
+        label.text = "Role"
         return label
     }()
     
@@ -93,15 +91,46 @@ class ProfileViewController: UIViewController {
         return stackView
     }()
     
+    lazy var balanceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 17)
+        label.textAlignment = .right
+        label.text = "Saldo: 100 pts"
+        return label
+    }()
+    
+    lazy var totalPointsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 17)
+        label.textAlignment = .right
+        label.text = "Total: 1.670 pts"
+        return label
+    }()
+    
+    lazy var pointsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [balanceLabel, totalPointsLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 4
+        stackView.alignment = .trailing
+        return stackView
+    }()
+    
     lazy var profileInformationStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
-            imageStackView, userInfoStackView,
+            imageStackView, userInfoStackView, pointsStackView
         ])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 16
-        stackView.backgroundColor = .systemGray
+        stackView.backgroundColor = .systemGray6
         stackView.layer.cornerRadius = 13
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         return stackView
     }()
     
@@ -148,32 +177,23 @@ extension ProfileViewController: ViewCodeProtocol {
     }
     
     func setupConstraints() {
-        
         NSLayoutConstraint.activate([
-            
-            
-            userInfoStackView.heightAnchor.constraint(equalToConstant: 58),
-            userInfoStackView.topAnchor.constraint(equalTo: imageStackView.topAnchor, constant: 8),
-            userInfoStackView.bottomAnchor.constraint(equalTo: imageStackView.bottomAnchor, constant: -8),
             profileInformationStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             profileInformationStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             profileInformationStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            profileInformationStackView.heightAnchor.constraint(equalToConstant: 102),
             
-            imageStackView.topAnchor.constraint(equalTo: profileInformationStackView.topAnchor, constant: 16),
-            imageStackView.bottomAnchor.constraint(equalTo: profileInformationStackView.bottomAnchor, constant: -16),
-            imageStackView.leadingAnchor.constraint(equalTo: profileInformationStackView.leadingAnchor, constant: 16),
+            imageStackView.heightAnchor.constraint(equalToConstant: 70),
             
             profileImageView.heightAnchor.constraint(equalToConstant: 52),
             profileImageView.widthAnchor.constraint(equalToConstant: 52),
-           
+            
+            userInfoStackView.heightAnchor.constraint(equalToConstant: 58),
         ])
-        
 
         profileImageView.layer.cornerRadius = 26
         profileImageView.layer.masksToBounds = true
         
-        
+        view.backgroundColor = .white
     }
     
     
