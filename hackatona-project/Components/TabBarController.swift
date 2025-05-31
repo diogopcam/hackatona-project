@@ -254,7 +254,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
         if #available(iOS 15.0, *) {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = .white
+            appearance.backgroundColor = .systemGray6
             
             appearance.stackedLayoutAppearance.selected.iconColor = .systemBlue
             appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.systemBlue]

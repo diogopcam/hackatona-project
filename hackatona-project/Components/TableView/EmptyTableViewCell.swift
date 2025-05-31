@@ -14,14 +14,14 @@ class EmptyTableViewCell: UITableViewCell {
     // MARK: Title label
     lazy var titleLabel = Components.getLabel(
         content: "",
-        font: Fonts.bodySemibold
+        font: .systemFont(ofSize: 17, weight: .bold)
     )
 
     // MARK: Description label
     lazy var descriptionLabel = Components.getLabel(
         content: "",
-        font: Fonts.body,
-        textColor: .labelsSecondary,
+        font: .systemFont(ofSize: 17),
+        textColor: .white,
         alignment: .center
     )
 
@@ -34,7 +34,7 @@ class EmptyTableViewCell: UITableViewCell {
         stack.spacing = 8
         stack.distribution = .fill
         stack.alignment = .center
-        stack.backgroundColor = .fillsTertiary
+        stack.backgroundColor = .systemGray6
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = UIEdgeInsets(
             top: 10,
@@ -47,36 +47,17 @@ class EmptyTableViewCell: UITableViewCell {
 
     // MARK: Config
     func config(_ mode: Int) {
-        var auxTitle = ""
-        var auxDescription = ""
-
         switch mode {
         case 0:
-            auxTitle = "refeições registradas"
-            auxDescription = "uma refeição no botão acima"
+            titleLabel.text = "Sem feedbacks recebidos"
+            descriptionLabel.text = "Ainda não enviaram feedbacks para você"
         case 1:
-            auxTitle = "sintomas registrados"
-            auxDescription = "um sintoma no botão acima"
-        case 2:
-            auxTitle = "alimentos em alerta"
-            auxDescription = "refeições e sintomas"
-        case 3:
-            auxTitle = "refeições registradas"
-            auxDescription = "uma refeição em Registros"
-        case 4:
-            auxTitle = "sintomas registrados"
-            auxDescription = "um sintoma em Registros"
-        case 5:
-            auxTitle = "alimentos em alerta"
-            auxDescription = "refeições e sintomas"
+            titleLabel.text = "Sem feedbacks enviados"
+            descriptionLabel.text = "Envie um feedback para alguém"
         default:
-            auxTitle = ""
-            auxDescription = ""
+            titleLabel.text = ""
+            descriptionLabel.text = ""
         }
-
-        titleLabel.text = "Sem \(auxTitle)"
-        descriptionLabel.text =
-            "Adicione \(auxDescription) para visualizar os dados"
     }
 
     // MARK: Init
@@ -96,7 +77,7 @@ class EmptyTableViewCell: UITableViewCell {
 
 // MARK: View Code Protocol
 extension EmptyTableViewCell: ViewCodeProtocol {
-    func addSubviews() {
+    func addSubViews() {
         contentView.addSubview(stack)
     }
 
