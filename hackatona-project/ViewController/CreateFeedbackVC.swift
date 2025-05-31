@@ -97,39 +97,10 @@ class CreateFeedbackVC: UIViewController {
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification, object: nil)
         }
-        
+//        
 //        @objc private func dismissKeyboard() {
 //            view.endEditing(true)
 //        }
-    
-    private func listarAudiosGravados() {
-        let fileManager = FileManager.default
-        let documentsURL = getDocumentsDirectory()
-
-        do {
-            
-            let arquivos = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
-            let audios = arquivos.filter { $0.pathExtension == "m4a" }
-
-            print("📂 Áudios gravados encontrados:")
-            for (index, audio) in audios.enumerated() {
-                print("\(index + 1). \(audio.lastPathComponent)")
-            }
-
-            if audios.isEmpty {
-                print("⚠️ Nenhum áudio gravado encontrado.")
-            }
-        } catch {
-            print("❌ Erro ao listar áudios: \(error)")
-        }
-    }
-    
-    func generateUniqueFileName() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd_HHmmss"
-        let dateString = formatter.string(from: Date())
-        return "audio_\(dateString).m4a"
-    }
         
         // MARK: - Keyboard Handling (Opcional mas útil)
         @objc private func keyboardWillShow(notification: NSNotification) {
@@ -319,7 +290,7 @@ class CreateFeedbackVC: UIViewController {
                 AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
             ]
             
-            let audioFilename = getDocumentsDirectory().appendingPathComponent(generateUniqueFileName())
+//            let audioFilename = getDocumentsDirectory().appendingPathComponent(generateUniqueFileName())
 //            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
 //            audioRecorder?.delegate = self  // Adicione isso se quiser tratar eventos
             audioRecorder?.record()
@@ -343,7 +314,7 @@ class CreateFeedbackVC: UIViewController {
         isRecording = false
         
         showAlert(message: "Áudio gravado com sucesso!")
-        listarAudiosGravados() // <-- Aqui
+//        listarAudiosGravados() // <-- Aqui
     }
     
     @objc private func micButtonTapped() {

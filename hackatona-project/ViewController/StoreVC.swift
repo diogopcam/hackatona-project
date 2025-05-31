@@ -5,6 +5,7 @@
 //  Created by Diogo Camargo on 31/05/25.
 //
 
+
 import UIKit
 
 class StoreViewController: UIViewController {
@@ -20,28 +21,17 @@ class StoreViewController: UIViewController {
         return tableView
     }()
     
-    
     private let headerView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundPrimary
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Loja"
-        label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
+
     private let pointsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Seus pontos: 1,250"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.text = "Seus pontos: 1,670"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .white
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -61,40 +51,7 @@ class StoreViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        setupConstraints()
-    }
-    
-    private func setupView() {
-        view.backgroundColor = .backgroundPrimary
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        view.addSubview(headerView)
-        headerView.addSubview(titleLabel)
-        headerView.addSubview(pointsLabel)
-        view.addSubview(tableView)
-    }
-    
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 140),
-            
-            titleLabel.bottomAnchor.constraint(equalTo: pointsLabel.topAnchor, constant: -8),
-            titleLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
-
-            pointsLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -20),
-            pointsLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 20),
-            pointsLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
-            
-            tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+        setup()
     }
     
     private func getCategoryForBenefit(_ benefit: Benefit) -> String {
@@ -125,6 +82,35 @@ class StoreViewController: UIViewController {
         default:
             return "gift"
         }
+    }
+}
+
+extension StoreViewController: ViewCodeProtocol {
+    func addSubViews() {
+        title = "Loja"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = .backgroundPrimary
+        
+        view.addSubview(headerView)
+        headerView.addSubview(pointsLabel)
+        view.addSubview(tableView)
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+//            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+//            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            headerView.heightAnchor.constraint(equalToConstant: 120),
+//
+            pointsLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            pointsLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            
+            tableView.topAnchor.constraint(equalTo: pointsLabel.bottomAnchor, constant: 24),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }
 

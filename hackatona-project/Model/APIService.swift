@@ -150,39 +150,109 @@ class APIService {
         return response.data
     }
     
+    func getEmployeeByID(_ id: String) async throws -> Employee {
+        let response: APIResponse<Employee> = try await request(APIEndpoints.Employees.byID + id)
+        return response.data[0]
+    }
+    
     func getEmployeesByPosition(_ position: String) async throws -> [Employee] {
         let response: APIResponse<Employee> = try await request(APIEndpoints.Employees.byPosition + position)
         return response.data
     }
     
     func createEmployee(_ employee: Employee) async throws -> Employee {
-        let path = APIEndpoints.Employees.getAll
+        let path = APIEndpoints.Employees.create
         let bodyData = try encoder.encode(employee)
         let response: APIResponse<Employee> = try await request(path, httpMethod: "POST", body: bodyData)
         return response.data[0]
     }
     
-    // MARK: - Feedback Endpoints
-    func getAllFeedbacks() async throws -> [Feedback] {
-        try await request(APIEndpoints.Feedbacks.getAll)
+    func updateEmployee(_ id: String, employee: Employee) async throws -> Employee {
+        let path = APIEndpoints.Employees.update + id
+        let bodyData = try encoder.encode(employee)
+        let response: APIResponse<Employee> = try await request(path, httpMethod: "PUT", body: bodyData)
+        return response.data[0]
     }
     
-    func getFeedbacksByReceiver(id: String) async throws -> [Feedback] {
-        try await request(APIEndpoints.Feedbacks.byReceiver + id)
+    func deleteEmployee(_ id: String) async throws {
+        _ = try await request(APIEndpoints.Employees.delete + id, httpMethod: "DELETE") as EmptyResponse
+    }
+    
+    // MARK: - Feedback Endpoints
+    func getAllFeedbacks() async throws -> [Feedback] {
+        let response: APIResponse<Feedback> = try await request(APIEndpoints.Feedbacks.getAll)
+        return response.data
+    }
+    
+    func getFeedbackByID(_ id: String) async throws -> Feedback {
+        let response: APIResponse<Feedback> = try await request(APIEndpoints.Feedbacks.byID + id)
+        return response.data[0]
+    }
+
+    
+    func getFeedbacksByReceiver(_ id: String) async throws -> [Feedback] {
+        let response: APIResponse<Feedback> = try await request(APIEndpoints.Feedbacks.byReceiver + id)
+        return response.data
+    }
+    
+    func getFeedbacksBySender(_ id: String) async throws -> [Feedback] {
+        let response: APIResponse<Feedback> = try await request(APIEndpoints.Feedbacks.bySender + id)
+        return response.data
+    }
+    
+    func getEmployeeStats(_ id: String) async throws -> EmployeeStats {
+        let response: APIResponse<EmployeeStats> = try await request(APIEndpoints.Feedbacks.stats + id)
+        return response.data[0]
+    }
+    
+    // MARK: - Resource Endpoints
+    func getAllResources() async throws -> [Resource] {
+        let response: APIResponse<Resource> = try await request(APIEndpoints.Resources.getAll)
+        return response.data
+    }
+    
+    func getResourceByID(_ id: String) async throws -> Resource {
+        let response: APIResponse<Resource> = try await request(APIEndpoints.Resources.byID + id)
+        return response.data[0]
+    }
+    
+    func createResource(_ resource: Resource) async throws -> Resource {
+        let path = APIEndpoints.Resources.create
+        let bodyData = try encoder.encode(resource)
+        let response: APIResponse<Resource> = try await request(path, httpMethod: "POST", body: bodyData)
+        return response.data[0]
+    }
+    
+    func updateResource(_ id: String, resource: Resource) async throws -> Resource {
+        let path = APIEndpoints.Resources.update + id
+        let bodyData = try encoder.encode(resource)
+        let response: APIResponse<Resource> = try await request(path, httpMethod: "PUT", body: bodyData)
+        return response.data[0]
+    }
+    
+    func getResourcesByType(_ type: String) async throws -> [Resource] {
+        let response: APIResponse<Resource> = try await request(APIEndpoints.Resources.byType + type)
+        return response.data
     }
     
     // MARK: - Activity Endpoints
     func getAllActivities() async throws -> [Activity] {
-        try await request(APIEndpoints.Activities.getAll)
+        let response: APIResponse<Activity> = try await request(APIEndpoints.Activities.getAll)
+        return response.data
     }
     
     func getActivityByID(_ id: String) async throws -> Activity {
-        try await request(APIEndpoints.Activities.byID + id)
+        let response: APIResponse<Activity> = try await request(APIEndpoints.Activities.byID + id)
+        return response.data[0]
     }
     
     func createActivity(_ activity: Activity) async throws -> Activity {
-        let path = APIEndpoints.Activities.getAll
+        let path = APIEndpoints.Activities.create
         let bodyData = try encoder.encode(activity)
-        return try await request(path, httpMethod: "POST", body: bodyData)
+        let response: APIResponse<Activity> = try await request(path, httpMethod: "POST", body: bodyData)
+        return response.data[0]
     }
+    
+    // Helper struct for empty responses
+    private struct EmptyResponse: Codable {}
 }

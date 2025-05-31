@@ -49,6 +49,8 @@ class FeedbackViewController: UIViewController {
     }()
     
     private let employeeViewModel = EmployeeViewModel()
+    private let resourceViewModel = ResourceViewModel()
+    private let activityViewModel = ActivityViewModel()
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -91,20 +93,13 @@ class FeedbackViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if segmentedControl.segmentedControl.selectedSegmentIndex == 0 {
-            employeeViewModel.fetchEmployees()
-        }
-        
         switch segmentedControl.segmentedControl.selectedSegmentIndex {
         case 0:
-            filteredEmployees = employees
-            organizeSectionsForEmployees()
+            employeeViewModel.fetchEmployees()
         case 1:
-            filteredResources = resources
-            organizeSectionsForResources()
+            resourceViewModel.fetchResources()
         case 2:
-            filteredActivities = activities
-            organizeSectionsForActivities()
+            activityViewModel.fetchActivities()
         default:
             break
         }
@@ -121,6 +116,7 @@ class FeedbackViewController: UIViewController {
     }
     
     private func setupObservers() {
+        // Employee observers
         employeeViewModel.$employees
             .receive(on: DispatchQueue.main)
             .sink { [weak self] newEmployees in
@@ -133,13 +129,7 @@ class FeedbackViewController: UIViewController {
         employeeViewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
-                if isLoading {
-                    self?.loadingIndicator.startAnimating()
-                    self?.tableView.alpha = 0.5
-                } else {
-                    self?.loadingIndicator.stopAnimating()
-                    self?.tableView.alpha = 1.0
-                }
+                self?.updateLoadingState(isLoading)
             }
             .store(in: &cancellables)
             
@@ -151,6 +141,68 @@ class FeedbackViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
+            
+        // Resource observers
+        resourceViewModel.$resources
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newResources in
+                self?.resources = newResources
+                self?.filteredResources = newResources
+                self?.organizeSectionsForResources()
+            }
+            .store(in: &cancellables)
+            
+        resourceViewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.updateLoadingState(isLoading)
+            }
+            .store(in: &cancellables)
+            
+        resourceViewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                if let errorMessage = error {
+                    self?.showError(message: errorMessage)
+                }
+            }
+            .store(in: &cancellables)
+            
+        // Activity observers
+        activityViewModel.$activities
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newActivities in
+                self?.activities = newActivities
+                self?.filteredActivities = newActivities
+                self?.organizeSectionsForActivities()
+            }
+            .store(in: &cancellables)
+            
+        activityViewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.updateLoadingState(isLoading)
+            }
+            .store(in: &cancellables)
+            
+        activityViewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                if let errorMessage = error {
+                    self?.showError(message: errorMessage)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func updateLoadingState(_ isLoading: Bool) {
+        if isLoading {
+            loadingIndicator.startAnimating()
+            tableView.alpha = 0.5
+        } else {
+            loadingIndicator.stopAnimating()
+            tableView.alpha = 1.0
+        }
     }
     
     private func showError(message: String) {
@@ -353,33 +405,32 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
             if let employee = sectionedEmployees[letter]?[indexPath.row] {
                 cell.configure(
                     name: employee.name,
-                    role: employee.cargo
-                    )
+                    role: employee.position,
+                    imageURL: employee.midia
+                )
             }
             
         case 1:
             let letter = sectionsResources[indexPath.section]
             if let resource = sectionedResources[letter]?[indexPath.row] {
-                let _ = "\(resource.type) • \(String(format: "%.1f", resource.averageRating))"
                 cell.configure(
                     name: resource.name,
                     role: resource.type
-                    )
+                )
             }
             
         case 2:
             let letter = sectionsActivities[indexPath.section]
             if let activity = sectionedActivities[letter]?[indexPath.row] {
-                let df = DateFormatter()
-                df.dateStyle = .short
-                df.timeStyle = .none
-                let dateString = df.string(from: activity.date)
-                let _ = "\(activity.type) • \(String(format: "%.1f", activity.averageRating)) • \(dateString)"
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .short
+                let dateString = dateFormatter.string(from: activity.createdAt)
                 cell.configure(
                     name: activity.name,
-                    role: activity.type
-                    )
+                    role: "\(activity.type) • \(dateString)"
+                )
             }
+            
         default:
             break
         }
@@ -432,14 +483,14 @@ extension FeedbackViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         switch segmentedControl.segmentedControl.selectedSegmentIndex {
         case 0:
-            filteredActivities = activities
-            organizeSectionsForActivities()
+            filteredEmployees = employees
+            organizeSectionsForEmployees()
         case 1:
             filteredResources = resources
             organizeSectionsForResources()
         case 2:
-            filteredEmployees = employees
-            organizeSectionsForEmployees()
+            filteredActivities = activities
+            organizeSectionsForActivities()
         default:
             break
         }
@@ -475,7 +526,7 @@ extension FeedbackViewController: UISearchResultsUpdating {
                 employee.name.lowercased().contains(text) ||
                 employee.cargo.lowercased().contains(text)
             }
-            organizeSectionsForActivities()
+            organizeSectionsForEmployees()
             
         case 1:
             filteredResources = resources.filter { resource in
@@ -489,7 +540,7 @@ extension FeedbackViewController: UISearchResultsUpdating {
                 activity.name.lowercased().contains(text) ||
                 activity.type.lowercased().contains(text)
             }
-            organizeSectionsForEmployees()
+            organizeSectionsForActivities()
             
         default:
             break
@@ -501,14 +552,11 @@ extension FeedbackViewController: NativeSegmentedDelegate {
     func didChangeSelection(to index: Int) {
         switch index {
         case 0:
-            filteredEmployees = employees
-            organizeSectionsForEmployees()
+            employeeViewModel.fetchEmployees()
         case 1:
-            filteredResources = resources
-            organizeSectionsForResources()
+            resourceViewModel.fetchResources()
         case 2:
-            filteredActivities = activities
-            organizeSectionsForActivities()
+            activityViewModel.fetchActivities()
         default:
             break
         }

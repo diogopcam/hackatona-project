@@ -8,21 +8,23 @@
 import Foundation
 
 struct Resource: Identifiable, Codable {
-    let id: UUID
-    let type: String
+    let id: String
     let name: String
+    let type: String
     let averageRating: Double
-    let photo: String
+    let photo: String?
+    let description: String?
+    let location: String?
+    let capacity: Int?
     
     var firstLetter: String {
         return String(name.prefix(1)).uppercased()
     }
     
-    init(id: UUID = UUID(), type: String, name: String, averageRating: Double, photo: String) {
-        self.id = id
-        self.type = type
-        self.name = name
-        self.averageRating = averageRating
-        self.photo = photo
+    enum CodingKeys: String, CodingKey {
+        case id, name, type
+        case averageRating = "average"
+        case photo = "midia"
+        case description, location, capacity
     }
 }

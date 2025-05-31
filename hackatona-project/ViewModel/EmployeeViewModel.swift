@@ -16,17 +16,6 @@ class EmployeeViewModel: ObservableObject {
             error = nil
             do {
                 employees = try await apiService.getAllEmployees()
-                print("=== Employees Data Received ===")
-                print("Total employees: \(employees.count)")
-                employees.forEach { employee in
-                    print("""
-                        ID: \(employee.id)
-                        Name: \(employee.name)
-                        Email: \(employee.email)
-                        Position: \(employee.cargo)
-                        ----------------------
-                        """)
-                }
             } catch {
                 self.error = error.localizedDescription
                 print("Error fetching employees: \(error)")
@@ -44,10 +33,11 @@ class EmployeeViewModel: ObservableObject {
             
             do {
                 employees = try await apiService.getEmployeeRanking()
-                employees.enumerated().forEach { index, employee in
-                }
+                // Sort employees by average rating in descending order
+                employees.sort { $0.average > $1.average }
             } catch {
                 self.error = error.localizedDescription
+                print("Error fetching employee ranking: \(error)")
             }
             
             isLoading = false
@@ -63,14 +53,6 @@ class EmployeeViewModel: ObservableObject {
             do {
                 let newEmployee = try await apiService.createEmployee(employee)
                 employees.append(newEmployee)
-                print("=== New Employee Created ===")
-                print("""
-                    ID: \(newEmployee.id)
-                    Name: \(newEmployee.name)
-                    Email: \(newEmployee.email)
-                    Position: \(newEmployee.cargo)
-                    ----------------------
-                    """)
             } catch {
                 self.error = error.localizedDescription
                 print("Error creating employee: \(error)")
@@ -88,16 +70,6 @@ class EmployeeViewModel: ObservableObject {
             
             do {
                 employees = try await apiService.getEmployeesByPosition(position)
-                print("=== Employees by Position: \(position) ===")
-                print("Total employees found: \(employees.count)")
-                employees.forEach { employee in
-                    print("""
-                        Name: \(employee.name)
-                        Email: \(employee.email)
-                        Position: \(employee.cargo)
-                        ----------------------
-                        """)
-                }
             } catch {
                 self.error = error.localizedDescription
                 print("Error fetching employees by position: \(error)")
