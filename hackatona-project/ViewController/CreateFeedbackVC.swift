@@ -98,6 +98,8 @@ class CreateFeedbackVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var audioRecorder: AVAudioRecorder?
+    var isRecording = false
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -153,7 +155,7 @@ class CreateFeedbackVC: UIViewController {
     
     private let submitButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Enviar", for: .normal)
+        button.setTitle("Submit", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.backgroundColor = .mainGreen
         button.setTitleColor(.white, for: .normal)
@@ -164,7 +166,6 @@ class CreateFeedbackVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = .white
         view.backgroundColor = .systemBackground
         
         
@@ -176,14 +177,125 @@ class CreateFeedbackVC: UIViewController {
         setupUI()
         setupConstraints()
         setupKeyboardDismissal()
-        // Exemplo de conteúdo
-                if let employee = employee {
-                    print("Criando feedback para colaborador: \(employee.name)")
-                } else if let resource = resource {
-                    print("Criando feedback para recurso: \(resource.name)")
-                } else if let activity = activity {
-                    print("Criando feedback para atividade: \(activity.name)")
+        
+        if let employee = employee {
+            configureForEmployee(employee)
+        } else if let resource = resource {
+            configureForResource(resource)
+        } else if let activity = activity {
+            configureForActivity(activity)
+        }
+    }
+    
+    private func configureForEmployee(_ employee: Employee) {
+        descriptionLabel.text = employee.name
+        infoLabel.text = employee.position
+        
+        // Clean up any existing subviews
+        imageView.subviews.forEach { $0.removeFromSuperview() }
+        
+        if let imageURLString = employee.midia, let url = URL(string: imageURLString) {
+            // Show loading state with first letter while image loads
+            let firstLetter = String(employee.name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 40, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = imageView.bounds
+            imageView.image = nil
+            imageView.addSubview(label)
+            
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    return
                 }
+                
+                DispatchQueue.main.async {
+                    // Clean up letter label when image loads
+                    self.imageView.subviews.forEach { $0.removeFromSuperview() }
+                    self.imageView.image = image
+                }
+            }.resume()
+        } else {
+            // If no image URL, display first letter of name
+            let firstLetter = String(employee.name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 40, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = imageView.bounds
+            imageView.image = nil
+            imageView.addSubview(label)
+        }
+    }
+    
+    private func configureForResource(_ resource: Resource) {
+        descriptionLabel.text = resource.name
+        infoLabel.text = resource.type
+        
+        // Clean up any existing subviews
+        imageView.subviews.forEach { $0.removeFromSuperview() }
+        
+        if let imageURLString = resource.photo, let url = URL(string: imageURLString) {
+            // Show loading state with first letter while image loads
+            let firstLetter = String(resource.name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 40, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = imageView.bounds
+            imageView.image = nil
+            imageView.addSubview(label)
+            
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    // Clean up letter label when image loads
+                    self.imageView.subviews.forEach { $0.removeFromSuperview() }
+                    self.imageView.image = image
+                }
+            }.resume()
+        } else {
+            // If no image URL, display first letter of name
+            let firstLetter = String(resource.name.prefix(1)).uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = .systemFont(ofSize: 40, weight: .bold)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.frame = imageView.bounds
+            imageView.image = nil
+            imageView.addSubview(label)
+        }
+    }
+    
+    private func configureForActivity(_ activity: Activity) {
+        descriptionLabel.text = activity.name
+        infoLabel.text = activity.type
+        
+        // Clean up any existing subviews
+        imageView.subviews.forEach { $0.removeFromSuperview() }
+        
+        // For activities, we'll just show the first letter since they don't have images
+        let firstLetter = String(activity.name.prefix(1)).uppercased()
+        let label = UILabel()
+        label.text = firstLetter
+        label.font = .systemFont(ofSize: 40, weight: .bold)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.frame = imageView.bounds
+        imageView.image = nil
+        imageView.addSubview(label)
     }
     
     // MARK: - Keyboard Dismissal Setup
@@ -249,9 +361,8 @@ class CreateFeedbackVC: UIViewController {
         carouselScrollView.addSubview(carouselStackView)
         view.addSubview(submitButton)
         
-        // Adiciona os itens ao carrossel
-        feedbackTextView = addTextItem(title: "Deixe um feedback escrito")
-        addAudioItem(title: "Grave um feedback de voz")
+        addTextItem(title: "Write a feedback")
+        addAudioItem(title: "Record a voice feedback")
         
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
     }
@@ -351,6 +462,7 @@ class CreateFeedbackVC: UIViewController {
         let micButton = UIButton(type: .system)
         let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
         let micImage = UIImage(systemName: "mic.fill", withConfiguration: config)
+        micButton.addTarget(self, action: #selector(micButtonTapped), for: .touchUpInside)
         micButton.setImage(micImage, for: .normal)
         micButton.tintColor = .white
         micButton.backgroundColor = .mainGreen
@@ -492,6 +604,56 @@ class CreateFeedbackVC: UIViewController {
             completion?()
         })
         present(alert, animated: true)
+    }
+    
+    private func startRecording() {
+        let audioSession = AVAudioSession.sharedInstance()
+        
+        do {
+            // Configura a sessão de áudio uma única vez
+            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
+            try audioSession.setActive(true)
+            
+            let settings: [String: Any] = [
+                AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                AVSampleRateKey: 44100,
+                AVNumberOfChannelsKey: 1,
+                AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+            ]
+            
+//            let audioFilename = getDocumentsDirectory().appendingPathComponent(generateUniqueFileName())
+//            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+//            audioRecorder?.delegate = self  // Adicione isso se quiser tratar eventos
+            audioRecorder?.record()
+            isRecording = true
+            
+            showAlert(message: "Gravando áudio...")
+            
+        } catch {
+            showAlert(message: "Erro ao iniciar a gravação: \(error.localizedDescription)")
+            isRecording = false
+        }
+    }
+    
+    private func getDocumentsDirectory() -> URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    }
+
+    private func stopRecording() {
+        audioRecorder?.stop()
+        audioRecorder = nil
+        isRecording = false
+        
+        showAlert(message: "Áudio gravado com sucesso!")
+//        listarAudiosGravados() // <-- Aqui
+    }
+    
+    @objc private func micButtonTapped() {
+        if isRecording {
+            stopRecording()
+        } else {
+            startRecording()
+        }
     }
 }
 

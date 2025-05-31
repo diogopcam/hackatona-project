@@ -26,6 +26,7 @@ class ProfileHeader: UIView {
         imageView.tintColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .systemYellow
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -33,22 +34,23 @@ class ProfileHeader: UIView {
     lazy var starsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = .systemYellow
         label.font = .systemFont(ofSize: 13)
         label.textAlignment = .center
         label.text = "4.7"
         return label
     }()
     
-    lazy var starStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [starImageView, starsLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        return stackView
-    }()
     
     lazy var imageStackView: UIStackView = {
+        // Localize a definição da starStackView aqui para reduzir o escopo e facilitar ajustes de espaçamento
+        let starStackView: UIStackView = {
+            let stackView = UIStackView(arrangedSubviews: [starImageView, starsLabel])
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            stackView.axis = .horizontal
+            stackView.spacing = 2
+            return stackView
+        }()
         let stackView = UIStackView(arrangedSubviews: [profileImageView, starStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -89,7 +91,7 @@ class ProfileHeader: UIView {
     lazy var balanceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = .mainGreen
         label.font = .systemFont(ofSize: 17)
         label.text = "Saldo: \(GlobalData.balance)"
         return label
@@ -105,7 +107,7 @@ class ProfileHeader: UIView {
     }()
     
     lazy var pointsStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [balanceLabel, totalPointsLabel])
+        let stackView = UIStackView(arrangedSubviews: [balanceLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 4
@@ -138,6 +140,7 @@ class ProfileHeader: UIView {
     init() {
         super.init(frame: .zero)
         setup()
+        loadUserData()
     }
 
     required init?(coder: NSCoder) {
@@ -147,6 +150,16 @@ class ProfileHeader: UIView {
     func update() {
         balanceLabel.text = "Saldo: \(GlobalData.balance)"
         totalPointsLabel.text = "Total: \(GlobalData.totalPoints)"
+    }
+
+    private func loadUserData() {
+        guard let data = UserDefaults.standard.data(forKey: "logged_user"),
+              let user = try? JSONDecoder().decode(User.self, from: data) else { return }
+        
+        nameLabel.text = user.fullName
+        roleLabel.text = user.position
+        balanceLabel.text = "\(Int(user.balance)) pts"
+        starsLabel.text = String(format: "%.1f", user.averageStars)
     }
 }
 

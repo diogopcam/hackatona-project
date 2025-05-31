@@ -17,13 +17,14 @@ class SegmentedControl: UIView {
 
     let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
-            "Employes", "Locals", "Events",
+            "Employees", "Places", "Events",
         ])
         control.selectedSegmentIndex = 0
 
+
         control.backgroundColor =
             UIColor(named: "background-secondary") ?? .systemGray6
-        control.selectedSegmentTintColor = .segmentedControlSelected
+        control.selectedSegmentTintColor = .mainGreen
 
         let normalAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor(named: "label-primary") ?? .black,

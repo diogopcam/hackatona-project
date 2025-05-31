@@ -20,30 +20,36 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     private var backButton: UIButton!
     
     private func setupBackButton() {
-            backButton = UIButton(type: .system)
-            backButton.setTitle("Voltar", for: .normal)
-            backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            backButton.tintColor = .white
-            backButton.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-            backButton.layer.cornerRadius = 8
-            backButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-            backButton.addTarget(self, action: #selector(closeCamera), for: .touchUpInside)
-            
-        // Configuração importante para constraints
-               backButton.translatesAutoresizingMaskIntoConstraints = false
-               view.addSubview(backButton)
-               
-               // Ativar constraints
-               NSLayoutConstraint.activate([
-                   backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-                   backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-                   backButton.heightAnchor.constraint(equalToConstant: 44),
-                   backButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 80)
-               ])
-               
-               // Garantir que o botão fique na frente
-               view.bringSubviewToFront(backButton)
-        }
+        backButton = UIButton(type: .system)
+        backButton.setTitle("Fechar", for: .normal)
+        backButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        backButton.tintColor = .white
+        backButton.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        backButton.layer.cornerRadius = 20 // Botão mais redondo
+        backButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        backButton.addTarget(self, action: #selector(closeCamera), for: .touchUpInside)
+        
+        // Adiciona padding interno
+        backButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backButton)
+        
+        // Atualiza as constraints para posicionar no topo direito
+        NSLayoutConstraint.activate([
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            backButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        // Adiciona sombra para melhor visibilidade
+        backButton.layer.shadowColor = UIColor.black.cgColor
+        backButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        backButton.layer.shadowRadius = 4
+        backButton.layer.shadowOpacity = 0.3
+        
+        view.bringSubviewToFront(backButton)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,60 +107,96 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     
     // MARK: - UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if viewController == viewControllers?[2] { // Índice do item da câmera
+        // Se tentar selecionar a tab da câmera
+        if viewController == viewControllers?[2] {
             openCamera()
             return false
         }
+        
+        // Se a câmera estiver aberta, fecha antes de trocar de tab
+        if captureSession != nil {
+            closeCamera()
+        }
+        
         return true
     }
     
     private func openCamera() {
-        // Configura a sessão de captura
+        // Previne múltiplas aberturas
+        guard captureSession == nil else { return }
+        
+        // Salva o estado atual da tabBar
+        let wasTabBarHidden = tabBar.isHidden
+        
+        // Cria uma nova view para a câmera
+        let cameraView = UIView(frame: view.bounds)
+        cameraView.tag = 999 // Tag para identificar a view da câmera
+        cameraView.backgroundColor = .black
+        view.addSubview(cameraView)
+        
+        // Esconde a tabBar durante o uso da câmera
+        tabBar.isHidden = true
+        
+        // Configura a nova sessão
         captureSession = AVCaptureSession()
         
-        setupBackButton()
-
-        // Obtem a câmera traseira
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else {
             showAlert(title: "Erro", message: "Câmera não disponível")
+            cleanupCameraView()
+            tabBar.isHidden = wasTabBarHidden
             return
         }
 
         guard let videoInput = try? AVCaptureDeviceInput(device: videoCaptureDevice),
               (captureSession?.canAddInput(videoInput) ?? false) else {
             showAlert(title: "Erro", message: "Não foi possível acessar a câmera")
+            cleanupCameraView()
+            tabBar.isHidden = wasTabBarHidden
             return
         }
 
         captureSession?.addInput(videoInput)
 
-        // Configura a saída para ler QR Codes
         let metadataOutput = AVCaptureMetadataOutput()
         if captureSession?.canAddOutput(metadataOutput) ?? false {
             captureSession?.addOutput(metadataOutput)
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             metadataOutput.metadataObjectTypes = [.qr]
         } else {
-            showAlert(title: "Erro", message: "Não foi possível adicionar saída de metadados")
+            showAlert(title: "Erro", message: "Não foi possível configurar a leitura de QR Code")
+            cleanupCameraView()
+            tabBar.isHidden = wasTabBarHidden
             return
         }
 
-        // Adiciona a visualização da câmera na tela
+        // Configura a visualização da câmera
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-        videoPreviewLayer?.videoGravity = .resize
-        videoPreviewLayer?.frame = view.layer.bounds
+        videoPreviewLayer?.videoGravity = .resizeAspectFill
+        videoPreviewLayer?.frame = cameraView.bounds
+        
         if let preview = videoPreviewLayer {
-            view.layer.addSublayer(preview)
+            cameraView.layer.addSublayer(preview)
         }
         
-        // Adiciona o gesto de swipe
-        // Adiciona o gesto de pan (arrastar)
+        // Adiciona os controles de UI
+        setupBackButton()
+        
+        // Adiciona o gesto de pan
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
-//        panGestureRecognizer.delegate = self
-        view.addGestureRecognizer(panGestureRecognizer)
+        cameraView.addGestureRecognizer(panGestureRecognizer!)
+        
+        // Adiciona um tap gesture para focar a câmera
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapToFocus(_:)))
+        cameraView.addGestureRecognizer(tapGesture)
 
-        // Inicia a captura
-        captureSession?.startRunning()
+        // Inicia a captura em background
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.captureSession?.startRunning()
+        }
+    }
+    
+    private func cleanupCameraView() {
+        view.viewWithTag(999)?.removeFromSuperview()
     }
     
     @objc private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
@@ -201,18 +243,79 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     }
     
     @objc private func closeCamera() {
-         captureSession?.stopRunning()
-         videoPreviewLayer?.removeFromSuperlayer()
-         backButton.removeFromSuperview()
+        // Desabilita interações durante o fechamento
+        view.isUserInteractionEnabled = false
         
-        // Remove o gesto
-            if panGestureRecognizer != nil {
-                view.removeGestureRecognizer(panGestureRecognizer)
+        // Para a sessão em background
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            
+            self.captureSession?.stopRunning()
+            
+            DispatchQueue.main.async {
+                // Remove gestos primeiro
+                if let panGesture = self.panGestureRecognizer {
+                    self.view.removeGestureRecognizer(panGesture)
+                    self.panGestureRecognizer = nil
+                }
+                
+                // Remove o botão
+                self.backButton?.removeFromSuperview()
+                self.backButton = nil
+                
+                // Remove a view da câmera e limpa a layer de preview
+                self.cleanupCameraView()
+                self.videoPreviewLayer = nil
+                
+                // Limpa a sessão
+                self.captureSession = nil
+                
+                // Reseta a transformação da view
+                self.view.transform = .identity
+                
+                // Mostra a tabBar novamente
+                self.tabBar.isHidden = false
+                
+                // Força a atualização da UI
+                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
+                
+                // Reabilita interações
+                self.view.isUserInteractionEnabled = true
+            }
+        }
+    }
+    
+    @objc private func handleTapToFocus(_ gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: view)
+        guard let previewLayer = videoPreviewLayer else { return }
+        
+        let devicePoint = previewLayer.captureDevicePointConverted(fromLayerPoint: location)
+        
+        focus(at: devicePoint)
+    }
+    
+    private func focus(at devicePoint: CGPoint) {
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        
+        do {
+            try device.lockForConfiguration()
+            
+            if device.isFocusPointOfInterestSupported {
+                device.focusPointOfInterest = devicePoint
+                device.focusMode = .autoFocus
             }
             
-            // Reseta a transformação
-            view.transform = .identity
-     }
+            if device.isExposurePointOfInterestSupported {
+                device.exposurePointOfInterest = devicePoint
+                device.exposureMode = .autoExpose
+            }
+            
+            device.unlockForConfiguration()
+        } catch {
+            print("Error configuring focus: \(error.localizedDescription)")
+        }
+    }
     
     func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
@@ -223,29 +326,45 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             return
         }
 
-        print("📷 QR Code detectado: \(qrCode)")
-
+        print("📷 QR Code detected: \(qrCode)")
         captureSession?.stopRunning()
 
-        if let url = URL(string: qrCode), UIApplication.shared.canOpenURL(url) {
-            let alert = UIAlertController(title: "QR Code detectado",
-                                          message: qrCode,
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Abrir Link", style: .default, handler: { _ in
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                self.captureSession!.startRunning()
-            }))
-            alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: { _ in
-                self.captureSession!.startRunning()
-            }))
-            present(alert, animated: true)
+        // Verifica se é uma URL do nosso app
+        if let url = URL(string: qrCode) {
+            let urlString = url.absoluteString.lowercased()
+            
+            // Fecha a câmera primeiro
+            closeCamera()
+            
+            // Navega para a tela apropriada baseado na URL
+            if urlString.contains("feedback") {
+                // Navega para a tela de feedback
+                self.selectedIndex = 0 // índice da tab de feedback
+            } else if urlString.contains("store") {
+                // Navega para a loja
+                self.selectedIndex = 1 // índice da tab de loja
+            } else if urlString.contains("ranking") {
+                // Navega para o ranking
+                self.selectedIndex = 3 // índice da tab de ranking
+            } else if urlString.contains("profile") {
+                // Navega para o perfil
+                self.selectedIndex = 4 // índice da tab de perfil
+            } else if UIApplication.shared.canOpenURL(url) {
+                // Se for uma URL externa válida
+                let alert = UIAlertController(title: "QR Code detected",
+                                              message: qrCode,
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Open Link", style: .default, handler: { _ in
+                    UIApplication.shared.open(url)
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                present(alert, animated: true)
+            }
         } else {
-            let alert = UIAlertController(title: "QR Code detectado",
+            let alert = UIAlertController(title: "QR Code detected",
                                           message: qrCode,
                                           preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                self.captureSession!.startRunning()
-            }))
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
         }
     }

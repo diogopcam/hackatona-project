@@ -289,9 +289,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7BUDD8LAH7;
+				DEVELOPMENT_TEAM = 3MJ7SRC9Q2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "hackatona-project/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Precisamos acessar a câmera para escanear QR Codes";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Precisamos de acesso ao microfone para gravar seu feedback de voz.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -316,9 +318,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7BUDD8LAH7;
+				DEVELOPMENT_TEAM = 982JJP92PQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "hackatona-project/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Precisamos acessar a câmera para escanear QR Codes";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Precisamos de acesso ao microfone para gravar seu feedback de voz.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

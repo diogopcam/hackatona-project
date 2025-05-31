@@ -13,6 +13,7 @@ class AlphabeticalHeaderView: UITableViewHeaderFooterView {
     private let letterLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textColor = .mainGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
