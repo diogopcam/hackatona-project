@@ -101,7 +101,7 @@ class CreateFeedbackVC: UIViewController {
     var audioRecorder: AVAudioRecorder?
     var isRecording = false
     
-    private let imageView: UIImageView = {
+    let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "profile_placeholder")
         imageView.contentMode = .scaleAspectFill
@@ -191,20 +191,26 @@ class CreateFeedbackVC: UIViewController {
         descriptionLabel.text = employee.name
         infoLabel.text = employee.position
         
+        // Special case for Hackatona
+        if employee.name == "Hackatona" {
+            if let hackImage = UIImage(named: "hack") {
+                imageView.image = hackImage
+                imageView.contentMode = .scaleAspectFit
+                imageView.backgroundColor = .clear
+            } else {
+                print("⚠️ Warning: 'hack' image not found in asset catalog")
+                // Fallback to default behavior
+                showFirstLetterPlaceholder(for: employee.name)
+            }
+            return
+        }
+        
         // Clean up any existing subviews
         imageView.subviews.forEach { $0.removeFromSuperview() }
         
         if let imageURLString = employee.midia, let url = URL(string: imageURLString) {
             // Show loading state with first letter while image loads
-            let firstLetter = String(employee.name.prefix(1)).uppercased()
-            let label = UILabel()
-            label.text = firstLetter
-            label.font = .systemFont(ofSize: 40, weight: .bold)
-            label.textColor = .white
-            label.textAlignment = .center
-            label.frame = imageView.bounds
-            imageView.image = nil
-            imageView.addSubview(label)
+            showFirstLetterPlaceholder(for: employee.name)
             
             URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                 guard let self = self,
@@ -221,16 +227,20 @@ class CreateFeedbackVC: UIViewController {
             }.resume()
         } else {
             // If no image URL, display first letter of name
-            let firstLetter = String(employee.name.prefix(1)).uppercased()
-            let label = UILabel()
-            label.text = firstLetter
-            label.font = .systemFont(ofSize: 40, weight: .bold)
-            label.textColor = .white
-            label.textAlignment = .center
-            label.frame = imageView.bounds
-            imageView.image = nil
-            imageView.addSubview(label)
+            showFirstLetterPlaceholder(for: employee.name)
         }
+    }
+    
+    private func showFirstLetterPlaceholder(for name: String) {
+        let firstLetter = String(name.prefix(1)).uppercased()
+        let label = UILabel()
+        label.text = firstLetter
+        label.font = .systemFont(ofSize: 40, weight: .bold)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.frame = imageView.bounds
+        imageView.image = nil
+        imageView.addSubview(label)
     }
     
     private func configureForResource(_ resource: Resource) {
