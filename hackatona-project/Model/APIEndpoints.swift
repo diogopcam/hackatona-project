@@ -1,7 +1,7 @@
 import Foundation
 
 enum APIEndpoints {
-    static let baseURL = "https://b617-2804-18-196e-1a59-9a-d7ae-b9c-6e62.ngrok-free.app/api/v1"
+    static let baseURL = "https://a653-2804-18-196e-1a59-9a-d7ae-b9c-6e62.ngrok-free.app/api/v1"
     
     enum Employees {
         static let getAll = "/employees"
