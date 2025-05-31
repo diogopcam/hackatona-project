@@ -24,6 +24,10 @@
     <key>NSCameraUsageDescription</key>
     <string>Precisamos acessar a câmera para escanear QR Codes</string>
     
+    <!-- Permissão para usar o microfone -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Precisamos acessar o microfone para gravar feedback de áudio</string>
+    
     <key>LSApplicationQueriesSchemes</key>
     <array>
         <string>http</string>

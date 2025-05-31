@@ -3,6 +3,8 @@ import AVFoundation
 
 class FeedbackDetailViewController: UIViewController {
     var feedback: Feedback?
+    var audioPlayer: AVAudioPlayer?
+    var isPlaying = false
     
     init(feedback: Feedback) {
         self.feedback = feedback
@@ -129,6 +131,9 @@ class FeedbackDetailViewController: UIViewController {
     private func setupAudioView() {
         containerView.addSubview(audioButton)
         
+        // Adicionar target para o botão de áudio
+        audioButton.addTarget(self, action: #selector(audioButtonTapped), for: .touchUpInside)
+        
         NSLayoutConstraint.activate([
             audioButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             audioButton.topAnchor.constraint(equalTo: starRating.bottomAnchor, constant: 40),
@@ -172,5 +177,70 @@ class FeedbackDetailViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    // MARK: - Audio Player Functions
+    @objc private func audioButtonTapped() {
+        guard let feedback = feedback, let audioFileName = feedback.midia else {
+            showAlert(message: "Nenhum arquivo de áudio disponível")
+            return
+        }
+        
+        if isPlaying {
+            stopAudio()
+        } else {
+            playAudio(fileName: audioFileName)
+        }
+    }
+    
+    private func playAudio(fileName: String) {
+        // Verificar se o arquivo existe usando o AudioFileManager
+        guard let audioURL = AudioFileManager.shared.getAudioFileURL(fileName: fileName) else {
+            showAlert(message: "Arquivo de áudio não encontrado: \(fileName)")
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
+            audioPlayer?.delegate = self
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+            
+            isPlaying = true
+            updateAudioButton()
+            
+        } catch {
+            showAlert(message: "Erro ao reproduzir áudio: \(error.localizedDescription)")
+        }
+    }
+    
+    private func stopAudio() {
+        audioPlayer?.stop()
+        audioPlayer = nil
+        isPlaying = false
+        updateAudioButton()
+    }
+    
+    private func updateAudioButton() {
+        let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
+        let imageName = isPlaying ? "stop.fill" : "play.fill"
+        let image = UIImage(systemName: imageName, withConfiguration: config)
+        audioButton.setImage(image, for: .normal)
+    }
+}
+
+// MARK: - AVAudioPlayerDelegate
+extension FeedbackDetailViewController: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        isPlaying = false
+        updateAudioButton()
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        isPlaying = false
+        updateAudioButton()
+        if let error = error {
+            showAlert(message: "Erro na decodificação do áudio: \(error.localizedDescription)")
+        }
     }
 }
