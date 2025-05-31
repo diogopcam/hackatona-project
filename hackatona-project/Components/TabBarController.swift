@@ -65,8 +65,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
         let storeNav = UINavigationController(rootViewController: storeVC)
         storeNav.tabBarItem = UITabBarItem(
             title: "Loja",
-            image: UIImage(systemName: "bag"),
-            selectedImage: UIImage(systemName: "bag.fill")
+            image: UIImage(systemName: "storefront"),
+            selectedImage: UIImage(systemName: "storefront.fill")
         )
         
         // Não precisamos de um view controller real para a câmera
@@ -80,8 +80,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
         let rankingNav = UINavigationController(rootViewController: rankingVC)
         rankingNav.tabBarItem = UITabBarItem(
             title: "Ranking",
-            image: UIImage(systemName: "chart.bar"),
-            selectedImage: UIImage(systemName: "chart.bar.fill")
+            image: UIImage(systemName: "medal"),
+            selectedImage: UIImage(systemName: "medal.fill")
         )
         
         let profileVC = ProfileViewController()
