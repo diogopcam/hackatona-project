@@ -9,6 +9,7 @@
 import UIKit
 
 class StarRatingView: UIStackView {
+    var isEditable: Bool = true
     
     private var stars: [UIButton] = []
     var rating: Int = 0 {
@@ -47,6 +48,7 @@ class StarRatingView: UIStackView {
     }
     
     @objc private func starTapped(_ sender: UIButton) {
+        guard isEditable else { return }
         rating = sender.tag
     }
     
@@ -61,5 +63,10 @@ class StarRatingView: UIStackView {
                 button.tintColor = .gray
             }
         }
+    }
+    
+    // Adicione este método para permitir configurar a avaliação externamente
+    func setRating(_ rating: Int) {
+        self.rating = rating
     }
 }

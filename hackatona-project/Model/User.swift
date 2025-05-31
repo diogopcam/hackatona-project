@@ -24,3 +24,7 @@ struct User: Codable {
         self.totalBalance = totalBalance
     }
 }
+
+struct AllUsers: Codable {
+    var users: [User]
+}

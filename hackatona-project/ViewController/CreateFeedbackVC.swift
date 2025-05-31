@@ -9,6 +9,30 @@ import UIKit
 import AVFoundation
 
 class CreateFeedbackVC: UIViewController {
+    var employee: Employee?
+    var resource: Resource?
+    var activity: Activity?
+    
+    init(employee: Employee) {
+        self.employee = employee
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    init(resource: Resource) {
+        self.resource = resource
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    init(activity: Activity) {
+        self.activity = activity
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     
     var audioRecorder: AVAudioRecorder?
     var isRecording = false
@@ -27,7 +51,7 @@ class CreateFeedbackVC: UIViewController {
         let label = UILabel()
         label.text = "Nome"
         label.font = UIFont.boldSystemFont(ofSize: 32)
-        label.textColor = .black
+        label.textColor = .primitiveWhite
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -37,7 +61,7 @@ class CreateFeedbackVC: UIViewController {
         let label = UILabel()
         label.text = "Cargo"
         label.font = UIFont.systemFont(ofSize: 20, weight: .light)
-        label.textColor = .black
+        label.textColor = .primitiveWhite
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -78,10 +102,19 @@ class CreateFeedbackVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+//        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         setupUI()
         setupConstraints()
         setupKeyboardDismissal()
+        // Exemplo de conteúdo
+                if let employee = employee {
+                    print("Criando feedback para colaborador: \(employee.name)")
+                } else if let resource = resource {
+                    print("Criando feedback para recurso: \(resource.name)")
+                } else if let activity = activity {
+                    print("Criando feedback para atividade: \(activity.name)")
+                }
     }
     
     // MARK: - Keyboard Dismissal Setup
@@ -153,7 +186,7 @@ class CreateFeedbackVC: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -30),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.widthAnchor.constraint(equalToConstant: 130),
             imageView.heightAnchor.constraint(equalToConstant: 130),
@@ -190,7 +223,7 @@ class CreateFeedbackVC: UIViewController {
     private func addTextItem(title: String) {
         let itemView = UIView()
         itemView.translatesAutoresizingMaskIntoConstraints = false
-        itemView.backgroundColor = .white
+        itemView.backgroundColor = .systemBackground
         itemView.layer.cornerRadius = 12
         
         let label = UILabel()
@@ -204,18 +237,18 @@ class CreateFeedbackVC: UIViewController {
         textView.layer.borderColor = UIColor.gray.cgColor
         textView.layer.cornerRadius = 8
         textView.font = UIFont.systemFont(ofSize: 24)
-        textView.textColor = .black // Cor da fonte (pode usar qualquer cor)
-        textView.backgroundColor = .white
+        textView.textColor = .primitiveWhite // Cor da fonte (pode usar qualquer cor)
+        textView.backgroundColor = .systemBackground
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         itemView.addSubview(label)
         itemView.addSubview(textView)
         
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 12),
+            label.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 24),
             label.centerXAnchor.constraint(equalTo: itemView.centerXAnchor),
             
-            textView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 0),
+            textView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 12),
             textView.leadingAnchor.constraint(equalTo: itemView.leadingAnchor, constant: 16),
             textView.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -16),
             textView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor, constant: -24)
@@ -228,7 +261,7 @@ class CreateFeedbackVC: UIViewController {
     private func addAudioItem(title: String) {
         let itemView = UIView()
         itemView.translatesAutoresizingMaskIntoConstraints = false
-        itemView.backgroundColor = .white
+        itemView.backgroundColor = .systemBackground
         itemView.layer.cornerRadius = 12
         
         let label = UILabel()
@@ -255,8 +288,9 @@ class CreateFeedbackVC: UIViewController {
             label.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 24),
             label.centerXAnchor.constraint(equalTo: itemView.centerXAnchor),
             
+            micButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 24),
             micButton.centerXAnchor.constraint(equalTo: itemView.centerXAnchor),
-            micButton.centerYAnchor.constraint(equalTo: itemView.centerYAnchor),
+//            micButton.centerYAnchor.constraint(equalTo: itemView.centerYAnchor),
             micButton.widthAnchor.constraint(equalToConstant: 170),
             micButton.heightAnchor.constraint(equalToConstant: 170)
         ])

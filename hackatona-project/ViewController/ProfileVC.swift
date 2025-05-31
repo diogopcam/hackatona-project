@@ -96,7 +96,22 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.tintColor = .mainGreen
         setup()
+        
+        
+        // Atribua os arrays às propriedades da classe
+        self.receivedFeedbacks = [
+            Feedback(stars: 5, description: "Mandou muito bem na liderança do grupo!", senderID: "234", receiverID: "123", midia: nil),
+            Feedback(stars: 4, description: "Boa comunicação, continuaria trabalhando com você.", senderID: "345", receiverID: "123", midia: "feedback1.m4a"),
+            Feedback(stars: 3, description: "Cumpriu as tarefas, mas poderia ter participado mais nas discussões.", senderID: "456", receiverID: "123", midia: nil)
+        ]
+        
+        self.sendedFeedbacks = [
+            Feedback(stars: 5, description: "Excelente trabalho técnico, sempre disposto a ajudar!", senderID: "123", receiverID: "789", midia: "elogio_tecnico.m4a"),
+            Feedback(stars: 2, description: "Faltou engajamento no projeto, vamos tentar melhorar!", senderID: "123", receiverID: "654", midia: nil),
+            Feedback(stars: 4, description: "Criatividade foi um destaque, boas sugestões!", senderID: "123", receiverID: "321", midia: nil)
+        ]
     }
 }
 
@@ -191,13 +206,22 @@ extension ProfileViewController: UITableViewDelegate {
         didSelectRowAt indexPath: IndexPath
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
-    }
 
     func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
+        let feedbacks = indexPath.section == 0 ? receivedFeedbacks : sendedFeedbacks
+
+        guard !feedbacks.isEmpty else { return }
+
+        let feedback = feedbacks[indexPath.row]
+        let detailVC = FeedbackDetailViewController(feedback: feedback)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let cornerRadius: CGFloat = 12
         let totalRows = tableView.numberOfRows(inSection: indexPath.section)
 
@@ -234,8 +258,25 @@ extension ProfileViewController: UITableViewDelegate {
 
         cell.contentView.layer.masksToBounds = true
     }
-
+    
+    
 }
+
+// MARK: - Actions
+
+extension ProfileViewController {
+    @objc func seeAllReceived() {
+        let vc = ReceivedFeedbacksVC()
+                       navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc func seeAllSended() {
+        let vc = SendedFeedbacksVC()
+                       navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - ViewCode
 
 extension ProfileViewController: ViewCodeProtocol {
     func addSubViews() {
