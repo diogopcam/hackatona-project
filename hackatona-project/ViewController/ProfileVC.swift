@@ -37,6 +37,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.tintColor = .mainGreen
         setup()
         
         // Atribua os arrays às propriedades da classe
@@ -156,13 +157,13 @@ extension ProfileViewController: UITableViewDelegate {
 
 extension ProfileViewController {
     @objc func seeAllReceived() {
-        // Navegação futura
-        // navigationController?.pushViewController(ReceivedFeedbacksViewController(), animated: true)
+        let vc = ReceivedFeedbacksVC()
+                       navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc func seeAllSended() {
-        // Navegação futura
-        // navigationController?.pushViewController(SendedFeedbacksViewController(), animated: true)
+        let vc = SendedFeedbacksVC()
+                       navigationController?.pushViewController(vc, animated: true)
     }
 }
 
