@@ -1,5 +1,5 @@
-
-
+//
+//
 //
 //  StoreViewController.swift
 //  hackatona-project
@@ -38,9 +38,9 @@ class StoreViewController: UIViewController {
         view.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        // Configuração do botão de feedback
-        view.addSubview(feedbackButton)
-        feedbackButton.addTarget(self, action: #selector(navigateToFeedback), for: .touchUpInside)
+//        // Configuração do botão de feedback
+//        view.addSubview(feedbackButton)
+//        feedbackButton.addTarget(self, action: #selector(navigateToFeedback), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -53,9 +53,9 @@ class StoreViewController: UIViewController {
         ])
     }
     
-    @objc func navigateToFeedback() {
-        let feedbackViewController = CreateFeedbackVC()
-        navigationController?.pushViewController(feedbackViewController, animated: true)
-    }
+//    @objc func navigateToFeedback() {
+//        let feedbackViewController = CreateFeedbackVC(employee: <#Employee#>)
+//        navigationController?.pushViewController(feedbackViewController, animated: true)
+//    }
 }
 

@@ -49,6 +49,8 @@ class FeedbackViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.tintColor = .mainGreen
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -418,6 +420,36 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
         
         headerView.configure(with: titleForHeader)
         return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        switch segmentedControl.segmentedControl.selectedSegmentIndex {
+        case 0: // Employees
+            let letter = sectionsEmployees[indexPath.section]
+            if let employee = sectionedEmployees[letter]?[indexPath.row] {
+                let vc = CreateFeedbackVC(employee: employee)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+
+        case 1: // Resources
+            let letter = sectionsResources[indexPath.section]
+            if let resource = sectionedResources[letter]?[indexPath.row] {
+                let vc = CreateFeedbackVC(resource: resource)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+
+        case 2: // Activities
+            let letter = sectionsActivities[indexPath.section]
+            if let activity = sectionedActivities[letter]?[indexPath.row] {
+                let vc = CreateFeedbackVC(activity: activity)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+
+        default:
+            break
+        }
     }
     
     func tableView(
