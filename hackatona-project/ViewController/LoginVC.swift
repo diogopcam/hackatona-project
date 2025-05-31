@@ -11,7 +11,7 @@ class LoginViewController: UIViewController {
     
     // MARK: Icon image
     lazy var iconImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "AppIcon"))
+        let imageView = UIImageView(image: UIImage(named: "profileImage"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         
