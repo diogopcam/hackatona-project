@@ -329,7 +329,32 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
         print("📷 QR Code detected: \(qrCode)")
         captureSession?.stopRunning()
 
-        // Verifica se é uma URL do nosso app
+        if qrCode.contains("hackatona-feedback") {
+            closeCamera()
+            
+            let hackatonaEmployee = Employee(
+                id: "hackatona_id",
+                name: "Hackatona",
+                email: "", position: "Event",
+                balance: 0,
+                average: 0,
+                qrcode: "",
+                password_hash: nil,
+                midia: "",
+            )
+            
+            // Navigate to feedback screen
+            if let feedbackNav = viewControllers?[0] as? UINavigationController,
+               let feedbackVC = feedbackNav.topViewController as? FeedbackViewController {
+                let createFeedbackVC = CreateFeedbackVC(employee: hackatonaEmployee)
+                createFeedbackVC.imageView.image = UIImage(named: "hack")
+                feedbackVC.navigationController?.pushViewController(createFeedbackVC, animated: true)
+                self.selectedIndex = 0 // Switch to feedback tab
+            }
+            return
+        }
+
+        // Handle other QR codes as before
         if let url = URL(string: qrCode) {
             let urlString = url.absoluteString.lowercased()
             

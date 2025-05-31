@@ -100,11 +100,41 @@ class FeedbackDetailViewController: UIViewController {
     private func loadFeedbackData() {
         guard let feedback = feedback else { return }
         
-        descriptionLabel.text = "Nome"
-        infoLabel.text = "Infolabel"
+        // Set name and position based on the feedback data
+        if let senderName = feedback.senderName {
+            descriptionLabel.text = senderName
+        }
+        if let senderPosition = feedback.senderPosition {
+            infoLabel.text = senderPosition
+        }
+        
         starRating.rating = feedback.stars
         
-        if let audio = feedback.midia, !audio.isEmpty {
+        // Configure image view with first letter if no photo
+        imageView.subviews.forEach { $0.removeFromSuperview() }
+        let name = feedback.senderName ?? "Anônimo"
+        
+        if let photoURL = feedback.senderPhoto, let url = URL(string: photoURL) {
+            // Show loading state with first letter while image loads
+            showFirstLetterPlaceholder(for: name)
+            
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.imageView.subviews.forEach { $0.removeFromSuperview() }
+                    self.imageView.image = image
+                }
+            }.resume()
+        } else {
+            showFirstLetterPlaceholder(for: name)
+        }
+        
+        if let audio = feedback.midia, audio.hasSuffix(".m4a") {
             // Configuração para feedback de áudio
             textView.removeFromSuperview()
             setupAudioView()
@@ -112,6 +142,18 @@ class FeedbackDetailViewController: UIViewController {
             audioButton.removeFromSuperview()
             textView.text = feedback.description
         }
+    }
+    
+    private func showFirstLetterPlaceholder(for name: String) {
+        let firstLetter = String(name.prefix(1)).uppercased()
+        let label = UILabel()
+        label.text = firstLetter
+        label.font = .systemFont(ofSize: 40, weight: .bold)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.frame = imageView.bounds
+        imageView.image = nil
+        imageView.addSubview(label)
     }
     
     private func setupUI() {

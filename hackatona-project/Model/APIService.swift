@@ -66,8 +66,7 @@ class APIService {
             throw NetworkError.invalidURL
         }
         
-        print("Requesting URL: \(url.absoluteString)")
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -79,22 +78,20 @@ class APIService {
         
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            
-            print("Response received: \(String(data: data, encoding: .utf8) ?? "No data")")
-            
+           
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.requestFailed(statusCode: -1)
             }
             
             guard 200...299 ~= httpResponse.statusCode else {
-                print("HTTP Error: \(httpResponse.statusCode)")
+
                 throw NetworkError.requestFailed(statusCode: httpResponse.statusCode)
             }
             
             do {
                 return try decoder.decode(T.self, from: data)
             } catch {
-                print("Decoding error: \(error)")
+                
                 throw NetworkError.decodingError(error)
             }
         } catch {
