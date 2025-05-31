@@ -4,6 +4,7 @@
 //
 //  Created by Marcos on 31/05/25.
 //
+import UIKit
 
 class Feedback: Codable {
     let stars: Int
@@ -19,4 +20,11 @@ class Feedback: Codable {
         self.receiverID = receiverID
         self.midia = midia
     }
+    
+    // Helper para obter URL do áudio
+       func getAudioURL() -> URL? {
+           guard let midia = midia else { return nil }
+           return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+               .appendingPathComponent(midia)
+       }
 }

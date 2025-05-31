@@ -40,7 +40,6 @@ class ProfileViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .mainGreen
         setup()
         
-        
         // Atribua os arrays às propriedades da classe
         self.receivedFeedbacks = [
             Feedback(stars: 5, description: "Mandou muito bem na liderança do grupo!", senderID: "234", receiverID: "123", midia: nil),

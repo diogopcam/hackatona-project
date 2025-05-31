@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import AVFoundation
 
 class CreateFeedbackVC: UIViewController {
     var employee: Employee?
     var resource: Resource?
     var activity: Activity?
+    var audioRecorder: AVAudioRecorder?
+    var isRecording = false
+    var currentAudioURL: URL? // Esta é a variável que armazena o URL temporário da gravação
     
     init(employee: Employee) {
         self.employee = employee
@@ -100,6 +104,12 @@ class CreateFeedbackVC: UIViewController {
         super.viewDidLoad()
 //        view.backgroundColor = .white
         view.backgroundColor = .systemBackground
+        
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+            if !granted {
+                print("Permissão para usar o microfone negada")
+            }
+        }
         setupUI()
         setupConstraints()
         setupKeyboardDismissal()
@@ -276,6 +286,9 @@ class CreateFeedbackVC: UIViewController {
         micButton.clipsToBounds = true
         micButton.translatesAutoresizingMaskIntoConstraints = false
         
+        micButton.addTarget(self, action: #selector(didTapMicButton), for: .touchUpInside)
+        
+        
         itemView.addSubview(label)
         itemView.addSubview(micButton)
         
@@ -295,7 +308,78 @@ class CreateFeedbackVC: UIViewController {
     }
     
     @objc private func submitButtonTapped() {
-        showAlert(message: "Feedback enviado com sucesso!")
+        guard starRating.rating > 0 else {
+            showAlert(message: "Por favor, avalie com pelo menos 1 estrela")
+            return
+        }
+        
+        let feedback: Feedback
+        var audioData: Data? = nil
+        var midiaName: String? = nil
+        
+        if let audioURL = currentAudioURL {
+            midiaName = "feedback_\(UUID().uuidString).m4a"
+            audioData = try? Data(contentsOf: audioURL)
+        }
+        
+        feedback = Feedback(
+            stars: starRating.rating,
+            description: textView.text,
+            senderID: "current_user_id", // Substitua pelo ID real do usuário logado
+            receiverID: employee?.id ?? resource?.id ?? activity?.id ?? "",
+            midia: midiaName
+        )
+        
+        FeedbackManager.shared.saveFeedback(feedback, audioData: audioData)
+        showAlert(message: "Feedback enviado com sucesso!") {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @objc private func didTapMicButton() {
+        if isRecording {
+            finishRecording(success: true)
+        } else {
+            startRecording()
+        }
+    }
+
+    private func startRecording() {
+        let audioSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .default)
+            try audioSession.setActive(true)
+
+            let settings = [
+                AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                AVSampleRateKey: 12000,
+                AVNumberOfChannelsKey: 1,
+                AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+            ]
+
+            let filename = FileManager.default.temporaryDirectory.appendingPathComponent("feedback.m4a")
+
+            audioRecorder = try AVAudioRecorder(url: filename, settings: settings)
+            audioRecorder?.record()
+            isRecording = true
+            print("Gravando áudio...")
+        } catch {
+            finishRecording(success: false)
+            print("Erro ao iniciar gravação: \(error.localizedDescription)")
+        }
+    }
+
+    private func finishRecording(success: Bool) {
+        audioRecorder?.stop()
+        audioRecorder = nil
+        isRecording = false
+
+        if success {
+            print("Gravação finalizada com sucesso!")
+        } else {
+            print("Erro na gravação.")
+        }
     }
     
     private func showAlert(message: String) {
