@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        let tabBarController = TabBarController()
+        let tabBarController = LoginVC()
         window.rootViewController = tabBarController
 //        window.rootViewController = rootViewController
 //        window.rootViewController = ProductListVC()
