@@ -24,8 +24,8 @@ class TabBarController: UITabBarController {
     
     private func setupTabs() {
         // Feedback Tab
-        let feedbackVC = UIViewController() // Replace with your actual Feedback ViewController
-        let feedbackNav = UINavigationController(rootViewController: feedbackVC)
+        let feedbackVC = FeedbackViewController()
+        let feedbackNav = UINavigationController()
         feedbackNav.tabBarItem = UITabBarItem(
             title: "Feedback",
             image: UIImage(systemName: "text.bubble"),
@@ -33,25 +33,25 @@ class TabBarController: UITabBarController {
         )
         
         // Store Tab
-        let storeVC = UIViewController() // Replace with your actual Store ViewController
-        let storeNav = UINavigationController(rootViewController: storeVC)
+        let storeVC = StoreViewController()
+        let storeNav = UINavigationController()
         storeNav.tabBarItem = UITabBarItem(
-            title: "Store",
+            title: "Loja",
             image: UIImage(systemName: "bag"),
             selectedImage: UIImage(systemName: "bag.fill")
         )
         
-        // Camera Tab (Center prominent item)
-        let cameraVC = UIViewController() // Replace with your actual Camera ViewController
-        let cameraNav = UINavigationController(rootViewController: cameraVC)
+        // Camera Tab
+        let cameraVC = CameraViewController()
+        let cameraNav = UINavigationController()
         cameraNav.tabBarItem = UITabBarItem(
-            title: "Camera",
+            title: "Câmera",
             image: UIImage(systemName: "camera"),
             selectedImage: UIImage(systemName: "camera.fill")
         )
         
         // Ranking Tab
-        let rankingVC = UIViewController() // Replace with your actual Ranking ViewController
+        let rankingVC = RankingViewController()
         let rankingNav = UINavigationController(rootViewController: rankingVC)
         rankingNav.tabBarItem = UITabBarItem(
             title: "Ranking",
@@ -60,10 +60,10 @@ class TabBarController: UITabBarController {
         )
         
         // Profile Tab
-        let profileVC = UIViewController() // Replace with your actual Profile ViewController
+        let profileVC = ProfileViewController()
         let profileNav = UINavigationController(rootViewController: profileVC)
         profileNav.tabBarItem = UITabBarItem(
-            title: "Profile",
+            title: "Perfil",
             image: UIImage(systemName: "person"),
             selectedImage: UIImage(systemName: "person.fill")
         )
@@ -72,30 +72,25 @@ class TabBarController: UITabBarController {
     }
     
     private func setupTabBarAppearance() {
-        // Set white background
         if #available(iOS 15.0, *) {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.backgroundColor = .white
             
-            // Selected item appearance
             appearance.stackedLayoutAppearance.selected.iconColor = .systemBlue
             appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.systemBlue]
             
-            // Unselected item appearance
             appearance.stackedLayoutAppearance.normal.iconColor = .gray
             appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
             
             tabBar.standardAppearance = appearance
             tabBar.scrollEdgeAppearance = appearance
         } else {
-            // Fallback for earlier iOS versions
             tabBar.barTintColor = .white
             tabBar.tintColor = .systemBlue
             tabBar.unselectedItemTintColor = .gray
         }
         
-        // Make the tab bar opaque
         tabBar.isTranslucent = false
     }
 }
