@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import AVFoundation
 
 class CreateFeedbackVC: UIViewController {
+    
+    var audioRecorder: AVAudioRecorder?
+    var isRecording = false
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -94,9 +98,38 @@ class CreateFeedbackVC: UIViewController {
                                                name: UIResponder.keyboardWillHideNotification, object: nil)
         }
         
-        @objc private func dismissKeyboard() {
-            view.endEditing(true)
+//        @objc private func dismissKeyboard() {
+//            view.endEditing(true)
+//        }
+    
+    private func listarAudiosGravados() {
+        let fileManager = FileManager.default
+        let documentsURL = getDocumentsDirectory()
+
+        do {
+            
+            let arquivos = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
+            let audios = arquivos.filter { $0.pathExtension == "m4a" }
+
+            print("📂 Áudios gravados encontrados:")
+            for (index, audio) in audios.enumerated() {
+                print("\(index + 1). \(audio.lastPathComponent)")
+            }
+
+            if audios.isEmpty {
+                print("⚠️ Nenhum áudio gravado encontrado.")
+            }
+        } catch {
+            print("❌ Erro ao listar áudios: \(error)")
         }
+    }
+    
+    func generateUniqueFileName() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd_HHmmss"
+        let dateString = formatter.string(from: Date())
+        return "audio_\(dateString).m4a"
+    }
         
         // MARK: - Keyboard Handling (Opcional mas útil)
         @objc private func keyboardWillShow(notification: NSNotification) {
@@ -236,6 +269,7 @@ class CreateFeedbackVC: UIViewController {
         let micButton = UIButton(type: .system)
         let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
         let micImage = UIImage(systemName: "mic.fill", withConfiguration: config)
+        micButton.addTarget(self, action: #selector(micButtonTapped), for: .touchUpInside)
         micButton.setImage(micImage, for: .normal)
         micButton.tintColor = .white
         micButton.backgroundColor = .mainGreen
@@ -268,6 +302,56 @@ class CreateFeedbackVC: UIViewController {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    private func startRecording() {
+        let audioSession = AVAudioSession.sharedInstance()
+        
+        do {
+            // Configura a sessão de áudio uma única vez
+            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
+            try audioSession.setActive(true)
+            
+            let settings: [String: Any] = [
+                AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                AVSampleRateKey: 44100,
+                AVNumberOfChannelsKey: 1,
+                AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+            ]
+            
+            let audioFilename = getDocumentsDirectory().appendingPathComponent(generateUniqueFileName())
+//            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+//            audioRecorder?.delegate = self  // Adicione isso se quiser tratar eventos
+            audioRecorder?.record()
+            isRecording = true
+            
+            showAlert(message: "Gravando áudio...")
+            
+        } catch {
+            showAlert(message: "Erro ao iniciar a gravação: \(error.localizedDescription)")
+            isRecording = false
+        }
+    }
+    
+    private func getDocumentsDirectory() -> URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    }
+
+    private func stopRecording() {
+        audioRecorder?.stop()
+        audioRecorder = nil
+        isRecording = false
+        
+        showAlert(message: "Áudio gravado com sucesso!")
+        listarAudiosGravados() // <-- Aqui
+    }
+    
+    @objc private func micButtonTapped() {
+        if isRecording {
+            stopRecording()
+        } else {
+            startRecording()
+        }
     }
 }
 
