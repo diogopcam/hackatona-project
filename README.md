@@ -30,14 +30,14 @@ A aplicação segue o padrão de arquitetura **MVC (Model-View-Controller)** com
 
 ```
 hackatona-project/
-├── AppDelegate.swift          # Gerenciamento do ciclo de vida do app
-├── SceneDelegate.swift        # Gerenciamento do ciclo de vida da cena
-├── Extensions.swift           # Extensões comuns
-├── ViewController/            # Todos os view controllers
-├── Components/               # Componentes de UI reutilizáveis
-├── Model/                   # Modelos de dados e serviço de API
-├── Protocols/               # Protocolos customizados
-└── Assets.xcassets/         # Recursos e cores do app
+├── AppDelegate.swift
+├── SceneDelegate.swift
+├── Extensions.swift
+├── ViewController/
+├── Components/
+├── Model/
+├── Protocols/
+└── Assets.xcassets/
 ```
 
 ---
@@ -142,7 +142,7 @@ struct Employee: Identifiable, Codable {
     let email: String
     let password: String
     let name: String
-    let cargo: String        // Cargo/Posição
+    let cargo: String
     let image: String
     let qrCode: String
 }
@@ -152,11 +152,11 @@ struct Employee: Identifiable, Codable {
 
 ```swift
 class Feedback: Codable {
-    let stars: Int           // Avaliação de 1-5
-    let description: String  // Conteúdo de texto
+    let stars: Int
+    let description: String
     let senderID: String
     let receiverID: String
-    let midia: String?       // Arquivo de áudio opcional
+    let midia: String?
 }
 ```
 
@@ -166,7 +166,7 @@ class Feedback: Codable {
 struct Activity: Identifiable, Codable {
     let id: String
     let name: String
-    let type: String         // Workshop, Palestra, etc.
+    let type: String
     let averageRating: Double
     let date: Date
     let image: String
@@ -178,7 +178,7 @@ struct Activity: Identifiable, Codable {
 ```swift
 struct Resource: Identifiable, Codable {
     let id: String
-    let type: String         // Livro, Artigo, Vídeo
+    let type: String
     let name: String
     let averageRating: Double
     let photo: String
@@ -192,7 +192,7 @@ struct Benefit: Identifiable, Codable {
     let id: String
     let name: String
     let description: String
-    let value: Int           // Custo em pontos
+    let value: Int
 }
 ```
 
