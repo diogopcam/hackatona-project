@@ -367,7 +367,7 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
             if let employee = sectionedEmployees[letter]?[indexPath.row] {
                 cell.configure(
                     name: employee.name,
-                    role: employee.cargo,
+                    role: employee.cargo
                     )
             }
             
@@ -377,7 +377,7 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
                 let _ = "\(resource.type) • \(String(format: "%.1f", resource.averageRating))"
                 cell.configure(
                     name: resource.name,
-                    role: resource.type,
+                    role: resource.type
                     )
             }
             
@@ -391,7 +391,7 @@ extension FeedbackViewController: UITableViewDataSource, UITableViewDelegate {
                 let _ = "\(activity.type) • \(String(format: "%.1f", activity.averageRating)) • \(dateString)"
                 cell.configure(
                     name: activity.name,
-                    role: activity.type,
+                    role: activity.type
                     )
             }
         default:
