@@ -8,7 +8,19 @@ import UIKit
 
 class RankingViewController: UIViewController, NativeSegmentedDelegate {
     func didChangeSelection(to index: Int) {
-        print("Selected index: \(index)")
+        switch index {
+        case 0:
+            currentRankings = employeeRankings
+        case 1:
+            currentRankings = localRankings
+        case 2:
+            currentRankings = eventRankings
+        default:
+            currentRankings = employeeRankings
+        }
+        
+        configurePodium()
+        tableView.reloadData()
     }
     
     // MARK: - UI Components
@@ -42,7 +54,7 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
     }()
     
     // MARK: - Properties
-    private var rankings: [(name: String, points: Int, position: Int)] = [
+    private var employeeRankings: [(name: String, points: Int, position: Int)] = [
         ("Bryan Wolf", 43, 1),
         ("Meghan Jes", 40, 2),
         ("Alex Turner", 38, 3),
@@ -55,11 +67,40 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
         ("Becky Bartell", 30, 10)
     ]
     
+    private var localRankings: [(name: String, points: Int, position: Int)] = [
+        ("Central Park", 92, 1),
+        ("Times Square", 88, 2),
+        ("Brooklyn Bridge", 85, 3),
+        ("Battery Park", 82, 4),
+        ("Hudson Yards", 80, 5),
+        ("Bryant Park", 78, 6),
+        ("High Line", 75, 7),
+        ("Madison Square", 73, 8),
+        ("Union Square", 70, 9),
+        ("Washington Square", 68, 10)
+    ]
+    
+    private var eventRankings: [(name: String, points: Int, position: Int)] = [
+        ("Summer Festival", 156, 1),
+        ("Tech Conference", 145, 2),
+        ("Food Fair", 142, 3),
+        ("Music Concert", 138, 4),
+        ("Art Exhibition", 135, 5),
+        ("Sports Tournament", 132, 6),
+        ("Comedy Night", 128, 7),
+        ("Film Festival", 125, 8),
+        ("Book Fair", 122, 9),
+        ("Dance Show", 120, 10)
+    ]
+    
+    private var currentRankings: [(name: String, points: Int, position: Int)] = []
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Ranking"
         navigationController?.navigationBar.prefersLargeTitles = true
+        currentRankings = employeeRankings // Set default rankings
         setup()
         configurePodium()
         view.backgroundColor = .backgroundPrimary
@@ -139,20 +180,20 @@ class RankingViewController: UIViewController, NativeSegmentedDelegate {
     
     private func configurePodium() {
         // Configure First Place
-        if let firstPlace = rankings.first {
+        if let firstPlace = currentRankings.first {
             configurePosition(view: firstPlaceView, name: firstPlace.name, points: firstPlace.points, tag: 1)
             (firstPlaceView.viewWithTag(100) as? UIImageView)?.isHidden = false
         }
         
         // Configure Second Place
-        if rankings.count > 1 {
-            let secondPlace = rankings[1]
+        if currentRankings.count > 1 {
+            let secondPlace = currentRankings[1]
             configurePosition(view: secondPlaceView, name: secondPlace.name, points: secondPlace.points, tag: 2)
         }
         
         // Configure Third Place
-        if rankings.count > 2 {
-            let thirdPlace = rankings[2]
+        if currentRankings.count > 2 {
+            let thirdPlace = currentRankings[2]
             configurePosition(view: thirdPlaceView, name: thirdPlace.name, points: thirdPlace.points, tag: 3)
         }
     }
@@ -232,7 +273,7 @@ extension RankingViewController: ViewCodeProtocol {
 // MARK: - UITableViewDelegate & UITableViewDataSource
 extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rankings.count - 3
+        return currentRankings.count - 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -240,7 +281,7 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let ranking = rankings[indexPath.row + 3]
+        let ranking = currentRankings[indexPath.row + 3]
         cell.configure(name: ranking.name, points: ranking.points, position: ranking.position)
         return cell
     }
