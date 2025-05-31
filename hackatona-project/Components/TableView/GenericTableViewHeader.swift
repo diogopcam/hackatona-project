@@ -13,7 +13,7 @@ class GenericTableViewHeader: UIView {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .green
+        imageView.tintColor = .mainGreen
         return imageView
     }()
     

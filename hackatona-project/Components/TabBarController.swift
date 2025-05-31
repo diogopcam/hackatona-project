@@ -256,8 +256,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             appearance.configureWithOpaqueBackground()
             appearance.backgroundColor = .systemGray6
             
-            appearance.stackedLayoutAppearance.selected.iconColor = .systemBlue
-            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.systemBlue]
+            appearance.stackedLayoutAppearance.selected.iconColor = .mainGreen
+            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.mainGreen]
             
             appearance.stackedLayoutAppearance.normal.iconColor = .gray
             appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
@@ -266,7 +266,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             tabBar.scrollEdgeAppearance = appearance
         } else {
             tabBar.barTintColor = .white
-            tabBar.tintColor = .systemBlue
+            tabBar.tintColor = .mainGreen
             tabBar.unselectedItemTintColor = .gray
         }
         

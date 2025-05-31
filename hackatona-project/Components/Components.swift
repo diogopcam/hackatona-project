@@ -38,7 +38,7 @@ struct Components {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.addTarget(nil, action: action, for: .touchUpInside)
-        button.setTitleColor(.green, for: .normal)
+        button.setTitleColor(.mainGreen, for: .normal)
         button.titleLabel?.font = UIFont(name: "subheadline", size: 15)
         return button
     }
