@@ -17,6 +17,54 @@ class CreateFeedbackVC: UIViewController {
     var currentAudioURL: URL? // Esta é a variável que armazena o URL temporário da gravação
     private var feedbackTextView: UITextView!
     
+    private var isAnonymous = false {
+        didSet {
+            anonymousToggle.isOn = isAnonymous
+            updateAnonymousUI()
+        }
+    }
+      
+    private let anonymousToggle: UISwitch = {
+        let toggle = UISwitch()
+        toggle.translatesAutoresizingMaskIntoConstraints = false
+        return toggle
+    }()
+
+    private let anonymousLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Anônimo"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var anonymousContainer: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [anonymousToggle, anonymousLabel])
+        view.axis = .horizontal
+        view.spacing = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    @objc private func anonymousToggleChanged() {
+            isAnonymous = anonymousToggle.isOn
+        anonymousToggle.onTintColor = UIColor.mainGreen // cor do fundo quando ativado
+    }
+        
+    private func updateAnonymousUI() {
+        if isAnonymous {
+            // Efeito visual para indicar modo anônimo
+            imageView.alpha = 0.5
+            descriptionLabel.alpha = 0.5
+            infoLabel.alpha = 0.5
+        } else {
+            // Volta ao normal
+            imageView.alpha = 1.0
+            descriptionLabel.alpha = 1.0
+            infoLabel.alpha = 1.0
+        }
+    }
+    
     init(employee: Employee) {
         self.employee = employee
         super.init(nibName: nil, bundle: nil)
@@ -35,7 +83,6 @@ class CreateFeedbackVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     
     private let imageView: UIImageView = {
@@ -61,7 +108,7 @@ class CreateFeedbackVC: UIViewController {
     private let infoLabel: UILabel = {
         let label = UILabel()
         label.text = "Cargo"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .light)
         label.textColor = .primitiveWhite
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -105,6 +152,7 @@ class CreateFeedbackVC: UIViewController {
         super.viewDidLoad()
 //        view.backgroundColor = .white
         view.backgroundColor = .systemBackground
+        
         
         AVAudioSession.sharedInstance().requestRecordPermission { granted in
             if !granted {
@@ -176,6 +224,9 @@ class CreateFeedbackVC: UIViewController {
         view.addSubview(descriptionLabel)
         view.addSubview(infoLabel)
         view.addSubview(imageView)
+        // Adiciona os componentes ao container ANTES de adicionar à view
+        view.addSubview(anonymousContainer)
+        
         
         starRating.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(starRating)
@@ -193,7 +244,7 @@ class CreateFeedbackVC: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -30),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -40),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.widthAnchor.constraint(equalToConstant: 130),
             imageView.heightAnchor.constraint(equalToConstant: 130),
@@ -202,7 +253,11 @@ class CreateFeedbackVC: UIViewController {
             descriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             infoLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 12),
-            infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            infoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            
+            anonymousContainer.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -32),
+            anonymousContainer.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 12),
             
             starRating.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             starRating.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 16),
@@ -243,7 +298,7 @@ class CreateFeedbackVC: UIViewController {
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.gray.cgColor
         textView.layer.cornerRadius = 8
-        textView.font = UIFont.systemFont(ofSize: 24)
+        textView.font = UIFont.systemFont(ofSize: 20)
         textView.textColor = .primitiveWhite
         textView.backgroundColor = .systemBackground
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -373,6 +428,9 @@ class CreateFeedbackVC: UIViewController {
             receiverID: receiverID,
             midia: audioData != nil ? audioFileName : nil
         )
+        
+        GlobalData.balance += 10
+        GlobalData.totalPoints += 10
 
         FeedbackManager.shared.saveFeedback(feedback, audioData: audioData)
         FeedbackManager.shared.printAllFeedbacks()

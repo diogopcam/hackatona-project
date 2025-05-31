@@ -11,6 +11,25 @@ class ProfileViewController: UIViewController {
     
     private lazy var headerView = ProfileHeader()
     
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            refreshGlobalState()
+        }
+        
+        private func refreshGlobalState() {
+            // Atualiza o header com os valores mais recentes
+            headerView.update()
+            
+            // Se precisar atualizar outros dados baseados no GlobalState:
+//            tableView.reloadData()
+        }
+    
+    func update() {
+        headerView.balanceLabel.text = "Saldo: \(GlobalData.balance)"
+        headerView.totalPointsLabel.text = "Total: \(GlobalData.totalPoints)"
+       // Adicione outras atualizações de UI necessárias
+    }
+
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -35,12 +54,20 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    
+    @objc private func updateHeader() {
+        headerView.update()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        refreshGlobalState()
+        
+        
         navigationController?.navigationBar.tintColor = .mainGreen
         setup()
         
-        // Atribua os arrays às propriedades da classe
         self.receivedFeedbacks = [
             Feedback(stars: 5, description: "Mandou muito bem na liderança do grupo!", senderID: "234", receiverID: "123", midia: nil),
             Feedback(stars: 4, description: "Boa comunicação, continuaria trabalhando com você.", senderID: "345", receiverID: "123", midia: "feedback1.m4a"),
@@ -56,7 +83,6 @@ class ProfileViewController: UIViewController {
 }
 
 // MARK: - UITableViewDataSource
-
 extension ProfileViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -111,8 +137,6 @@ extension ProfileViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
-
 extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -163,8 +187,6 @@ extension ProfileViewController: UITableViewDelegate {
     
 }
 
-// MARK: - Actions
-
 extension ProfileViewController {
     @objc func seeAllReceived() {
         let vc = ReceivedFeedbacksVC()
@@ -176,8 +198,6 @@ extension ProfileViewController {
                        navigationController?.pushViewController(vc, animated: true)
     }
 }
-
-// MARK: - ViewCode
 
 extension ProfileViewController: ViewCodeProtocol {
     func addSubViews() {

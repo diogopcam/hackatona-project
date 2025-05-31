@@ -91,7 +91,7 @@ class ProfileHeader: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .systemFont(ofSize: 17)
-        label.text = "Saldo: 100 pts"
+        label.text = "Saldo: \(GlobalData.balance)"
         return label
     }()
     
@@ -100,7 +100,7 @@ class ProfileHeader: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .systemFont(ofSize: 17)
-        label.text = "Total: 1.670 pts"
+        label.text = "Total: \(GlobalData.totalPoints)"
         return label
     }()
     
@@ -142,6 +142,11 @@ class ProfileHeader: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func update() {
+        balanceLabel.text = "Saldo: \(GlobalData.balance)"
+        totalPointsLabel.text = "Total: \(GlobalData.totalPoints)"
     }
 }
 
