@@ -1,74 +1,120 @@
 //
-//  FoodTableIvewCellTableViewCell.swift
-//  AvoTracker
+//  FeedbackTableViewCell.swift
+//  hackatona-project
 //
-//  Created by João Pedro Teixeira de Caralho on 15/05/25.
+//  Created by Diogo on 31/05/25.
 //
+
 import UIKit
 
 class FeedbackTableViewCell: UITableViewCell {
     
-    // MARK: Reuse ID
-    static let reuseIdentifier = "feedback-cell"
-    
-    // MARK: Name label
-    lazy var nameLabel = Components.getLabel(content: "", font: .systemFont(ofSize: 17))
-    
-    // MARK: Stars label
-    lazy var starsLabel: UILabel = {
+    // MARK: - UI Elements
+
+    private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15)
-        label.textColor = .gray
-        label.textAlignment = .right
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.textColor = .white
         return label
     }()
     
-    // MARK: Main stack
-    lazy var mainStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [nameLabel, starsLabel])
-        stack.translatesAutoresizingMaskIntoConstraints = false
+    private let starsStackView: UIStackView = {
+        let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .equalSpacing
-        stack.alignment = .center
-        stack.isLayoutMarginsRelativeArrangement = true
-        stack.layoutMargins = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+        stack.spacing = 4
+        stack.distribution = .fillEqually
         return stack
     }()
     
-    // MARK: Config
-    func config(_ feedback: Feedback) {
-        nameLabel.text = feedback.senderID
-        starsLabel.text = String(repeating: "⭐️", count: feedback.stars)
+    private let mediaIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = .mainGreen
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    private let containerStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .center
+        stack.spacing = 12
+        return stack
+    }()
+
+    // MARK: - Initializers
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setup()
     }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Setup Layout
+
+    private func setup() {
+        backgroundColor = .clear
+        selectionStyle = .none
         
-        // MARK: Init
-        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
-            setup()
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
+        starsStackView.translatesAutoresizingMaskIntoConstraints = false
+        mediaIcon.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        containerStack.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.addSubview(containerStack)
+        containerStack.addArrangedSubview(nameLabel)
+        containerStack.addArrangedSubview(starsStackView)
+        containerStack.addArrangedSubview(mediaIcon)
+
+        NSLayoutConstraint.activate([
+            containerStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            containerStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            containerStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            containerStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+
+            mediaIcon.widthAnchor.constraint(equalToConstant: 24),
+            mediaIcon.heightAnchor.constraint(equalToConstant: 24)
+        ])
+    }
+
+    // MARK: - Configure Cell
+
+    func config(_ feedback: Feedback, name: String) {
+        nameLabel.text = name
+        setupStars(feedback.stars)
+
+        if let midia = feedback.midia {
+            if midia.hasSuffix(".m4a") {
+                mediaIcon.image = UIImage(systemName: "waveform.circle.fill") // Áudio
+            } else {
+                mediaIcon.image = UIImage(systemName: "text.bubble.fill") // Outro tipo de mídia
+            }
+        } else {
+            if !feedback.description.isEmpty {
+                mediaIcon.image = UIImage(systemName: "text.bubble") // Texto simples
+            } else {
+                mediaIcon.image = UIImage(systemName: "questionmark.circle") // Sem conteúdo
+            }
         }
     }
 
-    
-    // MARK: View Code Protocol
-    extension FeedbackTableViewCell: ViewCodeProtocol {
-        
-        func addSubViews() {
-            contentView.addSubview(mainStack)
+    private func setupStars(_ count: Int) {
+        starsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        for _ in 0..<count {
+            let star = UIImageView(image: UIImage(systemName: "star.fill"))
+            star.tintColor = .systemYellow
+            star.contentMode = .scaleAspectFit
+            starsStackView.addArrangedSubview(star)
         }
-        
-        func setupConstraints() {
-            
-            NSLayoutConstraint.activate([
-                mainStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                mainStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                mainStack.topAnchor.constraint(equalTo: contentView.topAnchor),
-                mainStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                mainStack.heightAnchor.constraint(equalToConstant: 72)
-            ])
+
+        for _ in count..<5 {
+            let star = UIImageView(image: UIImage(systemName: "star"))
+            star.tintColor = .systemGray
+            star.contentMode = .scaleAspectFit
+            starsStackView.addArrangedSubview(star)
         }
     }
-    
+}

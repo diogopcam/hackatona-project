@@ -93,10 +93,10 @@ class CreateFeedbackVC: UIViewController {
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification, object: nil)
         }
-        
-        @objc private func dismissKeyboard() {
-            view.endEditing(true)
-        }
+//        
+//        @objc private func dismissKeyboard() {
+//            view.endEditing(true)
+//        }
         
         // MARK: - Keyboard Handling (Opcional mas útil)
         @objc private func keyboardWillShow(notification: NSNotification) {
