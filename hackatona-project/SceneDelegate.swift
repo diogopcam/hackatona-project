@@ -9,20 +9,21 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    func scene(_ scene: UIScene,
+                willConnectTo session: UISceneSession,
+                options connectionOptions: UIScene.ConnectionOptions) {
+         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // 1. Verifique se a cena é do tipo UIWindowScene
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        // 2. Crie uma window programaticamente
-        window = UIWindow(windowScene: windowScene)
-        
-        // 3. Defina sua ViewController como rootViewController
-        window?.rootViewController = ViewController() // ← Sua ViewController em ViewCode
-        
-        // 4. Torne a window visível e principal
-        window?.makeKeyAndVisible()
-    }
+        let window = UIWindow(windowScene: windowScene)
+        self.window = window
+        let tabBarController = TabBarController()
+        window.rootViewController = tabBarController
+//        window.rootViewController = rootViewController
+//        window.rootViewController = ProductListVC()
+        window.makeKeyAndVisible()
+     }
+
 
     // Os outros métodos podem permanecer como estão...
     func sceneDidDisconnect(_ scene: UIScene) {}

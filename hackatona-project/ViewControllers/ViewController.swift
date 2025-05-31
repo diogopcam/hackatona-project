@@ -12,7 +12,9 @@ class ViewController: UIViewController {
     var label: UILabel = {
         var text = UILabel()
         text.text = "Hello world"
+        text.textColor = .red
         return text
+        
     }()
     
     override func viewDidLoad() {
@@ -20,6 +22,18 @@ class ViewController: UIViewController {
         view.addSubview(label)
         super.view.backgroundColor = .blue
         // Do any additional setup after loading the view.
+    }
+}
+extension ViewController: ViewCodeProtocol {
+    func addSubViews() {
+        view.addSubview(label)
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+        ])
     }
 }
 
