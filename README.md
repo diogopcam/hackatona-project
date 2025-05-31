@@ -482,31 +482,3 @@ func fetchEmployees() async throws -> [Employee] {
 2. Implement changes with tests
 3. Submit pull request with description
 4. Code review and merge
-
----
-
-## 📞 Support
-
-### Technical Issues
-
-- Check API endpoint configuration
-- Verify camera permissions
-- Review console logs for errors
-
-### Contact
-
-- Development Team: [Team Contact]
-- Project Manager: [PM Contact]
-- Backend Team: [Backend Contact]
-
----
-
-## 📄 License
-
-This project is proprietary software developed for [Company Name]. All rights reserved.
-
----
-
-_Last Updated: May 31, 2025_
-_Version: 1.0_
-_iOS Deployment Target: 15.0+_
