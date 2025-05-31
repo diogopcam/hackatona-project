@@ -6,13 +6,44 @@
 //
 
 import UIKit
-import UIKit
 import AVFoundation
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptureMetadataOutputObjectsDelegate {
     
+    private var swipeGestureRecognizer: UISwipeGestureRecognizer!
+    private var panGestureRecognizer: UIPanGestureRecognizer!
+    private var initialTouchPoint: CGPoint = .zero
+    private var dismissThreshold: CGFloat = 120.0 // Distância necessária para fechar
+    
     private var captureSession: AVCaptureSession?
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    private var backButton: UIButton!
+    
+    private func setupBackButton() {
+            backButton = UIButton(type: .system)
+            backButton.setTitle("Voltar", for: .normal)
+            backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            backButton.tintColor = .white
+            backButton.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+            backButton.layer.cornerRadius = 8
+            backButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+            backButton.addTarget(self, action: #selector(closeCamera), for: .touchUpInside)
+            
+        // Configuração importante para constraints
+               backButton.translatesAutoresizingMaskIntoConstraints = false
+               view.addSubview(backButton)
+               
+               // Ativar constraints
+               NSLayoutConstraint.activate([
+                   backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+                   backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+                   backButton.heightAnchor.constraint(equalToConstant: 44),
+                   backButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 80)
+               ])
+               
+               // Garantir que o botão fique na frente
+               view.bringSubviewToFront(backButton)
+        }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +111,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     private func openCamera() {
         // Configura a sessão de captura
         captureSession = AVCaptureSession()
+        
+        setupBackButton()
 
         // Obtem a câmera traseira
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else {
@@ -108,15 +141,78 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
 
         // Adiciona a visualização da câmera na tela
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-        videoPreviewLayer?.videoGravity = .resizeAspectFill
+        videoPreviewLayer?.videoGravity = .resize
         videoPreviewLayer?.frame = view.layer.bounds
         if let preview = videoPreviewLayer {
             view.layer.addSublayer(preview)
         }
+        
+        // Adiciona o gesto de swipe
+        // Adiciona o gesto de pan (arrastar)
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+//        panGestureRecognizer.delegate = self
+        view.addGestureRecognizer(panGestureRecognizer)
 
         // Inicia a captura
         captureSession?.startRunning()
     }
+    
+    @objc private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        let touchPoint = gesture.location(in: view.window)
+        let velocity = gesture.velocity(in: view)
+        
+        switch gesture.state {
+        case .began:
+            initialTouchPoint = touchPoint
+            
+        case .changed:
+            let translation = touchPoint.y - initialTouchPoint.y
+            
+            // Só anima se for para baixo
+            if translation > 0 {
+                view.transform = CGAffineTransform(translationX: 0, y: translation)
+            }
+            
+        case .ended, .cancelled:
+            let translation = touchPoint.y - initialTouchPoint.y
+            let shouldDismiss = translation > dismissThreshold || velocity.y > 800
+            
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+                self.view.transform = shouldDismiss ?
+                    CGAffineTransform(translationX: 0, y: self.view.frame.height) :
+                    .identity
+            }) { _ in
+                if shouldDismiss {
+                    self.closeCamera()
+                }
+            }
+            
+        default:
+            UIView.animate(withDuration: 0.3) {
+                self.view.transform = .identity
+            }
+        }
+    }
+    
+    @objc private func handleSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
+        if gesture.state == .ended {
+            closeCamera()
+        }
+    }
+    
+    @objc private func closeCamera() {
+         captureSession?.stopRunning()
+         videoPreviewLayer?.removeFromSuperlayer()
+         backButton.removeFromSuperview()
+        
+        // Remove o gesto
+            if panGestureRecognizer != nil {
+                view.removeGestureRecognizer(panGestureRecognizer)
+            }
+            
+            // Reseta a transformação
+            view.transform = .identity
+     }
     
     func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
@@ -196,3 +292,4 @@ extension TabBarController: UIImagePickerControllerDelegate, UINavigationControl
         picker.dismiss(animated: true)
     }
 }
+
