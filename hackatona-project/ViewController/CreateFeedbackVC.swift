@@ -242,9 +242,6 @@ class CreateFeedbackVC: UIViewController {
                                                name: UIResponder.keyboardWillHideNotification, object: nil)
         }
         
-        @objc private func dismissKeyboard() {
-            view.endEditing(true)
-        }
         
         // MARK: - Keyboard Handling (Opcional mas útil)
         @objc private func keyboardWillShow(notification: NSNotification) {
@@ -464,11 +461,8 @@ class CreateFeedbackVC: UIViewController {
         showAlert(message: "Áudio gravado com sucesso!")
         
         // Salvar referência do arquivo gravado
-        if let audioRecorder = audioRecorder,
-           let fileName = audioRecorder.url.lastPathComponent {
-            print("💾 Salvando arquivo: \(fileName)")
-            print("📁 URL completa: \(audioRecorder.url)")
-            
+        if let audioRecorder = audioRecorder {
+            let fileName = audioRecorder.url.lastPathComponent
             currentAudioFileName = fileName
             AudioFileManager.shared.saveRecordedAudio(fileName: fileName)
             
