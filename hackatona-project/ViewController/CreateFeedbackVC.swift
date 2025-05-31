@@ -15,6 +15,7 @@ class CreateFeedbackVC: UIViewController {
     var audioRecorder: AVAudioRecorder?
     var isRecording = false
     var currentAudioURL: URL? // Esta é a variável que armazena o URL temporário da gravação
+    private var feedbackTextView: UITextView!
     
     init(employee: Employee) {
         self.employee = employee
@@ -184,7 +185,7 @@ class CreateFeedbackVC: UIViewController {
         view.addSubview(submitButton)
         
         // Adiciona os itens ao carrossel
-        addTextItem(title: "Deixe um feedback escrito")
+        feedbackTextView = addTextItem(title: "Deixe um feedback escrito")
         addAudioItem(title: "Grave um feedback de voz")
         
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
@@ -226,7 +227,7 @@ class CreateFeedbackVC: UIViewController {
         ])
     }
     
-    private func addTextItem(title: String) {
+    private func addTextItem(title: String) -> UITextView {
         let itemView = UIView()
         itemView.translatesAutoresizingMaskIntoConstraints = false
         itemView.backgroundColor = .systemBackground
@@ -243,7 +244,7 @@ class CreateFeedbackVC: UIViewController {
         textView.layer.borderColor = UIColor.gray.cgColor
         textView.layer.cornerRadius = 8
         textView.font = UIFont.systemFont(ofSize: 24)
-        textView.textColor = .primitiveWhite // Cor da fonte (pode usar qualquer cor)
+        textView.textColor = .primitiveWhite
         textView.backgroundColor = .systemBackground
         textView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -262,6 +263,8 @@ class CreateFeedbackVC: UIViewController {
         
         carouselStackView.addArrangedSubview(itemView)
         itemView.widthAnchor.constraint(equalTo: carouselScrollView.widthAnchor, constant: -32).isActive = true
+        
+        return textView
     }
     
     private func addAudioItem(title: String) {
@@ -307,84 +310,81 @@ class CreateFeedbackVC: UIViewController {
         itemView.widthAnchor.constraint(equalTo: carouselScrollView.widthAnchor, constant: -32).isActive = true
     }
     
-    @objc private func submitButtonTapped() {
-        guard starRating.rating > 0 else {
-            showAlert(message: "Por favor, avalie com pelo menos 1 estrela")
-            return
-        }
-        
-        let feedback: Feedback
-        var audioData: Data? = nil
-        var midiaName: String? = nil
-        
-        if let audioURL = currentAudioURL {
-            midiaName = "feedback_\(UUID().uuidString).m4a"
-            audioData = try? Data(contentsOf: audioURL)
-        }
-        
-        feedback = Feedback(
-            stars: starRating.rating,
-            description: textView.text,
-            senderID: "current_user_id", // Substitua pelo ID real do usuário logado
-            receiverID: employee?.id ?? resource?.id ?? activity?.id ?? "",
-            midia: midiaName
-        )
-        
-        FeedbackManager.shared.saveFeedback(feedback, audioData: audioData)
-        showAlert(message: "Feedback enviado com sucesso!") {
-            self.navigationController?.popViewController(animated: true)
-        }
-    }
-    
     @objc private func didTapMicButton() {
-        if isRecording {
-            finishRecording(success: true)
-        } else {
-            startRecording()
+            if isRecording {
+                stopRecording()
+            } else {
+                startRecording()
+            }
+            isRecording.toggle()
         }
-    }
 
-    private func startRecording() {
-        let audioSession = AVAudioSession.sharedInstance()
-        
-        do {
-            try audioSession.setCategory(.playAndRecord, mode: .default)
-            try audioSession.setActive(true)
-
-            let settings = [
-                AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-                AVSampleRateKey: 12000,
-                AVNumberOfChannelsKey: 1,
-                AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-            ]
-
-            let filename = FileManager.default.temporaryDirectory.appendingPathComponent("feedback.m4a")
-
-            audioRecorder = try AVAudioRecorder(url: filename, settings: settings)
-            audioRecorder?.record()
-            isRecording = true
-            print("Gravando áudio...")
-        } catch {
-            finishRecording(success: false)
-            print("Erro ao iniciar gravação: \(error.localizedDescription)")
+        private func startRecording() {
+            let audioSession = AVAudioSession.sharedInstance()
+            do {
+                try audioSession.setCategory(.playAndRecord, mode: .default)
+                try audioSession.setActive(true)
+                
+                let tempDir = FileManager.default.temporaryDirectory
+                let fileURL = tempDir.appendingPathComponent(UUID().uuidString + ".m4a")
+                currentAudioURL = fileURL
+                
+                let settings: [String: Any] = [
+                    AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                    AVSampleRateKey: 12000,
+                    AVNumberOfChannelsKey: 1,
+                    AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+                ]
+                
+                audioRecorder = try AVAudioRecorder(url: fileURL, settings: settings)
+                audioRecorder?.record()
+                print("🎙️ Gravando em: \(fileURL)")
+            } catch {
+                print("Erro ao iniciar gravação: \(error.localizedDescription)")
+            }
         }
-    }
 
-    private func finishRecording(success: Bool) {
-        audioRecorder?.stop()
-        audioRecorder = nil
-        isRecording = false
-
-        if success {
-            print("Gravação finalizada com sucesso!")
-        } else {
-            print("Erro na gravação.")
+        private func stopRecording() {
+            audioRecorder?.stop()
+            print("🛑 Gravação finalizada.")
+            if let url = currentAudioURL {
+                print("🔊 Arquivo de áudio salvo em: \(url)")
+                currentAudioURL = url
+            }
         }
+    
+    @objc private func submitButtonTapped() {
+        let feedbackText = feedbackTextView.text ?? ""
+        let rating = starRating.rating
+        let audioURL = currentAudioURL
+        let senderID = "user_123"     // <- ID do remetente
+        let receiverID = "carla_001"  // <- ID da Carla
+        let audioFileName = UUID().uuidString + ".m4a"
+
+        var audioData: Data? = nil
+        if let url = audioURL {
+            audioData = try? Data(contentsOf: url)
+        }
+
+        let feedback = Feedback(
+            stars: rating,
+            description: feedbackText,
+            senderID: senderID,
+            receiverID: receiverID,
+            midia: audioData != nil ? audioFileName : nil
+        )
+
+        FeedbackManager.shared.saveFeedback(feedback, audioData: audioData)
+        FeedbackManager.shared.printAllFeedbacks()
+
+        print("✅ Feedback salvo com sucesso!")
     }
     
-    private func showAlert(message: String) {
+    private func showAlert(message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+            completion?()
+        })
         present(alert, animated: true)
     }
 }

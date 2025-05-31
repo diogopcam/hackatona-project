@@ -41,4 +41,33 @@ class FeedbackManager {
             .appendingPathComponent(fileName)
         try? data.write(to: fileURL)
     }
+    
+    func printAllFeedbacks() {
+        let feedbacks = getFeedbacks()
+        
+        if feedbacks.isEmpty {
+            print("Nenhum feedback encontrado.")
+            return
+        }
+        
+        print("\n=== LISTA DE FEEDBACKS ===")
+        print("Total: \(feedbacks.count)\n")
+        
+        for (index, feedback) in feedbacks.enumerated() {
+            print("Feedback #\(index + 1):")
+            print("⭐️ Avaliação: \(feedback.stars) estrelas")
+            print("📝 Descrição: \(feedback.description)")
+            print("👤 Remetente: \(feedback.senderID)")
+            print("🎯 Destinatário: \(feedback.receiverID)")
+            
+            if let midia = feedback.midia {
+                print("🎧 Mídia: \(midia)")
+                if let audioURL = feedback.getAudioURL() {
+                    print("🔈 Caminho do áudio: \(audioURL.path)")
+                }
+            } else {
+                print("🎧 Mídia: Nenhuma")
+            }
+        }
+    }
 }
