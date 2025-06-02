@@ -77,20 +77,20 @@ class APIService {
         
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            
+           
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.requestFailed(statusCode: -1)
             }
             
             guard 200...299 ~= httpResponse.statusCode else {
-                print("HTTP Error: \(httpResponse.statusCode)")
+
                 throw NetworkError.requestFailed(statusCode: httpResponse.statusCode)
             }
             
             do {
                 return try decoder.decode(T.self, from: data)
             } catch {
-                print("Decoding error: \(error)")
+                
                 throw NetworkError.decodingError(error)
             }
         } catch {

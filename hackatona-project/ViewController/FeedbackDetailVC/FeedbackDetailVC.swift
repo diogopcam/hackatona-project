@@ -3,6 +3,8 @@ import AVFoundation
 
 class FeedBackDetailsVC: UIViewController {
     var feedback: Feedback?
+    var audioPlayer: AVAudioPlayer?
+    var isPlaying = false
     
     init(feedback: Feedback) {
         self.feedback = feedback
@@ -97,17 +99,60 @@ class FeedBackDetailsVC: UIViewController {
     private func loadFeedbackData() {
         guard let feedback = feedback else { return }
         
-        descriptionLabel.text = "Nome"
-        infoLabel.text = "Infolabel"
+        // Set name and position based on the feedback data
+        if let senderName = feedback.senderName {
+            descriptionLabel.text = senderName
+        }
+        if let senderPosition = feedback.senderPosition {
+            infoLabel.text = senderPosition
+        }
+        
         starRating.rating = feedback.stars
         
-        if let audio = feedback.midia, !audio.isEmpty {
+        // Configure image view with first letter if no photo
+        imageView.subviews.forEach { $0.removeFromSuperview() }
+        let name = feedback.senderName ?? "Anônimo"
+        
+        if let photoURL = feedback.senderPhoto, let url = URL(string: photoURL) {
+            // Show loading state with first letter while image loads
+            showFirstLetterPlaceholder(for: name)
+            
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.imageView.subviews.forEach { $0.removeFromSuperview() }
+                    self.imageView.image = image
+                }
+            }.resume()
+        } else {
+            showFirstLetterPlaceholder(for: name)
+        }
+        
+        if let audio = feedback.midia, audio.hasSuffix(".m4a") {
+            // Configuração para feedback de áudio
             textView.removeFromSuperview()
             setupAudioView()
         } else if !feedback.description.isEmpty {
             audioButton.removeFromSuperview()
             textView.text = feedback.description
         }
+    }
+    
+    private func showFirstLetterPlaceholder(for name: String) {
+        let firstLetter = String(name.prefix(1)).uppercased()
+        let label = UILabel()
+        label.text = firstLetter
+        label.font = .systemFont(ofSize: 40, weight: .bold)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.frame = imageView.bounds
+        imageView.image = nil
+        imageView.addSubview(label)
     }
     
     private func setupUI() {
@@ -125,6 +170,9 @@ class FeedBackDetailsVC: UIViewController {
     
     private func setupAudioView() {
         containerView.addSubview(audioButton)
+        
+        // Adicionar target para o botão de áudio
+        audioButton.addTarget(self, action: #selector(audioButtonTapped), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             audioButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
@@ -169,5 +217,88 @@ class FeedBackDetailsVC: UIViewController {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    // MARK: - Audio Player Functions
+    @objc private func audioButtonTapped() {
+        guard let feedback = feedback, let audioFileName = feedback.midia else {
+            showAlert(message: "Nenhum arquivo de áudio disponível")
+            return
+        }
+        
+        if isPlaying {
+            stopAudio()
+        } else {
+            playAudio(fileName: audioFileName)
+        }
+    }
+    
+    private func playAudio(fileName: String) {
+        print("🎵 Tentando reproduzir áudio: \(fileName)")
+        
+        // Verificar se o arquivo existe usando o AudioFileManager
+        guard let audioURL = AudioFileManager.shared.getAudioFileURL(fileName: fileName) else {
+            print("❌ Arquivo de áudio não encontrado: \(fileName)")
+            showAlert(message: "Arquivo de áudio não encontrado: \(fileName)")
+            return
+        }
+        
+        print("✅ Arquivo encontrado em: \(audioURL.path)")
+        
+        do {
+            // Configurar a sessão de áudio para reprodução
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+            try audioSession.setActive(true)
+            
+            audioPlayer = try AVAudioPlayer(contentsOf: audioURL)
+            audioPlayer?.delegate = self
+            audioPlayer?.prepareToPlay()
+            
+            let success = audioPlayer?.play() ?? false
+            print("🔊 Reprodução iniciada: \(success)")
+            
+            if success {
+                isPlaying = true
+                updateAudioButton()
+            } else {
+                print("❌ Falha ao iniciar reprodução")
+                showAlert(message: "Falha ao iniciar reprodução do áudio")
+            }
+            
+        } catch {
+            print("❌ Erro ao reproduzir áudio: \(error)")
+            showAlert(message: "Erro ao reproduzir áudio: \(error.localizedDescription)")
+        }
+    }
+    
+    private func stopAudio() {
+        audioPlayer?.stop()
+        audioPlayer = nil
+        isPlaying = false
+        updateAudioButton()
+    }
+    
+    private func updateAudioButton() {
+        let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
+        let imageName = isPlaying ? "stop.fill" : "play.fill"
+        let image = UIImage(systemName: imageName, withConfiguration: config)
+        audioButton.setImage(image, for: .normal)
+    }
+}
+
+// MARK: - AVAudioPlayerDelegate
+extension FeedbackDetailViewController: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        isPlaying = false
+        updateAudioButton()
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        isPlaying = false
+        updateAudioButton()
+        if let error = error {
+            showAlert(message: "Erro na decodificação do áudio: \(error.localizedDescription)")
+        }
     }
 }

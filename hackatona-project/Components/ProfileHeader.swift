@@ -92,8 +92,16 @@ class ProfileHeader: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .mainGreen
         label.font = .systemFont(ofSize: 17)
-        label.textAlignment = .right
-        label.text = "Saldo: 100 pts"
+        label.text = "Saldo: \(GlobalData.balance)"
+        return label
+    }()
+    
+    lazy var totalPointsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 17)
+        label.text = "Total: \(GlobalData.totalPoints)"
         return label
     }()
     
@@ -137,6 +145,11 @@ class ProfileHeader: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func update() {
+        balanceLabel.text = "Saldo: \(GlobalData.balance)"
+        totalPointsLabel.text = "Total: \(GlobalData.totalPoints)"
+    }
 
     private func loadUserData() {
         guard let data = UserDefaults.standard.data(forKey: "logged_user"),
@@ -146,6 +159,23 @@ class ProfileHeader: UIView {
         roleLabel.text = user.position
         balanceLabel.text = "\(Int(user.balance)) pts"
         starsLabel.text = String(format: "%.1f", user.averageStars)
+        
+        // Load profile image
+        let imageURL = "https://media.licdn.com/dms/image/v2/D4D03AQElhds1rhpbeA/profile-displayphoto-shrink_800_800/B4DZPLJABeHcAc-/0/1734279956759?e=1753920000&v=beta&t=8TZZOOs-qIeJcxWX9o97pbi-IBQy8nU433xNku4tCss"
+        
+        if let url = URL(string: imageURL) {
+            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self,
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image
+                }
+            }.resume()
+        }
     }
 }
 

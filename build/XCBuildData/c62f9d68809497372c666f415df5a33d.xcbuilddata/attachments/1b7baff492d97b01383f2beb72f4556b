@@ -1,0 +1,438 @@
+{
+  "" : {
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/hackatona-project-master.dia",
+    "emit-module-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/hackatona-project-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/hackatona-project-master-emit-module.dia",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/hackatona-project-master.swiftdeps"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/AppDelegate.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AppDelegate.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AppDelegate.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AppDelegate.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AppDelegate.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AppDelegate.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AppDelegate.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AppDelegate.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AppDelegate~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/AlphabeticalHeaderView.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AlphabeticalHeaderView.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AlphabeticalHeaderView.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AlphabeticalHeaderView.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AlphabeticalHeaderView.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AlphabeticalHeaderView.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AlphabeticalHeaderView.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AlphabeticalHeaderView.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AlphabeticalHeaderView~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/CollaboratorTableViewCell.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CollaboratorTableViewCell.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CollaboratorTableViewCell.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CollaboratorTableViewCell.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CollaboratorTableViewCell.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CollaboratorTableViewCell.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CollaboratorTableViewCell.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CollaboratorTableViewCell.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CollaboratorTableViewCell~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/Components.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Components.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Components.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Components.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Components.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Components.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Components.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Components.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Components~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/NamedTextField.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/NamedTextField.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/NamedTextField.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/NamedTextField.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/NamedTextField.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/NamedTextField.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/NamedTextField.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/NamedTextField.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/NamedTextField~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/ProfileHeader.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileHeader.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileHeader.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileHeader.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileHeader.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileHeader.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileHeader.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileHeader.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileHeader~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/RankingCell.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingCell.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingCell.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingCell.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingCell.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingCell.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingCell.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingCell.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingCell~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/SegmentControl.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SegmentControl.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SegmentControl.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SegmentControl.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SegmentControl.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SegmentControl.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SegmentControl.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SegmentControl.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SegmentControl~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/StarRatingView.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StarRatingView.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StarRatingView.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StarRatingView.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StarRatingView.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StarRatingView.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StarRatingView.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StarRatingView.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StarRatingView~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/TabBarController.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/TabBarController.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/TabBarController.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/TabBarController.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/TabBarController.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/TabBarController.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/TabBarController.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/TabBarController.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/TabBarController~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/TableView/EmptyTableViewCell.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmptyTableViewCell.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmptyTableViewCell.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmptyTableViewCell.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmptyTableViewCell.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmptyTableViewCell.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmptyTableViewCell.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmptyTableViewCell.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmptyTableViewCell~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/TableView/FeedbackTableViewCell.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackTableViewCell.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackTableViewCell.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackTableViewCell.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackTableViewCell.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackTableViewCell.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackTableViewCell.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackTableViewCell.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackTableViewCell~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Components/TableView/GenericTableViewHeader.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GenericTableViewHeader.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GenericTableViewHeader.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GenericTableViewHeader.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GenericTableViewHeader.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GenericTableViewHeader.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GenericTableViewHeader.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GenericTableViewHeader.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/GenericTableViewHeader~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Extensions.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Extensions.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Extensions.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Extensions.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Extensions.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Extensions.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Extensions.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Extensions.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Extensions~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/FeedbackViewController.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackViewController.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackViewController.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackViewController.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackViewController.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackViewController.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackViewController.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackViewController.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackViewController~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/APIEndpoints.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIEndpoints.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIEndpoints.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIEndpoints.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIEndpoints.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIEndpoints.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIEndpoints.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIEndpoints.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIEndpoints~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/APIResponse.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIResponse.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIResponse.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIResponse.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIResponse.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIResponse.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIResponse.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIResponse.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIResponse~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/APIService.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIService.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIService.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIService.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIService.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIService.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIService.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIService.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/APIService~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/Activity.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Activity.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Activity.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Activity.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Activity.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Activity.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Activity.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Activity.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Activity~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/AudioFileManager.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AudioFileManager.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AudioFileManager.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AudioFileManager.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AudioFileManager.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AudioFileManager.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AudioFileManager.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AudioFileManager.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/AudioFileManager~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/Benefit.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Benefit.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Benefit.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Benefit.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Benefit.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Benefit.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Benefit.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Benefit.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Benefit~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/Employee.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Employee.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Employee.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Employee.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Employee.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Employee.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Employee.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Employee.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Employee~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/EmployeeStats.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeStats.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeStats.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeStats.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeStats.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeStats.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeStats.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeStats.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeStats~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/Feedback.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Feedback.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Feedback.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Feedback.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Feedback.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Feedback.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Feedback.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Feedback.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Feedback~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/Persistence.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Persistence.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Persistence.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Persistence.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Persistence.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Persistence.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Persistence.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Persistence.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Persistence~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/Resource.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Resource.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Resource.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Resource.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Resource.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Resource.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Resource.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Resource.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/Resource~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Model/User.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/User.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/User.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/User.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/User.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/User.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/User.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/User.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/User~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/Protocols/ViewCodeProtocol.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ViewCodeProtocol.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ViewCodeProtocol.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ViewCodeProtocol.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ViewCodeProtocol.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ViewCodeProtocol.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ViewCodeProtocol.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ViewCodeProtocol.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ViewCodeProtocol~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/SceneDelegate.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SceneDelegate.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SceneDelegate.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SceneDelegate.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SceneDelegate.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SceneDelegate.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SceneDelegate.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SceneDelegate.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SceneDelegate~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/CameraVC.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CameraVC.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CameraVC.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CameraVC.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CameraVC.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CameraVC.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CameraVC.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CameraVC.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CameraVC~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/CreateFeedbackVC.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CreateFeedbackVC.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CreateFeedbackVC.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CreateFeedbackVC.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CreateFeedbackVC.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CreateFeedbackVC.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CreateFeedbackVC.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CreateFeedbackVC.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/CreateFeedbackVC~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/FeedbackDetailViewController.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackDetailViewController.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackDetailViewController.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackDetailViewController.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackDetailViewController.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackDetailViewController.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackDetailViewController.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackDetailViewController.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackDetailViewController~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/FeedbackVC.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackVC.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackVC.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackVC.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackVC.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackVC.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackVC.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackVC.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/FeedbackVC~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/LoginVC.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/LoginVC.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/LoginVC.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/LoginVC.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/LoginVC.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/LoginVC.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/LoginVC.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/LoginVC.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/LoginVC~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/ProfileVC.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileVC.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileVC.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileVC.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileVC.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileVC.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileVC.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileVC.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ProfileVC~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/RankingVC.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingVC.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingVC.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingVC.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingVC.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingVC.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingVC.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingVC.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/RankingVC~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/ReceivedFeedbacksVC.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ReceivedFeedbacksVC.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ReceivedFeedbacksVC.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ReceivedFeedbacksVC.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ReceivedFeedbacksVC.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ReceivedFeedbacksVC.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ReceivedFeedbacksVC.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ReceivedFeedbacksVC.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ReceivedFeedbacksVC~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/SendedFeedbacksVC.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SendedFeedbacksVC.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SendedFeedbacksVC.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SendedFeedbacksVC.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SendedFeedbacksVC.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SendedFeedbacksVC.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SendedFeedbacksVC.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SendedFeedbacksVC.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/SendedFeedbacksVC~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewController/StoreVC.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StoreVC.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StoreVC.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StoreVC.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StoreVC.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StoreVC.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StoreVC.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StoreVC.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/StoreVC~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewModel/ActivityViewModel.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ActivityViewModel.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ActivityViewModel.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ActivityViewModel.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ActivityViewModel.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ActivityViewModel.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ActivityViewModel.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ActivityViewModel.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ActivityViewModel~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewModel/EmployeeViewModel.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeViewModel.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeViewModel.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeViewModel.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeViewModel.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeViewModel.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeViewModel.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeViewModel.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/EmployeeViewModel~partial.swiftmodule"
+  },
+  "/Users/mauriciokrziminski/Code/Projects/hackatona-project/hackatona-project/ViewModel/ResourceViewModel.swift" : {
+    "const-values" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ResourceViewModel.swiftconstvalues",
+    "dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ResourceViewModel.d",
+    "diagnostics" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ResourceViewModel.dia",
+    "index-unit-output-path" : "/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ResourceViewModel.o",
+    "llvm-bc" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ResourceViewModel.bc",
+    "object" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ResourceViewModel.o",
+    "swift-dependencies" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ResourceViewModel.swiftdeps",
+    "swiftmodule" : "/Users/mauriciokrziminski/Code/Projects/hackatona-project/build/hackatona-project.build/Debug-iphoneos/hackatona-project.build/Objects-normal/arm64/ResourceViewModel~partial.swiftmodule"
+  }
+}

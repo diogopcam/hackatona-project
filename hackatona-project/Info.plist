@@ -2,6 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>http</string>
+		<string>https</string>
+	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+    
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Precisamos do microfone para gravar seu feedback em áudio.</string>
+    
     <key>UIApplicationSceneManifest</key>
     <dict>
         <key>UIApplicationSupportsMultipleScenes</key>
@@ -23,6 +50,10 @@
     <!-- Adicione estas novas linhas para a permissão de câmera -->
     <key>NSCameraUsageDescription</key>
     <string>Precisamos acessar a câmera para escanear QR Codes</string>
+    
+    <!-- Permissão para usar o microfone -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Precisamos acessar o microfone para gravar feedback de áudio</string>
     
     <key>LSApplicationQueriesSchemes</key>
     <array>
