@@ -11,7 +11,7 @@ import UIKit
 class StarRatingView: UIStackView {
     var isEditable: Bool = true
     
-    private var stars: [UIButton] = []
+    private lazy var stars: [UIButton] = []
     var rating: Int = 0 {
         didSet {
             updateStars()
@@ -65,7 +65,6 @@ class StarRatingView: UIStackView {
         }
     }
     
-    // Adicione este método para permitir configurar a avaliação externamente
     func setRating(_ rating: Int) {
         self.rating = rating
     }

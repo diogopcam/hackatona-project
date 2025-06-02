@@ -10,30 +10,46 @@ import UIKit
 class CollaboratorTableViewCell: UITableViewCell {
     static let identifier = "CollaboratorTableViewCell"
 
-    private let avatarImageView: UIImageView = {
+    private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 25
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .mainGreen
         return imageView
     }()
 
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textColor = .mainGreen
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private let roleLabel: UILabel = {
+    private lazy var roleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.textColor = .systemGray
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+
+    private lazy var labelsStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [nameLabel, roleLabel])
+        stack.axis = .vertical
+        stack.spacing = 4
+        stack.alignment = .leading
+        stack.distribution = .fill
+        return stack
+    }()
+
+    private lazy var mainStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [avatarImageView, labelsStackView])
+        stack.axis = .horizontal
+        stack.spacing = 12
+        stack.alignment = .center
+        stack.distribution = .fill
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -49,87 +65,56 @@ class CollaboratorTableViewCell: UITableViewCell {
         nameLabel.text = name
         roleLabel.text = role
         
-        // Clean up any existing subviews
         avatarImageView.subviews.forEach { $0.removeFromSuperview() }
+        avatarImageView.image = nil
+
+        let firstLetter = String(name.prefix(1)).uppercased()
+        let placeholderLabel = UILabel()
+        placeholderLabel.text = firstLetter
+        placeholderLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        placeholderLabel.textColor = .labelPrimary
+        placeholderLabel.textAlignment = .center
+        placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.addSubview(placeholderLabel)
         
+        NSLayoutConstraint.activate([
+            placeholderLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
+            placeholderLabel.trailingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
+            placeholderLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
+            placeholderLabel.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor)
+        ])
+
         if let imageURLString = imageURL, let url = URL(string: imageURLString) {
-            // Show loading state with first letter while image loads
-            let firstLetter = String(name.prefix(1)).uppercased()
-            let label = UILabel()
-            label.text = firstLetter
-            label.font = .systemFont(ofSize: 20, weight: .bold)
-            label.textColor = .white
-            label.textAlignment = .center
-            label.frame = avatarImageView.bounds
-            avatarImageView.image = nil
-            avatarImageView.addSubview(label)
-            
-            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
                 guard let self = self,
                       let data = data,
                       let image = UIImage(data: data) else {
                     return
                 }
-                
                 DispatchQueue.main.async {
-                    // Clean up letter label when image loads
                     self.avatarImageView.subviews.forEach { $0.removeFromSuperview() }
                     self.avatarImageView.image = image
                 }
             }.resume()
-        } else {
-            // If no image URL, display first letter of name
-            let firstLetter = String(name.prefix(1)).uppercased()
-            let label = UILabel()
-            label.text = firstLetter
-            label.font = .systemFont(ofSize: 20, weight: .bold)
-            label.textColor = .white
-            label.textAlignment = .center
-            label.frame = avatarImageView.bounds
-            avatarImageView.image = nil
-            avatarImageView.addSubview(label)
         }
     }
 }
 
 extension CollaboratorTableViewCell: ViewCodeProtocol {
     func addSubViews() {
-        contentView.addSubview(avatarImageView)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(roleLabel)
+        contentView.addSubview(mainStackView)
+        contentView.backgroundColor = .backgroundSecondary
     }
-    
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            avatarImageView.leadingAnchor.constraint(
-                equalTo: contentView.leadingAnchor,
-                constant: 16
-            ),
-            avatarImageView.centerYAnchor.constraint(
-                equalTo: contentView.centerYAnchor
-            ),
             avatarImageView.widthAnchor.constraint(equalToConstant: 50),
             avatarImageView.heightAnchor.constraint(equalToConstant: 50),
 
-            nameLabel.leadingAnchor.constraint(
-                equalTo: avatarImageView.trailingAnchor,
-                constant: 12
-            ),
-            nameLabel.topAnchor.constraint(
-                equalTo: contentView.topAnchor,
-                constant: 20
-            ),
-
-            roleLabel.leadingAnchor.constraint(
-                equalTo: nameLabel.leadingAnchor
-            ),
-            roleLabel.topAnchor.constraint(
-                equalTo: nameLabel.bottomAnchor,
-                constant: 4
-            ),
-            roleLabel.trailingAnchor.constraint(
-                equalTo: nameLabel.trailingAnchor
-            ),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ])
     }
 }

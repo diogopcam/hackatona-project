@@ -1,9 +1,16 @@
+//
+//  RankingCell.swift
+//  hackatona-project
+//
+//  Created by Eduardo Camana on 31/05/25.
+//
+
 import UIKit
 
 class RankingCell: UITableViewCell {
     static let identifier = "RankingCell"
+    let user = Persistence.getLoggedUser()
     
-    // MARK: - UI Components
     private lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundSecondary
@@ -38,7 +45,6 @@ class RankingCell: UITableViewCell {
         return label
     }()
     
-    // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
@@ -50,13 +56,11 @@ class RankingCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Configuration
     func configure(name: String, position: Int, imageURL: String? = nil) {
         nameLabel.text = name
         positionLabel.text = "#\(position)"
         
-        // Set special background for Felipe Elsner
-        if name == "Felipe Elsner" {
+        if name == user?.fullName {
             containerView.backgroundColor = .mainGreen.withAlphaComponent(0.3)
         } else {
             containerView.backgroundColor = .backgroundSecondary
@@ -69,7 +73,7 @@ class RankingCell: UITableViewCell {
             let label = UILabel()
             label.text = firstLetter
             label.font = .systemFont(ofSize: 20, weight: .bold)
-            label.textColor = .white
+            label.textColor = .labelPrimary
             label.textAlignment = .center
             label.frame = profileImageView.bounds
             profileImageView.image = nil
@@ -92,7 +96,7 @@ class RankingCell: UITableViewCell {
             let label = UILabel()
             label.text = firstLetter
             label.font = .systemFont(ofSize: 20, weight: .bold)
-            label.textColor = .white
+            label.textColor = .labelPrimary
             label.textAlignment = .center
             label.frame = profileImageView.bounds
             profileImageView.image = nil
@@ -101,7 +105,6 @@ class RankingCell: UITableViewCell {
     }
 }
 
-// MARK: - ViewCodeProtocol
 extension RankingCell: ViewCodeProtocol {
     func addSubViews() {
         contentView.addSubview(containerView)

@@ -13,7 +13,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     private var swipeGestureRecognizer: UISwipeGestureRecognizer!
     private var panGestureRecognizer: UIPanGestureRecognizer!
     private var initialTouchPoint: CGPoint = .zero
-    private var dismissThreshold: CGFloat = 120.0 // Distância necessária para fechar
+    private var dismissThreshold: CGFloat = 120.0
     
     private var captureSession: AVCaptureSession?
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -23,26 +23,23 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
         backButton = UIButton(type: .system)
         backButton.setTitle("Fechar", for: .normal)
         backButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        backButton.tintColor = .white
-        backButton.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        backButton.layer.cornerRadius = 20 // Botão mais redondo
+        backButton.tintColor = .labelPrimary
+        backButton.backgroundColor = UIColor.backgroundTertiary
+        backButton.layer.cornerRadius = 20 
         backButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         backButton.addTarget(self, action: #selector(closeCamera), for: .touchUpInside)
         
-        // Adiciona padding interno
         backButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         
         backButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(backButton)
         
-        // Atualiza as constraints para posicionar no topo direito
         NSLayoutConstraint.activate([
             backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             backButton.heightAnchor.constraint(equalToConstant: 40)
         ])
         
-        // Adiciona sombra para melhor visibilidade
         backButton.layer.shadowColor = UIColor.black.cgColor
         backButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         backButton.layer.shadowRadius = 4
@@ -59,7 +56,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     }
     
     private func setupTabs() {
-        let feedbackVC = FeedbackViewController()
+        let feedbackVC = FeedbackVC()
         let feedbackNav = UINavigationController(rootViewController: feedbackVC)
         feedbackNav.tabBarItem = UITabBarItem(
             title: "Feedback",
@@ -67,22 +64,21 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             selectedImage: UIImage(systemName: "text.bubble.fill")
         )
         
-        let storeVC = StoreViewController()
+        let storeVC = StoreVC()
         let storeNav = UINavigationController(rootViewController: storeVC)
         storeNav.tabBarItem = UITabBarItem(
-            title: "Loja",
+            title: "Store",
             image: UIImage(systemName: "storefront"),
             selectedImage: UIImage(systemName: "storefront.fill")
         )
         
-        // Não precisamos de um view controller real para a câmera
         let cameraItem = UITabBarItem(
-            title: "Câmera",
+            title: "QR Code",
             image: UIImage(systemName: "camera"),
             selectedImage: UIImage(systemName: "camera.fill")
         )
         
-        let rankingVC = RankingViewController()
+        let rankingVC = RankingVC()
         let rankingNav = UINavigationController(rootViewController: rankingVC)
         rankingNav.tabBarItem = UITabBarItem(
             title: "Ranking",
@@ -90,15 +86,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             selectedImage: UIImage(systemName: "medal.fill")
         )
         
-        let profileVC = ProfileViewController()
+        let profileVC = ProfileVC()
         let profileNav = UINavigationController(rootViewController: profileVC)
         profileNav.tabBarItem = UITabBarItem(
-            title: "Perfil",
+            title: "Profile",
             image: UIImage(systemName: "person"),
             selectedImage: UIImage(systemName: "person.fill")
         )
         
-        // Criamos um view controller vazio apenas para o item da tab bar
         let emptyVC = UIViewController()
         emptyVC.tabBarItem = cameraItem
         
@@ -107,13 +102,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     
     // MARK: - UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        // Se tentar selecionar a tab da câmera
         if viewController == viewControllers?[2] {
             openCamera()
             return false
         }
         
-        // Se a câmera estiver aberta, fecha antes de trocar de tab
         if captureSession != nil {
             closeCamera()
         }
@@ -122,26 +115,20 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     }
     
     private func openCamera() {
-        // Previne múltiplas aberturas
         guard captureSession == nil else { return }
         
-        // Salva o estado atual da tabBar
         let wasTabBarHidden = tabBar.isHidden
         
-        // Cria uma nova view para a câmera
         let cameraView = UIView(frame: view.bounds)
-        cameraView.tag = 999 // Tag para identificar a view da câmera
-        cameraView.backgroundColor = .black
+        cameraView.tag = 999
+        cameraView.backgroundColor = .backgroundPrimary
         view.addSubview(cameraView)
         
-        // Esconde a tabBar durante o uso da câmera
         tabBar.isHidden = true
         
-        // Configura a nova sessão
         captureSession = AVCaptureSession()
         
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else {
-            showAlert(title: "Erro", message: "Câmera não disponível")
             cleanupCameraView()
             tabBar.isHidden = wasTabBarHidden
             return
@@ -149,7 +136,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
 
         guard let videoInput = try? AVCaptureDeviceInput(device: videoCaptureDevice),
               (captureSession?.canAddInput(videoInput) ?? false) else {
-            showAlert(title: "Erro", message: "Não foi possível acessar a câmera")
             cleanupCameraView()
             tabBar.isHidden = wasTabBarHidden
             return
@@ -163,13 +149,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             metadataOutput.metadataObjectTypes = [.qr]
         } else {
-            showAlert(title: "Erro", message: "Não foi possível configurar a leitura de QR Code")
             cleanupCameraView()
             tabBar.isHidden = wasTabBarHidden
             return
         }
 
-        // Configura a visualização da câmera
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
         videoPreviewLayer?.videoGravity = .resizeAspectFill
         videoPreviewLayer?.frame = cameraView.bounds
@@ -178,18 +162,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             cameraView.layer.addSublayer(preview)
         }
         
-        // Adiciona os controles de UI
         setupBackButton()
         
-        // Adiciona o gesto de pan
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
         cameraView.addGestureRecognizer(panGestureRecognizer!)
         
-        // Adiciona um tap gesture para focar a câmera
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapToFocus(_:)))
         cameraView.addGestureRecognizer(tapGesture)
 
-        // Inicia a captura em background
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.captureSession?.startRunning()
         }
@@ -210,7 +190,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
         case .changed:
             let translation = touchPoint.y - initialTouchPoint.y
             
-            // Só anima se for para baixo
             if translation > 0 {
                 view.transform = CGAffineTransform(translationX: 0, y: translation)
             }
@@ -243,44 +222,34 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
     }
     
     @objc private func closeCamera() {
-        // Desabilita interações durante o fechamento
         view.isUserInteractionEnabled = false
-        
-        // Para a sessão em background
+
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
             
             self.captureSession?.stopRunning()
             
             DispatchQueue.main.async {
-                // Remove gestos primeiro
                 if let panGesture = self.panGestureRecognizer {
                     self.view.removeGestureRecognizer(panGesture)
                     self.panGestureRecognizer = nil
                 }
                 
-                // Remove o botão
                 self.backButton?.removeFromSuperview()
                 self.backButton = nil
                 
-                // Remove a view da câmera e limpa a layer de preview
                 self.cleanupCameraView()
                 self.videoPreviewLayer = nil
                 
-                // Limpa a sessão
                 self.captureSession = nil
                 
-                // Reseta a transformação da view
                 self.view.transform = .identity
                 
-                // Mostra a tabBar novamente
                 self.tabBar.isHidden = false
                 
-                // Força a atualização da UI
                 self.view.setNeedsLayout()
                 self.view.layoutIfNeeded()
                 
-                // Reabilita interações
                 self.view.isUserInteractionEnabled = true
             }
         }
@@ -328,29 +297,25 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
 
         print("📷 QR Code detected: \(qrCode)")
         captureSession?.stopRunning()
-
-        // Verifica se é uma URL do nosso app
+        
         if let url = URL(string: qrCode) {
             let urlString = url.absoluteString.lowercased()
-            
-            // Fecha a câmera primeiro
+
             closeCamera()
             
-            // Navega para a tela apropriada baseado na URL
             if urlString.contains("feedback") {
-                // Navega para a tela de feedback
-                self.selectedIndex = 0 // índice da tab de feedback
+                self.selectedIndex = 0
+                
             } else if urlString.contains("store") {
-                // Navega para a loja
-                self.selectedIndex = 1 // índice da tab de loja
+                self.selectedIndex = 1
+                
             } else if urlString.contains("ranking") {
-                // Navega para o ranking
-                self.selectedIndex = 3 // índice da tab de ranking
+                self.selectedIndex = 3
+                
             } else if urlString.contains("profile") {
-                // Navega para o perfil
-                self.selectedIndex = 4 // índice da tab de perfil
+                self.selectedIndex = 4
+                
             } else if UIApplication.shared.canOpenURL(url) {
-                // Se for uma URL externa válida
                 let alert = UIAlertController(title: "QR Code detected",
                                               message: qrCode,
                                               preferredStyle: .alert)
@@ -373,7 +338,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
         if #available(iOS 15.0, *) {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = .systemGray6
+            appearance.backgroundColor = .backgroundSecondary
             
             appearance.stackedLayoutAppearance.selected.iconColor = .mainGreen
             appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.mainGreen]
@@ -384,7 +349,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
             tabBar.standardAppearance = appearance
             tabBar.scrollEdgeAppearance = appearance
         } else {
-            tabBar.barTintColor = .white
+            tabBar.barTintColor = .labelPrimary
             tabBar.tintColor = .mainGreen
             tabBar.unselectedItemTintColor = .gray
         }
@@ -397,11 +362,6 @@ extension TabBarController: UIImagePickerControllerDelegate, UINavigationControl
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         
-        guard let _ = info[.originalImage] as? UIImage else {
-            showAlert(title: "Error", message: "Failed to capture image")
-            return
-        }
-        
         // Aqui você pode processar a imagem capturada
         // Por exemplo, salvar ou enviar para outro view controller
     }
@@ -410,4 +370,3 @@ extension TabBarController: UIImagePickerControllerDelegate, UINavigationControl
         picker.dismiss(animated: true)
     }
 }
-

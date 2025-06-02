@@ -8,17 +8,14 @@
 import UIKit
 
 class FeedbackTableViewCell: UITableViewCell {
-    
-    // MARK: - UI Elements
-
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.textColor = .white
+        label.textColor = .labelPrimary
         return label
     }()
     
-    private let starsStackView: UIStackView = {
+    private lazy var starsStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 4
@@ -26,22 +23,22 @@ class FeedbackTableViewCell: UITableViewCell {
         return stack
     }()
     
-    private let mediaIcon: UIImageView = {
+    private lazy var mediaIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.tintColor = .mainGreen
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private let containerStack: UIStackView = {
-        let stack = UIStackView()
+    private lazy var containerStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [nameLabel, starsStackView, mediaIcon])
         stack.axis = .horizontal
         stack.alignment = .center
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.backgroundColor = .backgroundSecondary
         stack.spacing = 12
         return stack
     }()
-
-    // MARK: - Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -52,21 +49,11 @@ class FeedbackTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Setup Layout
-
     private func setup() {
         backgroundColor = .clear
         selectionStyle = .none
-        
-        starsStackView.translatesAutoresizingMaskIntoConstraints = false
-        mediaIcon.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        containerStack.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(containerStack)
-        containerStack.addArrangedSubview(nameLabel)
-        containerStack.addArrangedSubview(starsStackView)
-        containerStack.addArrangedSubview(mediaIcon)
 
         NSLayoutConstraint.activate([
             containerStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
@@ -79,23 +66,21 @@ class FeedbackTableViewCell: UITableViewCell {
         ])
     }
 
-    // MARK: - Configure Cell
-
     func config(_ feedback: Feedback, name: String) {
         nameLabel.text = name
         setupStars(feedback.stars)
 
         if let midia = feedback.midia {
             if midia.hasSuffix(".m4a") {
-                mediaIcon.image = UIImage(systemName: "waveform.circle.fill") // Áudio
+                mediaIcon.image = UIImage(systemName: "waveform.circle.fill")
             } else {
-                mediaIcon.image = UIImage(systemName: "text.bubble.fill") // Outro tipo de mídia
+                mediaIcon.image = UIImage(systemName: "text.bubble.fill")
             }
         } else {
             if !feedback.description.isEmpty {
-                mediaIcon.image = UIImage(systemName: "text.bubble") // Texto simples
+                mediaIcon.image = UIImage(systemName: "text.bubble")
             } else {
-                mediaIcon.image = UIImage(systemName: "questionmark.circle") // Sem conteúdo
+                mediaIcon.image = UIImage(systemName: "questionmark.circle")
             }
         }
     }

@@ -1,29 +1,29 @@
 //
 //  EmptyTableViewCell.swift
-//  AvoTracker
+//  hackatona-project
 //
-//  Created by João Pedro Teixeira de Caralho on 19/05/25.
+//  Created by Eduardo Camana on 31/05/25.
 //
 import UIKit
 
 class EmptyTableViewCell: UITableViewCell {
-
-    // MARK: Reuse ID
     static let reuseIdentifier = "empty-cell"
-
-    // MARK: Title label
-    lazy var titleLabel = Components.getLabel(
-        content: "",
-        font: .systemFont(ofSize: 17, weight: .bold)
-    )
-
-    // MARK: Description label
-    lazy var descriptionLabel = Components.getLabel(
-        content: "",
-        font: .systemFont(ofSize: 17),
-        textColor: .white,
-        alignment: .center
-    )
+    
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 17, weight: .bold)
+        
+        return label
+    }()
+    
+    lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = .labelPrimary
+        label.textAlignment = .center
+        
+        return label
+    }()
 
     lazy var stack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [
@@ -34,7 +34,7 @@ class EmptyTableViewCell: UITableViewCell {
         stack.spacing = 8
         stack.distribution = .fill
         stack.alignment = .center
-        stack.backgroundColor = .systemGray6
+        stack.backgroundColor = .backgroundSecondary
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = UIEdgeInsets(
             top: 10,
@@ -45,22 +45,20 @@ class EmptyTableViewCell: UITableViewCell {
         return stack
     }()
 
-    // MARK: Config
     func config(_ mode: Int) {
         switch mode {
         case 0:
-            titleLabel.text = "Sem feedbacks recebidos"
-            descriptionLabel.text = "Ainda não enviaram feedbacks para você"
+            titleLabel.text = "No feedback received"
+            descriptionLabel.text = "No one has sent you feedback yet"
         case 1:
-            titleLabel.text = "Sem feedbacks enviados"
-            descriptionLabel.text = "Envie um feedback para alguém"
+            titleLabel.text = "No feedback sent"
+            descriptionLabel.text = "Send feedback to someone"
         default:
             titleLabel.text = ""
             descriptionLabel.text = ""
         }
     }
 
-    // MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -75,7 +73,6 @@ class EmptyTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: View Code Protocol
 extension EmptyTableViewCell: ViewCodeProtocol {
     func addSubViews() {
         contentView.addSubview(stack)

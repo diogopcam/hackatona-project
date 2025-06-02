@@ -1,86 +1,93 @@
 //
 //  GenericTableViewHeader.swift
-//  AvoTracker
+//  hackatona-project
 //
-//  Created by João Pedro Teixeira de Caralho on 14/05/25.
+//  Created by Eduardo Camana on 31/05/25.
 //
 
 import UIKit
 
 class GenericTableViewHeader: UIView {
-    
-    // MARK: Image
-    lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .mainGreen
-        return imageView
+    private lazy var imageView: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.tintColor = .mainGreen
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
     }()
-    
-    
-    // MARK: Title
-    lazy var titleLabel = Components.getLabel(content: "", font: .systemFont(ofSize: 36, weight: .bold))
-    
-    
-    // MARK: Stack
-    lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [imageView, titleLabel])
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.spacing = 8
-        return stackView
+
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
     }()
-    
-    
-    // MARK: Optional Button
-    private var button: UIButton?
-    
-    
-    // MARK: Scene
-    init(image: UIImage, text: String, button: UIButton? = nil, font: UIFont? = nil, backgroundColor: UIColor = .clear) {
+
+    private lazy var stackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [])
+        stack.axis = .horizontal
+        stack.distribution = .fill
+        stack.alignment = .center
+        stack.spacing = 8
+        stack.backgroundColor = .backgroundSecondary
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    init(
+        image: UIImage,
+        text: String,
+        button: UIButton? = nil,
+        font: UIFont? = nil
+    ) {
         super.init(frame: .zero)
         imageView.image = image
         titleLabel.text = text
-        titleLabel.font = font
-        self.button = button
-        
-        self.backgroundColor = backgroundColor
-        
+        if let font {
+            titleLabel.font = font
+        }
+        configureStack(with: button)
         setup()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private func configureStack(with button: UIButton?) {
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(titleLabel)
+
+        if let btn = button {
+            let spacer = UIView()
+            spacer.translatesAutoresizingMaskIntoConstraints = false
+            stackView.addArrangedSubview(spacer)
+            stackView.addArrangedSubview(btn)
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                btn.heightAnchor.constraint(equalToConstant: 30)
+            ])
+        }
+    }
 }
 
-// MARK: View Code Protocol
 extension GenericTableViewHeader: ViewCodeProtocol {
     func addSubViews() {
         addSubview(stackView)
-        if let button = button {
-            addSubview(button)
-        }
     }
-    
+
     func setupConstraints() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 30),
             imageView.widthAnchor.constraint(equalToConstant: 30),
+            imageView.heightAnchor.constraint(equalToConstant: 30),
+
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            heightAnchor.constraint(equalToConstant: 50)
         ])
-        
-        if let button = button {
-            button.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                button.topAnchor.constraint(equalTo: topAnchor),
-                button.trailingAnchor.constraint(equalTo: trailingAnchor),
-                button.heightAnchor.constraint(equalToConstant: 30)
-            ])
-        }
-        
-        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }

@@ -15,7 +15,6 @@ class ActivityViewModel: ObservableObject {
         return df
     }()
     
-    // MARK: - Fetch all activities
     func fetchActivities() {
         Task {
             isLoading = true
@@ -34,7 +33,6 @@ class ActivityViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Create new activity
     func createActivity(_ activity: Activity) {
         Task {
             isLoading = true
@@ -45,21 +43,19 @@ class ActivityViewModel: ObservableObject {
                 activities.append(newActivity)
             } catch {
                 self.error = error.localizedDescription
-                print("Error creating activity: \(error)")
             }
             
             isLoading = false
         }
     }
     
-    // MARK: - Get activity details
     func getActivityDetails(id: String) {
         Task {
             isLoading = true
             error = nil
             
             do {
-                let activity = try await apiService.getActivityByID(id)
+                _ = try await apiService.getActivityByID(id)
             } catch {
                 self.error = error.localizedDescription
                 print("Error fetching activity details: \(error)")

@@ -9,7 +9,6 @@ class EmployeeViewModel: ObservableObject {
     
     private let apiService = APIService.shared
     
-    // MARK: - Fetch all employees
     func fetchEmployees() {
         Task {
             isLoading = true
@@ -25,7 +24,6 @@ class EmployeeViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Fetch employee ranking
     func fetchEmployeeRanking() {
         Task {
             isLoading = true
@@ -33,7 +31,6 @@ class EmployeeViewModel: ObservableObject {
             
             do {
                 employees = try await apiService.getEmployeeRanking()
-                // Sort employees by average rating in descending order
                 employees.sort { $0.average > $1.average }
             } catch {
                 self.error = error.localizedDescription
@@ -44,7 +41,6 @@ class EmployeeViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Create new employee
     func createEmployee(_ employee: Employee) {
         Task {
             isLoading = true
@@ -55,14 +51,12 @@ class EmployeeViewModel: ObservableObject {
                 employees.append(newEmployee)
             } catch {
                 self.error = error.localizedDescription
-                print("Error creating employee: \(error)")
             }
             
             isLoading = false
         }
     }
     
-    // MARK: - Filter employees by position
     func fetchEmployeesByPosition(_ position: String) {
         Task {
             isLoading = true
@@ -72,7 +66,6 @@ class EmployeeViewModel: ObservableObject {
                 employees = try await apiService.getEmployeesByPosition(position)
             } catch {
                 self.error = error.localizedDescription
-                print("Error fetching employees by position: \(error)")
             }
             
             isLoading = false

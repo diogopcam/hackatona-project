@@ -15,7 +15,7 @@ class SegmentedControl: UIView {
 
     weak var selectionDelegate: NativeSegmentedDelegate?
 
-    let segmentedControl: UISegmentedControl = {
+    lazy var segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
             "Employees", "Places", "Events",
         ])
@@ -25,13 +25,14 @@ class SegmentedControl: UIView {
         control.backgroundColor =
             UIColor(named: "background-secondary") ?? .systemGray6
         control.selectedSegmentTintColor = .mainGreen
+    
 
         let normalAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(named: "label-primary") ?? .black,
+            .foregroundColor: UIColor(.labelPrimary),
             .font: UIFont.systemFont(ofSize: 13, weight: .medium),
         ]
         let selectedAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(named: "label-primary") ?? .black,
+            .foregroundColor: UIColor(.white),
             .font: UIFont.systemFont(ofSize: 13, weight: .bold),
         ]
 

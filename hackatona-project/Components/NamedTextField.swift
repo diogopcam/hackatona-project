@@ -1,17 +1,21 @@
 //
 //  NamedTextField.swift
-//  AvoTracker
+//  hackatona-project
 //
-//  Created by João Pedro Teixeira de Caralho on 13/05/25.
+//  Created by Marcos on 31/05/25.
 //
+
 import UIKit
 
 class NamedTextField: UIView {
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .labelPrimary
+
+        return label
+    }()
     
-    // MARK: Title
-    lazy var titleLabel = Components.getLabel(content: "", font: .systemFont(ofSize: 16), textColor: .white)
-    
-    // MARK: Textfield
     lazy var textField = Components.getTextField()
     
 
@@ -23,8 +27,6 @@ class NamedTextField: UIView {
         return stack
     }()
     
-    
-    // MARK: Init
     init(title: String, placeholder: String, isPassword: Bool = false) {
         super.init(frame: .zero)
         
@@ -39,7 +41,6 @@ class NamedTextField: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // Function
     func getText() -> String {
         return textField.text ?? ""
     }
@@ -58,7 +59,6 @@ class NamedTextField: UIView {
     
 }
 
-// MARK: View Code Protocol
 extension NamedTextField: ViewCodeProtocol {
     func addSubViews() {
         addSubview(stack)

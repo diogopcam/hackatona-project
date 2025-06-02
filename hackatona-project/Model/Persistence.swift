@@ -25,7 +25,6 @@ struct Persistence {
         do {
             return try JSONDecoder().decode(User.self, from: data)
         } catch {
-            print("Failed to load logged user:", error.localizedDescription)
             return nil
         }
     }
@@ -39,7 +38,6 @@ struct Persistence {
         do {
             return try JSONDecoder().decode(AllUsers.self, from: data)
         } catch {
-            print("Failed to load all users:", error.localizedDescription)
             return nil
         }
     }

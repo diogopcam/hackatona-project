@@ -11,11 +11,11 @@ class ProfileHeader: UIView {
 
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "person.fill")!)
-        imageView.tintColor = .white
+        imageView.tintColor = .labelPrimary
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = .backgroundPrimary
         imageView.layer.cornerRadius = 21
         imageView.layer.masksToBounds = true
         return imageView
@@ -23,7 +23,7 @@ class ProfileHeader: UIView {
     
     lazy var starImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "star.fill")!)
-        imageView.tintColor = .white
+        imageView.tintColor = .labelPrimary
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .systemYellow
@@ -43,7 +43,6 @@ class ProfileHeader: UIView {
     
     
     lazy var imageStackView: UIStackView = {
-        // Localize a definição da starStackView aqui para reduzir o escopo e facilitar ajustes de espaçamento
         let starStackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [starImageView, starsLabel])
             stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +63,7 @@ class ProfileHeader: UIView {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = .labelPrimary
         label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.text = "Full Name"
         return label
@@ -122,7 +121,7 @@ class ProfileHeader: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 16
-        stackView.backgroundColor = .systemGray6
+        stackView.backgroundColor = .backgroundSecondary
         stackView.layer.cornerRadius = 13
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
