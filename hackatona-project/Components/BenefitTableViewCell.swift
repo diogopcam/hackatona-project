@@ -1,4 +1,13 @@
-class BenefitCell: UITableViewCell {
+//
+//  BenefitTableViewCell.swift
+//  hackatona-project
+//
+//  Created by Marcos on 31/05/25.
+//
+
+import UIKit
+
+class BenefitTableViewCell: UITableViewCell {
     static let identifier = "BenefitCell"
     
     private let containerView: UIView = {

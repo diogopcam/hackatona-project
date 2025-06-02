@@ -13,7 +13,7 @@ extension StoreVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: BenefitCell.identifier, for: indexPath) as? BenefitCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: BenefitTableViewCell.identifier, for: indexPath) as? BenefitTableViewCell else {
             return UITableViewCell()
         }
         

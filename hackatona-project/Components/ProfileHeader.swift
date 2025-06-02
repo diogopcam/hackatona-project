@@ -8,7 +8,7 @@
 import UIKit
 
 class ProfileHeader: UIView {
-
+    let user = Persistence.getLoggedUser()
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "person.fill")!)
         imageView.tintColor = .labelPrimary
@@ -92,7 +92,7 @@ class ProfileHeader: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .mainGreen
         label.font = .systemFont(ofSize: 17)
-        label.text = "Saldo: \(GlobalData.balance)"
+        label.text = "Saldo: \(user?.balance ?? 0)"
         return label
     }()
     
@@ -101,7 +101,7 @@ class ProfileHeader: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .systemFont(ofSize: 17)
-        label.text = "Total: \(GlobalData.totalPoints)"
+        label.text = "Total: \(user?.balance ?? 0)"
         return label
     }()
     
@@ -147,8 +147,8 @@ class ProfileHeader: UIView {
     }
     
     func update() {
-        balanceLabel.text = "Saldo: \(GlobalData.balance)"
-        totalPointsLabel.text = "Total: \(GlobalData.totalPoints)"
+        balanceLabel.text = "Saldo: \(user?.balance ?? 0)"
+        totalPointsLabel.text = "Total: \(user?.balance ?? 0)"
     }
 
     private func loadUserData() {
@@ -160,7 +160,6 @@ class ProfileHeader: UIView {
         balanceLabel.text = "\(Int(user.balance)) pts"
         starsLabel.text = String(format: "%.1f", user.averageStars)
         
-        // Load profile image
         let imageURL = "https://media.licdn.com/dms/image/v2/D4D03AQElhds1rhpbeA/profile-displayphoto-shrink_800_800/B4DZPLJABeHcAc-/0/1734279956759?e=1753920000&v=beta&t=8TZZOOs-qIeJcxWX9o97pbi-IBQy8nU433xNku4tCss"
         
         if let url = URL(string: imageURL) {

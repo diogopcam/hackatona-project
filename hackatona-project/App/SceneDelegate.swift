@@ -15,15 +15,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        // Check if user is logged in
         if let _ = UserDefaults.standard.data(forKey: "logged_user") {
-            // User is logged in, show main app
             let tabBar = TabBarController()
             window?.rootViewController = tabBar
         } else {
             let navigationController = UINavigationController()
             navigationController.viewControllers = [LoginVC()]
-            window.rootViewController = navigationController
+            window?.rootViewController = navigationController
         }
         
         window?.makeKeyAndVisible()
@@ -45,7 +43,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func showLogin() {
-        let loginVC = LoginViewController()
+        let loginVC = LoginVC()
         let nav = UINavigationController(rootViewController: loginVC)
         window?.rootViewController = nav
         

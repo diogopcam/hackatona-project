@@ -100,7 +100,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
         viewControllers = [feedbackNav, storeNav, emptyVC, rankingNav, profileNav]
     }
     
-    // MARK: - UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController == viewControllers?[2] {
             openCamera()
@@ -313,18 +312,16 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, AVCaptur
                 midia: "",
             )
             
-            // Navigate to feedback screen
             if let feedbackNav = viewControllers?[0] as? UINavigationController,
-               let feedbackVC = feedbackNav.topViewController as? FeedbackViewController {
+               let feedbackVC = feedbackNav.topViewController as? FeedbackVC {
                 let createFeedbackVC = CreateFeedbackVC(employee: hackatonaEmployee)
                 createFeedbackVC.imageView.image = UIImage(named: "hack")
                 feedbackVC.navigationController?.pushViewController(createFeedbackVC, animated: true)
-                self.selectedIndex = 0 // Switch to feedback tab
+                self.selectedIndex = 0
             }
             return
         }
 
-        // Handle other QR codes as before
         if let url = URL(string: qrCode) {
             let urlString = url.absoluteString.lowercased()
 
