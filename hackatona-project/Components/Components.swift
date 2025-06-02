@@ -59,7 +59,7 @@ struct Components {
         font: UIFont? = .systemFont(ofSize: 16),
         fontSize: Int = 17,
         textColor: UIColor = .labelPrimary,
-        backgroundColor: UIColor = .systemBackground,
+        backgroundColor: UIColor = .backgroundPrimary,
         cornerRadius: Int = 8,
         size: Int = 46
     ) -> UIButton {

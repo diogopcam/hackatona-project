@@ -57,7 +57,7 @@ class FeedBackDetailsVC: UIViewController {
         textView.layer.cornerRadius = 8
         textView.font = UIFont.systemFont(ofSize: 24)
         textView.textColor = .primitiveWhite
-        textView.backgroundColor = .systemBackground
+        textView.backgroundColor = .backgroundPrimary
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -78,14 +78,14 @@ class FeedBackDetailsVC: UIViewController {
     private lazy var containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .backgroundPrimary
         view.layer.cornerRadius = 12
         return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .backgroundPrimary
         setupUI()
         setupConstraints()
         loadFeedbackData()
@@ -99,7 +99,6 @@ class FeedBackDetailsVC: UIViewController {
     private func loadFeedbackData() {
         guard let feedback = feedback else { return }
         
-        // Set name and position based on the feedback data
         if let senderName = feedback.senderName {
             descriptionLabel.text = senderName
         }
@@ -109,12 +108,10 @@ class FeedBackDetailsVC: UIViewController {
         
         starRating.rating = feedback.stars
         
-        // Configure image view with first letter if no photo
         imageView.subviews.forEach { $0.removeFromSuperview() }
         let name = feedback.senderName ?? "Anônimo"
         
         if let photoURL = feedback.senderPhoto, let url = URL(string: photoURL) {
-            // Show loading state with first letter while image loads
             showFirstLetterPlaceholder(for: name)
             
             URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
@@ -134,7 +131,6 @@ class FeedBackDetailsVC: UIViewController {
         }
         
         if let audio = feedback.midia, audio.hasSuffix(".m4a") {
-            // Configuração para feedback de áudio
             textView.removeFromSuperview()
             setupAudioView()
         } else if !feedback.description.isEmpty {
@@ -171,7 +167,6 @@ class FeedBackDetailsVC: UIViewController {
     private func setupAudioView() {
         containerView.addSubview(audioButton)
         
-        // Adicionar target para o botão de áudio
         audioButton.addTarget(self, action: #selector(audioButtonTapped), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
@@ -236,7 +231,6 @@ class FeedBackDetailsVC: UIViewController {
     private func playAudio(fileName: String) {
         print("🎵 Tentando reproduzir áudio: \(fileName)")
         
-        // Verificar se o arquivo existe usando o AudioFileManager
         guard let audioURL = AudioFileManager.shared.getAudioFileURL(fileName: fileName) else {
             print("❌ Arquivo de áudio não encontrado: \(fileName)")
             showAlert(message: "Arquivo de áudio não encontrado: \(fileName)")
@@ -246,7 +240,6 @@ class FeedBackDetailsVC: UIViewController {
         print("✅ Arquivo encontrado em: \(audioURL.path)")
         
         do {
-            // Configurar a sessão de áudio para reprodução
             let audioSession = AVAudioSession.sharedInstance()
             try audioSession.setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
             try audioSession.setActive(true)
@@ -287,8 +280,7 @@ class FeedBackDetailsVC: UIViewController {
     }
 }
 
-// MARK: - AVAudioPlayerDelegate
-extension FeedbackDetailViewController: AVAudioPlayerDelegate {
+extension FeedBackDetailsVC: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         isPlaying = false
         updateAudioButton()

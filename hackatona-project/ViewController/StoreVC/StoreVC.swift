@@ -19,7 +19,7 @@ class StoreVC: UIViewController {
         tableView.backgroundColor = .backgroundPrimary
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(BenefitCell.self, forCellReuseIdentifier: BenefitCell.identifier)
+        tableView.register(BenefitTableViewCell.self, forCellReuseIdentifier: BenefitTableViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()

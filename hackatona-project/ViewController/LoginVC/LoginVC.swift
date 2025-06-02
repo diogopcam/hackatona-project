@@ -45,8 +45,9 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .backgroundPrimary
         title = "Login"
+        navigationController?.navigationBar.backgroundColor = .backgroundPrimary
         
         let tapDismissKeyboard = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapDismissKeyboard)

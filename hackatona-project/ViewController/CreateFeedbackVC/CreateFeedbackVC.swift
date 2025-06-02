@@ -15,17 +15,7 @@ class CreateFeedbackVC: UIViewController {
     var audioRecorder: AVAudioRecorder?
     var isRecording = false
     var currentAudioURL: URL? // Esta é a variável que armazena o URL temporário da gravação
-    private var feedbackTextView: UITextView = {
-        let textView = UITextView()
-        textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.gray.cgColor
-        textView.layer.cornerRadius = 8
-        textView.font = UIFont.systemFont(ofSize: 20)
-        textView.textColor = .primitiveWhite
-        textView.backgroundColor = .systemBackground
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
+    private var feedbackTextView: UITextView!
     private let micButton: UIButton = {
            let button = UIButton(type: .system)
            let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
@@ -109,10 +99,6 @@ class CreateFeedbackVC: UIViewController {
     }
     
     
-    var audioRecorder: AVAudioRecorder?
-    var isRecording = false
-    var currentAudioFileName: String?
-    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "profile_placeholder")
@@ -178,8 +164,7 @@ class CreateFeedbackVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        
+        view.backgroundColor = .backgroundPrimary
         
         AVAudioSession.sharedInstance().requestRecordPermission { granted in
             if !granted {
@@ -333,7 +318,10 @@ class CreateFeedbackVC: UIViewController {
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification, object: nil)
         }
-        
+//
+//        @objc private func dismissKeyboard() {
+//            view.endEditing(true)
+//        }
         
         // MARK: - Keyboard Handling (Opcional mas útil)
         @objc private func keyboardWillShow(notification: NSNotification) {
@@ -369,7 +357,6 @@ class CreateFeedbackVC: UIViewController {
         view.addSubview(descriptionLabel)
         view.addSubview(infoLabel)
         view.addSubview(imageView)
-        // Adiciona os componentes ao container ANTES de adicionar à view
         view.addSubview(anonymousContainer)
         
         
@@ -426,10 +413,10 @@ class CreateFeedbackVC: UIViewController {
         ])
     }
     
-    private func addTextItem(title: String) {
+    private func addTextItem(title: String) -> UITextView {
         let itemView = UIView()
         itemView.translatesAutoresizingMaskIntoConstraints = false
-        itemView.backgroundColor = .systemBackground
+        itemView.backgroundColor = .backgroundPrimary
         itemView.layer.cornerRadius = 12
         
         let label = UILabel()
@@ -438,27 +425,38 @@ class CreateFeedbackVC: UIViewController {
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
+        let textView = UITextView()
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.gray.cgColor
+        textView.layer.cornerRadius = 8
+        textView.font = UIFont.systemFont(ofSize: 20)
+        textView.textColor = .primitiveWhite
+        textView.backgroundColor = .backgroundPrimary
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
         itemView.addSubview(label)
-        itemView.addSubview(feedbackTextView)
+        itemView.addSubview(textView)
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 24),
             label.centerXAnchor.constraint(equalTo: itemView.centerXAnchor),
             
-            feedbackTextView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 12),
-            feedbackTextView.leadingAnchor.constraint(equalTo: itemView.leadingAnchor, constant: 16),
-            feedbackTextView.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -16),
-            feedbackTextView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor, constant: -24)
+            textView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 12),
+            textView.leadingAnchor.constraint(equalTo: itemView.leadingAnchor, constant: 16),
+            textView.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -16),
+            textView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor, constant: -24)
         ])
         
         carouselStackView.addArrangedSubview(itemView)
         itemView.widthAnchor.constraint(equalTo: carouselScrollView.widthAnchor, constant: -32).isActive = true
+        
+        return textView
     }
     
     private func addAudioItem(title: String) {
         let itemView = UIView()
         itemView.translatesAutoresizingMaskIntoConstraints = false
-        itemView.backgroundColor = .systemBackground
+        itemView.backgroundColor = .backgroundPrimary
         itemView.layer.cornerRadius = 12
         
         let label = UILabel()
@@ -580,8 +578,8 @@ class CreateFeedbackVC: UIViewController {
         let feedbackText = feedbackTextView.text ?? ""
         let rating = starRating.rating
         let audioURL = currentAudioURL
-        let senderID = "user_123"     // <- ID do remetente
-        let receiverID = "carla_001"  // <- ID da Carla
+        let senderID = "user_123"
+        let receiverID = "carla_001" 
         let audioFileName = UUID().uuidString + ".m4a"
 
         var audioData: Data? = nil
@@ -597,40 +595,11 @@ class CreateFeedbackVC: UIViewController {
             midia: audioData != nil ? audioFileName : nil
         )
         
-        do {
-            // Configura a sessão de áudio uma única vez
-            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
-            try audioSession.setActive(true)
-            
-            let _: [String: Any] = [
-                AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-                AVSampleRateKey: 44100,
-                AVNumberOfChannelsKey: 1,
-                AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-            ]
-            
-            let audioFilename = getDocumentsDirectory().appendingPathComponent(generateUniqueFileName())
-            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
-            audioRecorder?.delegate = self
-            audioRecorder?.record()
-            isRecording = true
-            
-            updateMicButton()
-            showAlert(message: "Gravando áudio...")
-            
-        } catch {
-            showAlert(message: "Erro ao iniciar a gravação: \(error.localizedDescription)")
-            isRecording = false
-        GlobalData.balance += 10
-        GlobalData.totalPoints += 10
 
         FeedbackManager.shared.saveFeedback(feedback, audioData: audioData)
         FeedbackManager.shared.printAllFeedbacks()
-        
-        // Mostra mensagem de sucesso e volta para a tela anterior
-        showAlert(message: "Feedback enviado com sucesso!") { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
-        }
+
+        print("✅ Feedback salvo com sucesso!")
     }
     
     private func showAlert(message: String, completion: (() -> Void)? = nil) {
@@ -644,73 +613,12 @@ class CreateFeedbackVC: UIViewController {
     private func getDocumentsDirectory() -> URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     }
-
-    private func stopRecording() {
-        print("🛑 Parando gravação...")
-        
-        audioRecorder?.stop()
-        isRecording = false
-        
-        updateMicButton()
-        showAlert(message: "Áudio gravado com sucesso!")
-        
-        // Salvar referência do arquivo gravado
-        if let audioRecorder = audioRecorder {
-            let fileName = audioRecorder.url.lastPathComponent
-            currentAudioFileName = fileName
-            AudioFileManager.shared.saveRecordedAudio(fileName: fileName)
-            
-            // Verificar se o arquivo foi realmente criado
-            if FileManager.default.fileExists(atPath: audioRecorder.url.path) {
-                print("✅ Arquivo criado com sucesso!")
-            } else {
-                print("❌ Erro: Arquivo não foi criado!")
-            }
-        } else {
-            print("❌ Erro: audioRecorder é nil")
-        }
-        
-        audioRecorder = nil
-    }
     
-    @objc func micButtonTapped() {
+    @objc private func micButtonTapped() {
         if isRecording {
             stopRecording()
         } else {
             startRecording()
-        }
-        updateMicButton()
-    }
-    
-    func updateMicButton() {
-        let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
-        let imageName = isRecording ? "stop.fill" : "mic.fill"
-        let micImage = UIImage(systemName: imageName, withConfiguration: config)
-        
-        // Encontrar o botão do microfone no carousel
-        for subview in carouselStackView.arrangedSubviews {
-            if let micButton = subview.subviews.compactMap({ $0 as? UIButton }).first {
-                micButton.setImage(micImage, for: .normal)
-                micButton.backgroundColor = isRecording ? .systemRed : .mainGreen
-                break
-            }
-        }
-    }
-    
-    private func generateUniqueFileName() -> String {
-        let timestamp = Date().timeIntervalSince1970
-        return "feedback_audio_\(Int(timestamp)).m4a"
-    }
-}
-}
-
-// MARK: - AVAudioRecorderDelegate
-extension CreateFeedbackVC: AVAudioRecorderDelegate {
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        if flag {
-            print("Áudio gravado com sucesso em: \(recorder.url)")
-        } else {
-            print("Erro ao gravar áudio")
         }
     }
 }

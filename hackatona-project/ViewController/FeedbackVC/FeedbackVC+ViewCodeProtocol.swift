@@ -11,7 +11,7 @@ extension FeedbackVC: ViewCodeProtocol {
     func addSubViews() {
         title = "Feedback"
         navigationController?.navigationBar.prefersLargeTitles = true
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .backgroundPrimary
         
         view.addSubview(segmentedControl)
         view.addSubview(tableView)
